@@ -1,13 +1,13 @@
 import React from 'react';
-import './App.css';
-import Login from "./components/Login"
+import Quick from "./components/Quick";
+
 
 
 function App() {
   return (
     <div className= "container center">
 
-    <Login />
+    <Quick />
     </div>
   );
 }
