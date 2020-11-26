@@ -111,17 +111,53 @@ import '../index.css';
 // import { Form, Input, Button, Checkbox } from 'antd';
 // import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-const Login = () => {
-  const [state, setState] = useState({username: null, password: null})
-  const {username, password} = state;
-  const onFinish = (values) => {
-    setState({values})
+import React, { useState } from 'react'
+import { Button, Form, Input} from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import 'antd/dist/antd.css';
+import '../index.css';
+
+
+const Login = ({ history }) => {
+  const [state, setState] = useState({username: null, password: null, message: null, loading: null})
+  const {username, password, message, loading} = state;
+  const onFinish = async (values) => {
+    try{
+      setState({loading: true})
+      const message = await fetchData(values)
+      setState({values, message, loading: false})
+      console.log(message)
+      history.push("/home")
+  }  catch(e){
+      console.log(e.message)
+    }
+
+
   };
 
+  console.log(state)
+
+  async function fetchData(values){
+    try{
+    const response = await fetch('https://reqres.in/api/login', {
+      method: 'POST',
+      body: JSON.stringify(values),
+      headers: {'Content-Type': 'application/json'}
+    });
+    const message = await response.json()
+    return message;
+    }
+    catch(error){
+      console.log('error')
+    }
+  }
+
+
   return (
+    <>
     <div className="col-4 contain">
     <h1 className="text-center pb-4">Welcome!</h1>
-    <div className="col-10 mx-auto" Style="width: 350px;">
+    <div className="col-10 mx-auto" style={{width: "350px"}}>
     <Form
         name="normal_login"
         className="login-form"
@@ -138,8 +174,10 @@ const Login = () => {
               message: 'Please input your Username!',
             },
           ]}
+          help = {message ? message.error : null}
         >
           <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="username" />
+
         </Form.Item>
         <Form.Item
           name="password"
@@ -162,8 +200,13 @@ const Login = () => {
           </a>
         </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button button-hover">
+        <Form.Item
+
+          hasFeedback
+          validateStatus= {loading ? "validating" : null}
+
+        >
+          <Button type="primary" htmlType="submit" className="login-form-button button-hover" id="validating">
             Login
           </Button>
 
@@ -171,9 +214,11 @@ const Login = () => {
       </Form>
       </div>
     </div>
+    </>
   );
 };
 export default Login
+
 
 //ReactDOM.render(<Login />, mountNode); MF:normally on the index page but not sure where this would go
 
