@@ -33,6 +33,7 @@ import Instructions from "./Instructions";
 import Summary from "./Summary";
 import Videos from "./Resources";
 import GithubLink from "./GithubLink";
+import Done from "./Done";
 import TodoList from "../dashboard/todoList/TodoList";
 import SmallCalendar from "../dashboard/smallCalendar/SmallCalendar";
 import HomeButtons from "../dashboard/homeButtons/HomeButtons";
@@ -68,10 +69,12 @@ const reducer = (state, action) => {
 
 const Assignments = ({ match, history }) => {
     const [state, setState] = useState({ key: "Week 1" });
-    const [savedProgress, setSavedProgress] = useState(null);
     const { key } = state;
     const [clickedUnitKey, setClickedUnitKey] = useState(0);
     const [clickedLessonKey, setClickedLessonKey] = useState(0);
+    const [stepStatus, setStepStatus] = useState([])
+    const [current, setCurrent] = useState(-1);
+    const [step, setStep] = useState(-1);
     const [classInfo, dispatchClass] = useReducer(reducer, INITIAL_STATE);
     const [userInfo, dispatchUser] = useContext(UserContext);
 
@@ -81,7 +84,6 @@ const Assignments = ({ match, history }) => {
                 `https://students-dashboard-back-end.herokuapp.com/courses/${userInfo.courseID}`
             );
             const resUnits = await dataUnits.json();
-
             dispatchClass({
                 type: "all",
                 payload: { field: "all", value: resUnits.course },
@@ -90,20 +92,31 @@ const Assignments = ({ match, history }) => {
         getAssignments();
     }, []);
 
-    // const nextPage = (location) => {
-    //   switch (location.pathname) {
-    //     case '/home/assignments':
-    //       return '/home/assignments/instructions';
-    //     case '/home/assignments/instructions':
-    //       return '/home/assignments/videos';
-    //     case '/home/assignments/videos':
-    //       return '/home/assignments/submission';
-    //     case '/home/assignments/submission':
-    //       return '/home/assignments/done';
-    //     default:
-    //       return new Error('path not found');
-    //   }
-    // }
+    useEffect(() => {
+        determineStep(history.location.pathname);
+    }, [history.location.pathname])
+
+    const determineStep = (pathLocation) => {
+        switch (pathLocation) {
+            case '/home/assignments':
+                setStep(-1);
+                break;
+            case '/home/assignments/instructions':
+                setStep(0);
+                break;
+            case '/home/assignments/videos':
+                setStep(1);
+                break;
+            case '/home/assignments/submission':
+                setStep(2);
+                break;
+            case '/home/assignments/done':
+                setStep(3);
+                break;
+        }
+    }
+
+    console.log(step)
 
     const menu = () => {
         return (
@@ -138,11 +151,6 @@ const Assignments = ({ match, history }) => {
         );
     };
 
-    const handleSubmit = () => {
-        console.log(classInfo);
-        setSavedProgress(true);
-    };
-
     const steps = [
         {
             title: "Instructions",
@@ -166,7 +174,14 @@ const Assignments = ({ match, history }) => {
         },
     ];
 
-    const [current, setCurrent] = useState(-1);
+    const nextStep = () => {
+        console.log('inside of func', step)
+        setStep(step + 1);
+    }
+
+    const prevStep = () => {
+        setStep(step - 1);
+    }
 
     const next = () => {
         setCurrent(current + 1);
@@ -176,119 +191,124 @@ const Assignments = ({ match, history }) => {
         setCurrent(current - 1);
     };
 
+    const handleSubmit = () => {
+        setStepStatus([...stepStatus, step])
+        nextStep();
+        history.push(`${steps[step + 1].link}`);
+    };
+
+    console.log(classInfo)
+
     const tabPanes = (classKey) => {
         return classInfo.units[classKey].lessons.map((lesson, index) => {
+            console.log(lesson)
             return (
                 <TabPane
-                    tab={<Link to={`${match.path}`}>Week {index + 1}</Link>}
+                    tab={<Link to={match.path}>Week {index + 1}</Link>}
                     key={`${index}`}>
                     <Steps current={current}>
-                        {steps.map((item) => (
-                            <Step
-                                key={item.title}
-                                title={item.title}
-                                icon={
-                                    <Link
-                                        to={item.link}
-                                        onClick={() =>
-                                            setCurrent(
-                                                steps.findIndex(
-                                                    (curr) => curr.link === item.link
-                                                )
-                                            )
-                                        }
-                                        style={{ color: "inherit" }}>
-                                        {item.icon}
-                                    </Link>
-                                }
-                            />
+                        {steps.map((item, index) => (
+                            index === 3 ?
+                                <Step
+                                    id={index}
+                                    key={item.title}
+                                    status={stepStatus.includes(2) ? 'finish' : null}
+                                    title={stepStatus.includes(2) ?
+                                        <Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link> :
+                                        item.title
+                                    }
+                                    icon={index !== 3 ? null : <SmileOutlined />}
+                                /> :
+                                <Step
+                                    id={index}
+                                    key={item.title}
+                                    status={stepStatus.includes(index) ? 'finish' : null}
+                                    title={<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link>}
+                                    icon={index !== 3 ? null : <SmileOutlined />}
+                                />
                         ))}
                     </Steps>
                     <div className="cardContent">
                         <Switch>
-                            <Route
+                            <PrivateRoute
                                 exact
                                 path={`${match.path}`}
-                                render={(props) => (
-                                    <Summary
-                                        {...props}
-                                        lesson={lesson.lesson_name}
-                                    />
-                                )}
+                                lesson={lesson.lesson_name}
+                                weekNumber={index + 1}
+                                unit={classInfo ? classInfo.units[clickedUnitKey] : null}
+                                component={Summary}
                             />
-                            <Route
+                            <PrivateRoute
                                 exact
-                                path={`${match.path}${ROUTES.DASHBOARD}`}
+                                path={`${match.path}${ROUTES.INSTRUCTIONS}`}
+                                lesson={lesson.lesson_name}
                                 component={Instructions}
                             />
-                            <Route
+                            <PrivateRoute
                                 exact
                                 path={`${match.path}${ROUTES.VIDEOS}`}
-                                render={(props) => (
-                                    <Videos
-                                        {...props}
-                                        lessons={
-                                            classInfo.units[clickedUnitKey].lessons[
-                                            clickedLessonKey
-                                            ]
-                                        }
-                                    />
-                                )}
+                                lessons={
+                                    classInfo.units[clickedUnitKey].lessons[
+                                    clickedLessonKey
+                                    ]
+                                }
+                                component={Videos}
                             />
-                            <Route
+                            <PrivateRoute
                                 exact
                                 path={`${match.path}${ROUTES.SUBMISSION}`}
-                                render={(props) => (
-                                    <GithubLink {...props} githubLink={classInfo} />
-                                )}
+                                lesson={lesson}
+                                component={GithubLink}
+                            />
+                            <PrivateRoute
+                                exact
+                                path={`${match.path}${ROUTES.DONE}`}
+                                component={Done}
                             />
                         </Switch>
                         <StyledDivSummary>
-                            <Form
-                                style={{ display: "inline-block" }}
-                                onFinish={handleSubmit}>
+                            {step !== -1 && step !== 3 ?
                                 <Button
+                                    id={index}
                                     style={{ marginRight: "1rem" }}
                                     type="primary"
                                     htmlType="submit"
-                                    onClick={() =>
-                                        message.success("Progress Saved")
-                                    }>
+                                    onClick={handleSubmit}
+                                >
                                     Save Progress
                                 </Button>
-                            </Form>
-                            {current < steps.length - 1 && (
-                                <Link to={steps[current + 1].link}>
-                                    <Button type="primary" onClick={() => next()}>
-                                        Next
-                                    </Button>
-                                </Link>
-                            )}
-                            {current === steps.length - 1 && (
-                                <Button
-                                    type="primary"
-                                    onClick={() =>
-                                        message.success(
-                                            "You have finished this assignment"
-                                        )
-                                    }>
-                                    Done
-                                </Button>
-                            )}
-                            {current > -1 && (
+                                : null
+                            }
+                            {step > -1 && (
                                 <Link
                                     to={
-                                        current > 0
-                                            ? steps[current - 1].link
+                                        step > 0
+                                            ? steps[step - 1].link
                                             : match.path
                                     }>
                                     <Button
                                         style={{ margin: "0 8px" }}
-                                        onClick={() => prev()}>
+                                        onClick={() => prevStep()}>
                                         Previous
                                     </Button>
                                 </Link>
                             )}
+                            {step < steps.length - 1 &&
+                                (
+                                    step === 2 ?
+                                        <Link to={steps[step + 1].link}>
+                                            <Button type="primary" disabled={stepStatus.includes(2) ? null : true} onClick={() => nextStep()}>
+                                                Next
+                                        </Button>
+                                        </Link>
+                                        :
+                                        <Link to={steps[step + 1].link}>
+                                            <Button type="primary" onClick={() => nextStep()}>
+                                                Next
+                                        </Button>
+                                        </Link>
+                                )
+                            }
                         </StyledDivSummary>
                     </div>
                 </TabPane>

@@ -9,7 +9,7 @@ const layout = {
   },
 };
 
-const GithubLink = () => {
+const GithubLink = ({ lesson }) => {
   const onFinish = (values) => {
     console.log('Success:', values);
   };
@@ -17,7 +17,7 @@ const GithubLink = () => {
   return (
     <div>
       <h4><strong>Assignment</strong></h4>
-      <h4>Your assignment for this week can be found here</h4>
+      <h4>Your assignment for this week can be found <a href={lesson.assignment.link} target="_blank">here</a></h4>
       <Form name="horizontal_login" layout="inline" onFinish={onFinish}>
         <Form.Item>
           <h3><strong>Github Link</strong></h3>
@@ -27,7 +27,7 @@ const GithubLink = () => {
           rules={[
             {
               required: true,
-              message: 'Please input your username!',
+              message: 'Please add your github link!',
             },
           ]}
         >
@@ -39,7 +39,7 @@ const GithubLink = () => {
             type="primary"
             htmlType="submit"
           >
-            Send for Review
+            Submit
             </Button>
         </Form.Item>
       </Form>
