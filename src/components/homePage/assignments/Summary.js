@@ -3,10 +3,9 @@ import React from 'react';
 const Summary = ({ weekNumber, unit }) => {
   return (
     <div>
-      <h1><strong>Welcome to Week {weekNumber} of our {unit.unit_name} Development track.</strong></h1>
+      <h1><strong>Welcome to <u>Week {weekNumber}</u> of our <u>{unit.unit_name}</u> Development track.</strong></h1>
       <h4><strong>Summary</strong></h4>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris luctus, ipsum nec pretium placerat, leo justo accumsan lacus, et interdum.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet arcu quam, eu rhoncus ligula malesuada a. Sed non fringilla risus. Etiam consectetur iaculis ipsum, nec cursus erat mollis eu.</p>
+      <p>The Front End Development Track covers the principle front-end development skills needed to prepare you for a career in building user interfaces, websites, and user experiences that delight users. These skills include advanced HTML, CSS, and JavaScript.</p>
     </div>
   )
 }

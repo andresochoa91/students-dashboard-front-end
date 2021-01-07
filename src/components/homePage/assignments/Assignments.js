@@ -15,7 +15,7 @@ import {
     message,
 } from "antd";
 import _ from "lodash";
-import Icon, {
+import {
     FileDoneOutlined,
     DownOutlined,
     LineOutlined,
@@ -42,7 +42,7 @@ const { Step } = Steps;
 
 const INITIAL_STATE = {};
 
-const ACTIONS = {
+const ACTIONS_CLASS_INFO = {
     SET_COURSE: "course",
     SET_UNITS: "units",
     SET_LESSONS: "lessons",
@@ -50,17 +50,33 @@ const ACTIONS = {
     SET_ALL: "all",
 };
 
-const reducer = (state, action) => {
+const reducerClassInfo = (state, action) => {
     switch (action.type) {
-        case ACTIONS.SET_COURSES:
+        case ACTIONS_CLASS_INFO.SET_COURSES:
             return { ...state, [action.payload.field]: action.payload.value };
-        case ACTIONS.SET_UNITS:
+        case ACTIONS_CLASS_INFO.SET_UNITS:
             return { ...state, [action.payload.field]: action.payload.value };
-        case ACTIONS.SET_LESSONS:
+        case ACTIONS_CLASS_INFO.SET_LESSONS:
             return { ...state, [action.payload.field]: action.payload.value };
-        case ACTIONS.SET_SOURCES:
+        case ACTIONS_CLASS_INFO.SET_SOURCES:
             return { ...state, [action.payload.field]: action.payload.value };
-        case ACTIONS.SET_ALL:
+        case ACTIONS_CLASS_INFO.SET_ALL:
+            return { ...action.payload.value };
+        default:
+            throw new Error();
+    }
+};
+
+const ACTIONS_PROGRESS = {
+    SET_WEEK: "week",
+    SET_ALL: "all"
+};
+
+const reducerProgress = (state, action) => {
+    switch (action.type) {
+        case ACTIONS_PROGRESS.SET_WEEK:
+            return { ...state, [action.payload.field]: action.payload.value };
+        case ACTIONS_PROGRESS.SET_ALL:
             return { ...action.payload.value };
         default:
             throw new Error();
@@ -72,16 +88,18 @@ const Assignments = ({ match, history }) => {
     const { key } = state;
     const [clickedUnitKey, setClickedUnitKey] = useState(0);
     const [clickedLessonKey, setClickedLessonKey] = useState(0);
-    const [stepStatus, setStepStatus] = useState([])
+    const [stepStatus, setStepStatus] = useState({})
+    // const [stepStatus, setStepStatus] = useState([])
     const [current, setCurrent] = useState(-1);
     const [step, setStep] = useState(-1);
-    const [classInfo, dispatchClass] = useReducer(reducer, INITIAL_STATE);
+    const [classInfo, dispatchClass] = useReducer(reducerClassInfo, INITIAL_STATE);
+    const [progressData, dispatchProgress] = useReducer(reducerProgress, INITIAL_STATE);
     const [userInfo, dispatchUser] = useContext(UserContext);
 
     useEffect(() => {
         const getAssignments = async () => {
             const dataUnits = await fetch(
-                `https://students-dashboard-back-end.herokuapp.com/courses/${userInfo.courseID}`
+                `${process.env.REACT_APP_GET_COURSES}${userInfo.courseID}`
             );
             const resUnits = await dataUnits.json();
             dispatchClass({
@@ -94,7 +112,40 @@ const Assignments = ({ match, history }) => {
 
     useEffect(() => {
         determineStep(history.location.pathname);
-    }, [history.location.pathname])
+    }, [history.location.pathname]);
+
+    // Populate progress per week when week tab changes
+    useEffect(() => {
+        setStepsStatusFinish();
+    }, [clickedLessonKey])
+
+    const setStepsStatusFinish = async () => {
+        const progress = await getProgressData();
+
+        setStepStatus({ 0: parseInt(progress[clickedUnitKey][clickedLessonKey].Instructions), 1: parseInt(progress[clickedUnitKey][clickedLessonKey].Treehouse), 2: parseInt(progress[clickedUnitKey][clickedLessonKey].Assignment) })
+
+        dispatchProgress({
+            type: "all",
+            payload: { field: "all", value: progress },
+        });
+    }
+
+    const getProgressData = async () => {
+        const response = await fetch(
+            process.env.REACT_APP_AIRTABLE_LINK
+        );
+        const data = await response.json();
+
+        return data.records.reduce((acc, curr) => {
+            switch (curr.fields.Unit) {
+                case 'Frontend 1':
+                    return { ...acc, 0: [...acc[0], { id: curr.id, ...curr.fields }] }
+                case 'Frontend 2':
+                    return { ...acc, 1: [...acc[1], { id: curr.id, ...curr.fields }] }
+            }
+
+        }, { 0: [], 1: [] })
+    };
 
     const determineStep = (pathLocation) => {
         switch (pathLocation) {
@@ -115,8 +166,6 @@ const Assignments = ({ match, history }) => {
                 break;
         }
     }
-
-    console.log(step)
 
     const menu = () => {
         return (
@@ -175,7 +224,6 @@ const Assignments = ({ match, history }) => {
     ];
 
     const nextStep = () => {
-        console.log('inside of func', step)
         setStep(step + 1);
     }
 
@@ -183,37 +231,71 @@ const Assignments = ({ match, history }) => {
         setStep(step - 1);
     }
 
-    const next = () => {
-        setCurrent(current + 1);
-    };
+    // const next = () => {
+    //     setCurrent(current + 1);
+    // };
 
-    const prev = () => {
-        setCurrent(current - 1);
-    };
+    // const prev = () => {
+    //     setCurrent(current - 1);
+    // };
 
-    const handleSubmit = () => {
-        setStepStatus([...stepStatus, step])
+    const handleSubmit = async () => {
+        let assignment
+        switch (step) {
+            case 0:
+                assignment = 'Instructions';
+                break;
+            case 1:
+                assignment = 'Treehouse';
+                break;
+            case 2:
+                assignment = 'Assignment';
+                break;
+            default:
+                assignment = null;
+        }
+        // Store step after save progress button is clicked
+        setStepStatus({ ...stepStatus, [step]: 2 })
+        // setStepStatus([...stepStaus, step]);
+
+        const res = await fetch(process.env.REACT_APP_UPDATE_PROGRESS_COPY, {
+            body: JSON.stringify({
+                records: [
+                    {
+                        id: progressData[clickedUnitKey][clickedLessonKey].id,
+                        fields: {
+                            [assignment]: '2',
+                        },
+                    },
+                ],
+            }),
+            headers: {
+                Authorization: "Bearer keyclOytaXo7NHQ8M",
+                "Content-Type": "application/json",
+            },
+            method: "PATCH",
+        });
+        const data = await res.json();
+        // Set step to next step
         nextStep();
+        // Go to the next step component
         history.push(`${steps[step + 1].link}`);
     };
 
-    console.log(classInfo)
-
     const tabPanes = (classKey) => {
         return classInfo.units[classKey].lessons.map((lesson, index) => {
-            console.log(lesson)
             return (
                 <TabPane
                     tab={<Link to={match.path}>Week {index + 1}</Link>}
                     key={`${index}`}>
                     <Steps current={current}>
-                        {steps.map((item, index) => (
+                        {!_.isEmpty(stepStatus) ? steps.map((item, index) => (
                             index === 3 ?
                                 <Step
                                     id={index}
                                     key={item.title}
-                                    status={stepStatus.includes(2) ? 'finish' : null}
-                                    title={stepStatus.includes(2) ?
+                                    status={stepStatus[2] === 2 ? 'finish' : null}
+                                    title={stepStatus[2] === 2 ?
                                         <Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link> :
                                         item.title
                                     }
@@ -222,11 +304,11 @@ const Assignments = ({ match, history }) => {
                                 <Step
                                     id={index}
                                     key={item.title}
-                                    status={stepStatus.includes(index) ? 'finish' : null}
+                                    status={stepStatus[index] === 2 ? 'finish' : null}
                                     title={<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link>}
                                     icon={index !== 3 ? null : <SmileOutlined />}
                                 />
-                        ))}
+                        )) : null}
                     </Steps>
                     <div className="cardContent">
                         <Switch>
@@ -297,7 +379,7 @@ const Assignments = ({ match, history }) => {
                                 (
                                     step === 2 ?
                                         <Link to={steps[step + 1].link}>
-                                            <Button type="primary" disabled={stepStatus.includes(2) ? null : true} onClick={() => nextStep()}>
+                                            <Button type="primary" disabled={stepStatus[2] === 2 ? null : true} onClick={() => nextStep()}>
                                                 Next
                                         </Button>
                                         </Link>
@@ -335,7 +417,7 @@ const Assignments = ({ match, history }) => {
                                     <div className="card-container">
                                         <Tabs
                                             type="card"
-                                            onChange={(key) =>
+                                            onChange={key =>
                                                 setClickedLessonKey(key)
                                             }>
                                             {tabPanes(clickedUnitKey)}

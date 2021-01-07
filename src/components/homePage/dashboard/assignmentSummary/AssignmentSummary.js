@@ -21,7 +21,7 @@ const AssignmentSummary = ({ setSelectedKey, menuKey }) => {
                             <img src={FrontEnd} alt="" className="badge"></img>
                         </div>
                         <br />
-                        <p>
+                        <div>
                             <Typography.Title level={5}>Summary</Typography.Title>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                             Proin malesuada feugiat tellus, eu feugiat nisi aliquet
@@ -29,7 +29,7 @@ const AssignmentSummary = ({ setSelectedKey, menuKey }) => {
                             tempus in nibh. Suspendisse ultrices, massa a laoreet
                             gravida, diam lacus tincidunt est, at congue turpis erat
                             in elit.
-                        </p>
+                        </div>
                     </StyledDivBadge>
                     <StyledDivSummary>
                         <Link

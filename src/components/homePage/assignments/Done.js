@@ -6,7 +6,7 @@ import complete from '../../../graphics/complete.png';
 const Done = () => {
   return (
     <>
-      <Row >
+      <Row>
         <Col span={18} offset={6}>
           <img src={complete} style={{ width: '75%', verticalAlign: 'middle' }} alt="Done"></img>
         </Col>

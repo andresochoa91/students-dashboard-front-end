@@ -26,14 +26,19 @@ const Login = ({ history }) => {
 			const res = await fetchData(values);
 			// Update state with form values, token, loading=false
 			setLoginState({ error: res, loading: false });
+			// Update auth context with jwt
+			setAuthUser(res.token);
+			// dispatch({ type: 'all', payload: { field: 'all', value: { email, username: 'Jerry', course: 'High Noon' } } });
+			// Switch to home page
+			history.push(`${ROUTES.HOME}${ROUTES.DASHBOARD}`);
 			// Check if res has jwt
-			if (res.hasOwnProperty('token')) {
-				// Update auth context with jwt
-				setAuthUser(res.token);
-				// dispatch({ type: 'all', payload: { field: 'all', value: { email, username: 'Jerry', course: 'High Noon' } } });
-				// Switch to home page
-				history.push(`${ROUTES.HOME}${ROUTES.DASHBOARD}`);
-			}
+			// if (res.hasOwnProperty('token')) {
+			// 	// Update auth context with jwt
+			// 	setAuthUser(res.token);
+			// 	// dispatch({ type: 'all', payload: { field: 'all', value: { email, username: 'Jerry', course: 'High Noon' } } });
+			// 	// Switch to home page
+			// 	history.push(`${ROUTES.HOME}${ROUTES.DASHBOARD}`);
+			// }
 
 		} catch (e) {
 			console.log(e.message);
@@ -47,7 +52,15 @@ const Login = ({ history }) => {
 				body: JSON.stringify(values),
 				headers: { 'Content-Type': 'application/json' }
 			});
+			// const response = await fetch('https://students-dashboard-back-end.herokuapp.com/auth/login', {
+			// 	method: 'POST',
+			// 	mode: 'cors',
+			// 	credentials: 'include',
+			// 	body: JSON.stringify(values),
+			// 	headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+			// });
 			const message = await response.json();
+			console.log(response.headers.get('Set-Cookie'))
 			return message;
 		} catch (e) {
 			console.log(e.message);
