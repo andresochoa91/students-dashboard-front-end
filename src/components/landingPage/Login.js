@@ -29,7 +29,7 @@ const Login = ({ history }) => {
 			// Check if res has jwt
 			if (res.hasOwnProperty('token')) {
 				// Update auth context with jwt
-				setAuthUser(res.token);
+				setAuthUser(res);
 				// dispatch({ type: 'all', payload: { field: 'all', value: { email, username: 'Jerry', course: 'High Noon' } } });
 				// Switch to home page
 				history.push(`${ROUTES.HOME}${ROUTES.DASHBOARD}`);
@@ -41,18 +41,26 @@ const Login = ({ history }) => {
 	};
 
 	async function fetchData(values) {
-		try {
-			const response = await fetch(LOGIN_LINK, {
-				method: 'POST',
-				body: JSON.stringify(values),
-				headers: { 'Content-Type': 'application/json' }
-			});
-			const message = await response.json();
-			return message;
-		} catch (e) {
-			console.log(e.message);
-		}
-	}
+    try {
+      // const response = await fetch(LOGIN_LINK, {
+      //  method: 'POST',
+      //  body: JSON.stringify(values),
+      //  headers: { 'Content-Type': 'application/json' }
+      // });
+      const response = await fetch('https://forked-student-dashboard.herokuapp.com/auth/login', {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        body: JSON.stringify(values),
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const message = await response.json();
+      const token = response.headers.get('Authentication');
+      return { info: { ...message }, token };
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
 
 	return (
 		<div className=' col-4 contain'>

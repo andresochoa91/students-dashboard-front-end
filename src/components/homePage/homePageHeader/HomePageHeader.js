@@ -1,5 +1,6 @@
 import React from 'react';
-import { Layout, Row, Col } from "antd";
+import { Link } from 'react-router-dom';
+import { Layout, Row, Col, Dropdown, Menu } from "antd";
 import { UserCircle } from "@styled-icons/boxicons-solid/UserCircle";
 import {
   SettingOutlined,
@@ -13,10 +14,33 @@ import {
 } from "../styles/styles";
 import logo from "../../../graphics/logo.png";
 
+import * as ROUTES from '../../../constants/routes';
+
 const { Header } = Layout;
 
 
-const HomePageHeader = () => {
+const HomePageHeader = ({ match }) => {
+  console.log(`${match.path}${ROUTES.PROFILE}`)
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <Link to={`${match.path}${ROUTES.PROFILE}`}>
+          Account
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
+          Settings
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
+          Log Out
+        </a>
+      </Menu.Item>
+     
+    </Menu>
+  );
   return (
     <HeaderPage>
       <Header
@@ -39,7 +63,12 @@ const HomePageHeader = () => {
             <TopNav className="top-nav">
               <BellOutlined />
               <SettingOutlined />
-              <UserCircle style={{ width: "25px" }} />
+
+              <Dropdown overlay={menu}>
+                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                  <UserCircle  style={{ width: "25px" }} />
+                </a>
+              </Dropdown>
             </TopNav>
           </Col>
         </Row>

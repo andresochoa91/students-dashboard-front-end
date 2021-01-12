@@ -6,50 +6,44 @@ const Context = React.createContext();
 
 export const AuthStore = ({ children }) => {
   const [cookies, setCookie] = useCookies(['auth_token']);
-  // const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  // const { authUser, email, username, course } = state;
   const [authUser, setAuthUser] = useState(cookies['auth_token']);
+  const [userInfo, setUserInfo] = useState(null);
 
-  // useEffect(() => {
-  //   // dispatch({ type: 'authUser', payload: { field: 'authUser', value: cookies['auth_token'] } });
-  //   if (authUser && _.isEmpty(cookies)) {
-  //     console.log('set cookie', authUser)
-  //     setCookie('auth_token', authUser)
-  //     setAuthUser(cookies['auth_token'])
-  //     console.log(cookies)
-  //     console.log('cookie', cookies['auth_token'])
-  //   }
+  useEffect(() => {
+    if (authUser && _.isEmpty(cookies)) {
+      setCookie('auth_token', authUser.token);
+      setUserInfo(authUser.info);
+    }
+  }, [authUser])
 
-  // }, [])
+  useEffect(() => {
+    if (!_.isEmpty(cookies)) {
+      const getData = async () => {
+        const response = await fetch('https://forked-student-dashboard.herokuapp.com/user', {
+          method: 'POST',
+          mode: 'cors',
+          credentials: 'include',
+          body: JSON.stringify({ token: authUser }),
+          headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await response.json();
+        console.log(data)
+        setUserInfo(data);
+      }
+      getData();
+    }
+  }, [])
 
-  if (authUser && _.isEmpty(cookies)) {
-    // console.log('set cookie', authUser)
-    setCookie('auth_token', authUser)
-    // setAuthUser(cookies['auth_token'])
-    // console.log(cookies)
-    // console.log('cookie', cookies['auth_token'])
-  }
-
-
-
-  // if (!_.isEmpty(cookies)) {
-  //   token = cookies['auth_token'];
-  // }
+  console.log(authUser)
+  console.log(userInfo)
 
   return (
     <Context.Provider
-      value={[authUser, setAuthUser]}
+      value={[authUser, setAuthUser, userInfo, setUserInfo]}
     >
       {children}
     </Context.Provider>
   )
-  // return (
-  //   <Context.Provider
-  //     value={[state, dispatch]}
-  //   >
-  //     {children}
-  //   </Context.Provider>
-  // )
 }
 
 export default Context;

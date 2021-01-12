@@ -7,6 +7,7 @@ import PrivateRoute from "../../routes/PrivateRoute";
 import Dashboard from "../dashboard/Dashboard";
 import Assignments from "../assignments/Assignments";
 import FullCalendarDashboard from "../fullCalendar/FullCalendarDashboard";
+import ProfilePage from '../dashboard/profile/ProfilePage';
 
 const { Content } = Layout;
 
@@ -37,6 +38,10 @@ const HomeContent = ({ keys, selectedKey, setSelectedKey, match }) => {
             selectedKey={selectedKey}
             setSelectedKey={setSelectedKey}
             component={FullCalendarDashboard}
+          />
+           <PrivateRoute
+            path={`${match.path}${ROUTES.PROFILE}`}
+            component={ProfilePage}
           />
         </Switch>
       </div>

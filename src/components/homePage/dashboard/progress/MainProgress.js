@@ -26,8 +26,8 @@ const MainProgress = () => {
 
   return (
     <>
-      <Space direction="vertical">
-        <Card type="inner">
+      <Space direction="vertical" style={{width: "100%"}}>
+        <Card type="inner" hoverable className="cards-border">
           <Typography.Title level={4} className="left">
             Your Progress
           </Typography.Title>
@@ -36,8 +36,8 @@ const MainProgress = () => {
               {progress
                 ? progress.records.map((week, index) => {
                   return (
-                    <Col flex="1 1 " key={index}>
-                      <Card
+                    <Col flex="auto" key={index}>
+                      <Card hoverable
                         style={{
                           height: 255,
                           textAlign: "center",

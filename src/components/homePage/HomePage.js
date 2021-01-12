@@ -48,7 +48,7 @@ const HomePage = ({ match, history }) => {
             <SiderMenu match={match} keys={KEYS} selectedKey={selectedKey} setSelectedKey={setSelectedKey} />
             <div className="container-fluid">
                 <Layout className="site-layout">
-                    <HomePageHeader />
+                    <HomePageHeader match={match} history={history} />
                     <Breadcrumbs page={page} match={match} keys={KEYS} setSelectedKey={setSelectedKey} />
                     <HomeContent keys={KEYS} selectedKey={selectedKey} setSelectedKey={setSelectedKey} match={match} history={history} />
                     <FooterHome />

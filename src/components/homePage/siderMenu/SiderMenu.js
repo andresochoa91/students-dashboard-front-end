@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Menu, Row, Col, Avatar, Layout } from "antd";
 import { Link } from "react-router-dom";
 
@@ -17,6 +17,7 @@ import {
 } from "@ant-design/icons";
 
 import * as ROUTES from "../../../constants/routes";
+import UserContext from '../../contexts/UserContext';
 
 
 const { Sider } = Layout;
@@ -25,11 +26,11 @@ const { SubMenu } = Menu;
 
 const SiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
   const [collapsed, setCollapsed] = useState(false);
-
+  const [userInfo, dispatchUser] = useContext(UserContext);
   const onCollapse = (collapsed) => {
     setCollapsed(collapsed);
   };
-
+  console.log(userInfo)
   return (
     <Sider
       style={{ backgroundColor: "#12284C" }}
@@ -44,6 +45,7 @@ const SiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
           <div className="username" style={{ paddingTop: "30px" }}>
             <Col span={24} align="center">
               <Avatar
+                src={userInfo.length ? userInfo[0].Picture[0].thumbnails.large.url : null} //needs a loop to go through users?
                 size={{
                   xs: 32,
                   sm: 40,
@@ -52,14 +54,14 @@ const SiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
                   xl: 80,
                   xxl: 80,
                 }}
-                icon={<UserOutlined />}
+                // icon={<UserOutlined />}
               />
             </Col>
           </div>
         </Col>
         <Col span={24} align="center">
           <div className="username" style={{ paddingBottom: "30px" }}>
-            Username
+            {userInfo.length ? userInfo[0].Name : null}
             </div>
         </Col>
       </Row>

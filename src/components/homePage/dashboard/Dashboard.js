@@ -8,6 +8,7 @@ import SmallCalendar from "./smallCalendar/SmallCalendar";
 import AssignmentSummary from "./assignmentSummary/AssignmentSummary";
 import HomeButtons from "./homeButtons/HomeButtons";
 
+
 const Dashboard = ({ history, menuKey, selectedKey, setSelectedKey }) => {
     const { assignmentsKey, calendarKey, dashboardKey } = menuKey;
 
@@ -27,6 +28,7 @@ const Dashboard = ({ history, menuKey, selectedKey, setSelectedKey }) => {
                         />
                         <Progress />
                         <GetHelp />
+                      
                     </Space>
                 </Col>
                 <Col
