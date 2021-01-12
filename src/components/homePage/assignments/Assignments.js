@@ -15,7 +15,7 @@ import {
     message,
 } from "antd";
 import _ from "lodash";
-import Icon, {
+import {
     FileDoneOutlined,
     DownOutlined,
     LineOutlined,
@@ -33,15 +33,16 @@ import Instructions from "./Instructions";
 import Summary from "./Summary";
 import Videos from "./Resources";
 import GithubLink from "./GithubLink";
-import TodoList from "../dashboard/todoList/TodoList";
-import SmallCalendar from "../dashboard/smallCalendar/SmallCalendar";
-import HomeButtons from "../dashboard/homeButtons/HomeButtons";
+import Done from "./Done";
+import TodoList from "../dashboard/studentDashboard/todoList/TodoList";
+import SmallCalendar from "../dashboard/studentDashboard/smallCalendar/SmallCalendar";
+import HomeButtons from "../dashboard/studentDashboard/homeButtons/HomeButtons";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 
 const INITIAL_STATE = {};
 
-const ACTIONS = {
+const ACTIONS_CLASS_INFO = {
     SET_COURSE: "course",
     SET_UNITS: "units",
     SET_LESSONS: "lessons",
@@ -49,17 +50,33 @@ const ACTIONS = {
     SET_ALL: "all",
 };
 
-const reducer = (state, action) => {
+const reducerClassInfo = (state, action) => {
     switch (action.type) {
-        case ACTIONS.SET_COURSES:
+        case ACTIONS_CLASS_INFO.SET_COURSES:
             return { ...state, [action.payload.field]: action.payload.value };
-        case ACTIONS.SET_UNITS:
+        case ACTIONS_CLASS_INFO.SET_UNITS:
             return { ...state, [action.payload.field]: action.payload.value };
-        case ACTIONS.SET_LESSONS:
+        case ACTIONS_CLASS_INFO.SET_LESSONS:
             return { ...state, [action.payload.field]: action.payload.value };
-        case ACTIONS.SET_SOURCES:
+        case ACTIONS_CLASS_INFO.SET_SOURCES:
             return { ...state, [action.payload.field]: action.payload.value };
-        case ACTIONS.SET_ALL:
+        case ACTIONS_CLASS_INFO.SET_ALL:
+            return { ...action.payload.value };
+        default:
+            throw new Error();
+    }
+};
+
+const ACTIONS_PROGRESS = {
+    SET_WEEK: "week",
+    SET_ALL: "all"
+};
+
+const reducerProgress = (state, action) => {
+    switch (action.type) {
+        case ACTIONS_PROGRESS.SET_WEEK:
+            return { ...state, [action.payload.field]: action.payload.value };
+        case ACTIONS_PROGRESS.SET_ALL:
             return { ...action.payload.value };
         default:
             throw new Error();
@@ -68,20 +85,29 @@ const reducer = (state, action) => {
 
 const Assignments = ({ match, history }) => {
     const [state, setState] = useState({ key: "Week 1" });
-    const [savedProgress, setSavedProgress] = useState(null);
     const { key } = state;
     const [clickedUnitKey, setClickedUnitKey] = useState(0);
     const [clickedLessonKey, setClickedLessonKey] = useState(0);
-    const [classInfo, dispatchClass] = useReducer(reducer, INITIAL_STATE);
-    const [userInfo, dispatchUser] = useContext(UserContext);
+    const [stepStatus, setStepStatus] = useState({})
+    // const [stepStatus, setStepStatus] = useState([])
+    const [current, setCurrent] = useState(-1);
+    const [step, setStep] = useState(-1);
+    const [classInfo, dispatchClass] = useReducer(reducerClassInfo, INITIAL_STATE);
+    const [progressData, dispatchProgress] = useReducer(reducerProgress, INITIAL_STATE);
+    const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
+
+    const stepsPath = { '/home/assignments': -1, '/home/assignments/instructions': 0, '/home/assignments/videos': 1, '/home/assignments/submission': 2, '/home/assignments/done': 3 }
+
+    const assignments = ['Instructions', 'Treehouse', 'Assignment'];
+
+    console.log(progressData)
 
     useEffect(() => {
         const getAssignments = async () => {
             const dataUnits = await fetch(
-                `https://students-dashboard-back-end.herokuapp.com/courses/${userInfo.courseID}`
+                `${process.env.REACT_APP_GET_COURSES}${userInfo.student.student_course.course.id}`
             );
             const resUnits = await dataUnits.json();
-
             dispatchClass({
                 type: "all",
                 payload: { field: "all", value: resUnits.course },
@@ -90,20 +116,65 @@ const Assignments = ({ match, history }) => {
         getAssignments();
     }, []);
 
-    // const nextPage = (location) => {
-    //   switch (location.pathname) {
-    //     case '/home/assignments':
-    //       return '/home/assignments/instructions';
-    //     case '/home/assignments/instructions':
-    //       return '/home/assignments/videos';
-    //     case '/home/assignments/videos':
-    //       return '/home/assignments/submission';
-    //     case '/home/assignments/submission':
-    //       return '/home/assignments/done';
-    //     default:
-    //       return new Error('path not found');
-    //   }
-    // }
+    useEffect(() => {
+        determineStep(history.location.pathname);
+    }, [history.location.pathname]);
+
+    // Populate progress per week when week tab changes
+    useEffect(() => {
+        setStepsStatusFinish();
+    }, [clickedLessonKey])
+
+    const setStepsStatusFinish = async () => {
+        const progress = await getProgressData();
+
+        setStepStatus({ 0: parseInt(progress[clickedUnitKey][clickedLessonKey].Instructions), 1: parseInt(progress[clickedUnitKey][clickedLessonKey].Treehouse), 2: parseInt(progress[clickedUnitKey][clickedLessonKey].Assignment) })
+
+        dispatchProgress({
+            type: "all",
+            payload: { field: "all", value: progress },
+        });
+    }
+
+    const getProgressData = async () => {
+        const response = await fetch(
+            process.env.REACT_APP_AIRTABLE_LINK
+        );
+        const data = await response.json();
+        console.log(data)
+        return data.records.reduce((acc, curr) => {
+            switch (curr.fields.Unit) {
+                case 'Frontend 1':
+                    return { ...acc, 0: [...acc[0], { id: curr.id, ...curr.fields }] }
+                case 'Frontend 2':
+                    return { ...acc, 1: [...acc[1], { id: curr.id, ...curr.fields }] }
+            }
+
+        }, { 0: [], 1: [] })
+    };
+
+
+
+    const determineStep = (pathLocation) => {
+        setStep(stepsPath[pathLocation]);
+        // switch (pathLocation) {
+        //     case '/home/assignments':
+        //         setStep(-1);
+        //         break;
+        //     case '/home/assignments/instructions':
+        //         setStep(0);
+        //         break;
+        //     case '/home/assignments/videos':
+        //         setStep(1);
+        //         break;
+        //     case '/home/assignments/submission':
+        //         setStep(2);
+        //         break;
+        //     case '/home/assignments/done':
+        //         setStep(3);
+        //         break;
+        // }
+    }
 
     const menu = () => {
         return (
@@ -138,11 +209,6 @@ const Assignments = ({ match, history }) => {
         );
     };
 
-    const handleSubmit = () => {
-        console.log(classInfo);
-        setSavedProgress(true);
-    };
-
     const steps = [
         {
             title: "Instructions",
@@ -166,129 +232,178 @@ const Assignments = ({ match, history }) => {
         },
     ];
 
-    const [current, setCurrent] = useState(-1);
+    const nextStep = () => {
+        setStep(step + 1);
+    }
 
-    const next = () => {
-        setCurrent(current + 1);
+    const prevStep = () => {
+        setStep(step - 1);
+    }
+
+    // const next = () => {
+    //     setCurrent(current + 1);
+    // };
+
+    // const prev = () => {
+    //     setCurrent(current - 1);
+    // };
+
+
+
+    const handleSubmit = async () => {
+        let assignment = assignments[step]
+        // switch (step) {
+        //     case 0:
+        //         assignment = 'Instructions';
+        //         break;
+        //     case 1:
+        //         assignment = 'Treehouse';
+        //         break;
+        //     case 2:
+        //         assignment = 'Assignment';
+        //         break;
+        //     default:
+        //         assignment = null;
+        // }
+        // Store step after save progress button is clicked
+        setStepStatus({ ...stepStatus, [step]: 2 })
+        // setStepStatus([...stepStaus, step]);
+
+        const res = await fetch(process.env.REACT_APP_UPDATE_PROGRESS_COPY, {
+            body: JSON.stringify({
+                records: [
+                    {
+                        id: progressData[clickedUnitKey][clickedLessonKey].id,
+                        fields: {
+                            [assignment]: '2',
+                        },
+                    },
+                ],
+            }),
+            headers: {
+                Authorization: "Bearer keyclOytaXo7NHQ8M",
+                "Content-Type": "application/json",
+            },
+            method: "PATCH",
+        });
+        const data = await res.json();
+        // Set step to next step
+        nextStep();
+        // Go to the next step component
+        history.push(`${steps[step + 1].link}`);
     };
 
-    const prev = () => {
-        setCurrent(current - 1);
-    };
+    console.log(stepStatus);
 
     const tabPanes = (classKey) => {
         return classInfo.units[classKey].lessons.map((lesson, index) => {
             return (
                 <TabPane
-                    tab={<Link to={`${match.path}`}>Week {index + 1}</Link>}
+                    tab={<Link to={match.path}>Week {index + 1}</Link>}
                     key={`${index}`}>
                     <Steps current={current}>
-                        {steps.map((item) => (
-                            <Step
-                                key={item.title}
-                                title={item.title}
-                                icon={
-                                    <Link
-                                        to={item.link}
-                                        onClick={() =>
-                                            setCurrent(
-                                                steps.findIndex(
-                                                    (curr) => curr.link === item.link
-                                                )
-                                            )
-                                        }
-                                        style={{ color: "inherit" }}>
-                                        {item.icon}
-                                    </Link>
-                                }
-                            />
-                        ))}
+                        {!_.isEmpty(stepStatus) ? steps.map((item, index) => (
+                            index === 3 ?
+                                <Step
+                                    id={index}
+                                    key={item.title}
+                                    status={stepStatus[2] === 2 ? 'finish' : null}
+                                    title={stepStatus[2] === 2 ?
+                                        <Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link> :
+                                        item.title
+                                    }
+                                    icon={index !== 3 ? null : <SmileOutlined />}
+                                /> :
+                                <Step
+                                    id={index}
+                                    key={item.title}
+                                    status={stepStatus[index] === 2 ? 'finish' : null}
+                                    title={<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link>}
+                                    icon={index !== 3 ? null : <SmileOutlined />}
+                                />
+                        )) : null}
                     </Steps>
                     <div className="cardContent">
                         <Switch>
-                            <Route
+                            <PrivateRoute
                                 exact
                                 path={`${match.path}`}
-                                render={(props) => (
-                                    <Summary
-                                        {...props}
-                                        lesson={lesson.lesson_name}
-                                    />
-                                )}
+                                lesson={lesson.lesson_name}
+                                weekNumber={index + 1}
+                                unit={classInfo ? classInfo.units[clickedUnitKey] : null}
+                                component={Summary}
                             />
-                            <Route
+                            <PrivateRoute
                                 exact
-                                path={`${match.path}${ROUTES.DASHBOARD}`}
+                                path={`${match.path}${ROUTES.INSTRUCTIONS}`}
+                                lesson={lesson.lesson_name}
                                 component={Instructions}
                             />
-                            <Route
+                            <PrivateRoute
                                 exact
                                 path={`${match.path}${ROUTES.VIDEOS}`}
-                                render={(props) => (
-                                    <Videos
-                                        {...props}
-                                        lessons={
-                                            classInfo.units[clickedUnitKey].lessons[
-                                            clickedLessonKey
-                                            ]
-                                        }
-                                    />
-                                )}
+                                lessons={
+                                    classInfo.units[clickedUnitKey].lessons[
+                                    clickedLessonKey
+                                    ]
+                                }
+                                component={Videos}
                             />
-                            <Route
+                            <PrivateRoute
                                 exact
                                 path={`${match.path}${ROUTES.SUBMISSION}`}
-                                render={(props) => (
-                                    <GithubLink {...props} githubLink={classInfo} />
-                                )}
+                                lesson={lesson}
+                                component={GithubLink}
+                            />
+                            <PrivateRoute
+                                exact
+                                path={`${match.path}${ROUTES.DONE}`}
+                                component={Done}
                             />
                         </Switch>
                         <StyledDivSummary>
-                            <Form
-                                style={{ display: "inline-block" }}
-                                onFinish={handleSubmit}>
+                            {step !== -1 && step !== 3 ?
                                 <Button
+                                    id={index}
                                     style={{ marginRight: "1rem" }}
                                     type="primary"
                                     htmlType="submit"
-                                    onClick={() =>
-                                        message.success("Progress Saved")
-                                    }>
+                                    onClick={handleSubmit}
+                                >
                                     Save Progress
                                 </Button>
-                            </Form>
-                            {current < steps.length - 1 && (
-                                <Link to={steps[current + 1].link}>
-                                    <Button type="primary" onClick={() => next()}>
-                                        Next
-                                    </Button>
-                                </Link>
-                            )}
-                            {current === steps.length - 1 && (
-                                <Button
-                                    type="primary"
-                                    onClick={() =>
-                                        message.success(
-                                            "You have finished this assignment"
-                                        )
-                                    }>
-                                    Done
-                                </Button>
-                            )}
-                            {current > -1 && (
+                                : null
+                            }
+                            {step > -1 && (
                                 <Link
                                     to={
-                                        current > 0
-                                            ? steps[current - 1].link
+                                        step > 0
+                                            ? steps[step - 1].link
                                             : match.path
                                     }>
                                     <Button
                                         style={{ margin: "0 8px" }}
-                                        onClick={() => prev()}>
+                                        onClick={() => prevStep()}>
                                         Previous
                                     </Button>
                                 </Link>
                             )}
+                            {step < steps.length - 1 &&
+                                (
+                                    step === 2 ?
+                                        <Link to={steps[step + 1].link}>
+                                            <Button type="primary" disabled={stepStatus[2] === 2 ? null : true} onClick={() => nextStep()}>
+                                                Next
+                                        </Button>
+                                        </Link>
+                                        :
+                                        <Link to={steps[step + 1].link}>
+                                            <Button type="primary" onClick={() => nextStep()}>
+                                                Next
+                                        </Button>
+                                        </Link>
+                                )
+                            }
                         </StyledDivSummary>
                     </div>
                 </TabPane>
@@ -315,7 +430,7 @@ const Assignments = ({ match, history }) => {
                                     <div className="card-container">
                                         <Tabs
                                             type="card"
-                                            onChange={(key) =>
+                                            onChange={key =>
                                                 setClickedLessonKey(key)
                                             }>
                                             {tabPanes(clickedUnitKey)}

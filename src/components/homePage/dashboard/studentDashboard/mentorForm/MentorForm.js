@@ -84,6 +84,7 @@ const CreateForm = ({ visible, onCreate, onCancel }) => {
                 form
                     .validateFields()
                     .then((values) => {
+                        console.log(values)
                         form.resetFields();
                         onCreate(values);
                     })

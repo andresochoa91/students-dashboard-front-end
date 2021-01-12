@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useContext } from "react";
 import { PageHeader, Breadcrumb } from "antd";
 import { Link } from "react-router-dom";
 
 import * as ROUTES from "../../../constants/routes";
+import UserContext from "../../contexts/UserContext";
 
 const Breadcrumbs = ({ page, match, keys, setSelectedKey }) => {
+  const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
+
   return (
     <PageHeader
       className="white-gray"
       style={{ backgroundColor: "#fff", margin: "15px" }}
-      title="Welcome, Student!">
+      title={userInfo ? `Welcome ${userInfo.role.charAt(0).toUpperCase() + userInfo.role.slice(1)}!` : null}
+    >
       <Breadcrumb style={{ margin: "0" }}>
         <Breadcrumb.Item>
           {page === "Dashboard" ? (
@@ -26,7 +30,7 @@ const Breadcrumbs = ({ page, match, keys, setSelectedKey }) => {
           {page === "Dashboard" ? null : page}
         </Breadcrumb.Item>
       </Breadcrumb>
-    </PageHeader>
+    </PageHeader >
   )
 }
 
