@@ -55,7 +55,7 @@ const StaffSiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
           </Menu.Item>
             </SubMenu>
             <Menu.Item key={keys['Students']} icon={<TeamOutlined />}>
-              Students
+              <Link to={`${match.path}${ROUTES.STUDENTS}`}>Students</Link>
         </Menu.Item>
             <Menu.Item key={keys['Mentors']} icon={<UserOutlined />}>
               Mentors
