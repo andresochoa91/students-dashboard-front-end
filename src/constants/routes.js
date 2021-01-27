@@ -10,3 +10,4 @@ export const DONE = '/done';
 export const NOTIFICATIONSETTINGS = '/notificationsettings';
 
 export const STUDENTS = '/students';
+export const STAFFHOME = '/home';

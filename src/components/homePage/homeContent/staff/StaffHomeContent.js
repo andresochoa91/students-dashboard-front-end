@@ -6,6 +6,7 @@ import * as ROUTES from "../../../../constants/routes";
 import PrivateRoute from "../../../routes/PrivateRoute";
 import Dashboard from "../../dashboard/Dashboard";
 import FullCalendarDashboard from "../../fullCalendar/FullCalendarDashboard";
+import StudentsTracking from "../../staff_students_manage/StudentsTracking";
 
 const { Content } = Layout;
 
@@ -15,7 +16,7 @@ const StaffHomeContent = ({ keys, selectedKey, setSelectedKey, match }) => {
     <Content style={{ margin: "0 16px" }}>
       <div className="site-layout-background">
         <Switch>
-          <PrivateRoute
+          <PrivateRoute 
             path={`${match.path}${ROUTES.DASHBOARD}`}
             component={Dashboard}
             // menuKey={{ dashboardKey: keys[0], assignmentsKey: keys[2], calendarKey: keys[3] }}
@@ -29,6 +30,13 @@ const StaffHomeContent = ({ keys, selectedKey, setSelectedKey, match }) => {
             selectedKey={selectedKey}
             setSelectedKey={setSelectedKey}
             component={FullCalendarDashboard}
+          />
+          <PrivateRoute 
+            path={`${match.path}${ROUTES.STUDENTS}`}
+            menuKey={{ studentsKey: keys['Students'], calendarKey: keys['Calendar'] }}
+            selectedKey={selectedKey}
+            setSelectedKey={setSelectedKey}
+            component={StudentsTracking}
           />
         </Switch>
       </div>

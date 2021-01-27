@@ -12,7 +12,7 @@ const Breadcrumbs = ({ page, match, keys, setSelectedKey }) => {
     <PageHeader
       className="white-gray"
       style={{ backgroundColor: "#fff", margin: "15px" }}
-      title={userInfo ? `Welcome ${userInfo.role.charAt(0).toUpperCase() + userInfo.role.slice(1)}!` : null}
+      // title={userInfo ? `Welcome ${userInfo.role.charAt(0).toUpperCase() + userInfo.role.slice(1)}!` : null}
     >
       <Breadcrumb style={{ margin: "0" }}>
         <Breadcrumb.Item>
@@ -30,7 +30,7 @@ const Breadcrumbs = ({ page, match, keys, setSelectedKey }) => {
           {page === "Dashboard" ? null : page}
         </Breadcrumb.Item>
       </Breadcrumb>
-    </PageHeader >
+    </PageHeader>
   )
 }
 
