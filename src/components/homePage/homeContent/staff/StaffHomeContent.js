@@ -6,7 +6,7 @@ import * as ROUTES from "../../../../constants/routes";
 import PrivateRoute from "../../../routes/PrivateRoute";
 import Dashboard from "../../dashboard/Dashboard";
 import FullCalendarDashboard from "../../fullCalendar/FullCalendarDashboard";
-import StudentsTracking from "../../staff_students_manage/StudentsTracking";
+import StudentsManaging from "../../staff_students_manage/StudentsManaging";
 
 const { Content } = Layout;
 
@@ -36,7 +36,7 @@ const StaffHomeContent = ({ keys, selectedKey, setSelectedKey, match }) => {
             menuKey={{ studentsKey: keys['Students'], calendarKey: keys['Calendar'] }}
             selectedKey={selectedKey}
             setSelectedKey={setSelectedKey}
-            component={StudentsTracking}
+            component={StudentsManaging}
           />
         </Switch>
       </div>

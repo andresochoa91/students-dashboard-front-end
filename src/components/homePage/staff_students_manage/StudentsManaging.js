@@ -7,7 +7,7 @@ import SmallCalendar from "../dashboard/staffDashboard/smallCalendar/SmallCalend
 import HomeButtons from "../dashboard/staffDashboard/homeButtons/HomeButtons"; 
 import Students from './Students'
 
-const StudentsTracking = ({ history, menuKey, selectedKey, setSelectedKey }) => {
+const StudentsManaging = ({ history, menuKey, selectedKey, setSelectedKey }) => {
     const { calendarKey, studentsdKey } = menuKey;
 
     useEffect(() => {
@@ -45,4 +45,4 @@ const StudentsTracking = ({ history, menuKey, selectedKey, setSelectedKey }) => 
     );
 };
 
-export default StudentsTracking;
+export default StudentsManaging;
