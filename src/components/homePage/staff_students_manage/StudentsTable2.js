@@ -42,7 +42,7 @@ const { Search } = Input;
 
 const onSearch = value => console.log(value);
 
-// // Dropdawn menu
+// // Dropdown menu
 // const menu = (
 //     <Menu>
 //       <Menu.Item key="0" onClick={handleMenuClick}>
@@ -140,7 +140,13 @@ const StudentsTable = () => {
   return (
     <TabsContent>
       <Row>
-        <Col span={12}>
+        <Col 
+          // span={12}
+          xs={24}
+          sm={24}
+          md={12}
+          lg={12}
+        >
         <HeaderStyle>
           <h3 style={{fontWeight: 'bold'}}>CTD Students's  List</h3>
           <Search
@@ -152,7 +158,13 @@ const StudentsTable = () => {
         </HeaderStyle>
               
         </Col>
-        <Col span={12}>
+        <Col 
+          // span={12}
+          xs={24}
+          sm={24}
+          md={12}
+          lg={12}
+        >
           <AddStudent>
             <p>Add Student</p>
             <ModalStudent />
@@ -177,7 +189,7 @@ const StudentsTable = () => {
             columns={columns} 
             dataSource={data} 
             // scroll={{ x: 1000 }}
-            scroll={{ y: 1000, x: '50vw' }}
+            scroll={{ y: 1000, x: 800}}
           />
 
         </Col>

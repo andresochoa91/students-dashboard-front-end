@@ -59,14 +59,17 @@ const ModalStudent = () => {
     // Dropdawn menu
     const menu = (
         <Menu>
-            <Menu.Item key="0" onClick={handleMenuClick}>
-                Pirana
+            <Menu.Item key="0" >
+                <Checkbox onChange={onChange}>Pirana</Checkbox>
             </Menu.Item>
-            <Menu.Item key="1">High Noon
+            <Menu.Item key="1">
+                <Checkbox onChange={onChange}>High Noon</Checkbox>
             </Menu.Item>
-            <Menu.Item key="3">Catarina
+            <Menu.Item key="3">
+                <Checkbox onChange={onChange}>Catarina</Checkbox>
             </Menu.Item>
-            <Menu.Item key="4">Phoenix
+            <Menu.Item key="4">
+                <Checkbox onChange={onChange}>Phoenix</Checkbox>
             </Menu.Item>
         </Menu>
     );
@@ -112,13 +115,7 @@ const ModalStudent = () => {
                 // md={8}
                 // lg={8}
             >
-                <Checkbox onChange={onChange}>Pirana</Checkbox>
-                <br />
-                <Checkbox onChange={onChange}>High Noon</Checkbox>
-                <br />
-                <Checkbox onChange={onChange}>Catarina</Checkbox>
-                <br />
-                <Checkbox onChange={onChange}>Phoenix</Checkbox>
+
             </Col>
                 
             <Col 

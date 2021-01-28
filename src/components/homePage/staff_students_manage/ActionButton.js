@@ -24,14 +24,17 @@ const ActionButton = () => {
     // Dropdawn menu
     const menu = (
         <Menu>
-            <Menu.Item key="0" onClick={handleMenuClick}>
-                Pirana
+            <Menu.Item key="0" >
+                <Checkbox onChange={onChange}>Pirana</Checkbox>
             </Menu.Item>
-            <Menu.Item key="1">High Noon
+            <Menu.Item key="1">
+                <Checkbox onChange={onChange}>High Noon</Checkbox>
             </Menu.Item>
-            <Menu.Item key="3">Catarina
+            <Menu.Item key="3">
+                <Checkbox onChange={onChange}>Catarina</Checkbox>
             </Menu.Item>
-            <Menu.Item key="4">Phoenix
+            <Menu.Item key="4">
+                <Checkbox onChange={onChange}>Phoenix</Checkbox>
             </Menu.Item>
         </Menu>
     );
@@ -98,28 +101,29 @@ const ActionButton = () => {
             </Dropdown>
 
             <Modal width={400} title="Move Student(s) from Course" visible={isMoveVisible} onOk={handleMoveOk} onCancel={handleMoveCancel} okText='Move'>
-                <Row style ={{ marginTop: '30px', marginBottom: '50px'}}>
-                    <Col style={{paddingBottom:'20px'}}>
+                {/* <Row style ={{ marginTop: '30px', marginBottom: '50px'}}> */}
+                 <Row>
+                    <Col>
                         <Dropdown overlay={menu} trigger={['click']} >
                         <Button onClick={e => e.preventDefault()}> 
                         Choose Course <DownOutlined />
                         </Button> 
                         </Dropdown>
                     </Col>
-                    <Col style ={{ paddingLeft:'30px'}}
-                        // xs={{ span: 24, margin:'auto' }}
+                    {/* <Col style ={{ paddingLeft:'30px'}} */}
+                        {/* // xs={{ span: 24, margin:'auto' }}
                         // sm={{ span: 24, margin:'auto' }}
                         // md={{ span: 8 }}
-                        // lg={{ span: 8 }}
-                    >
-                        <Checkbox onChange={onChange}>Pirana</Checkbox>
+                        // lg={{ span: 8 }} */}
+                    {/* > */}
+                        {/* <Checkbox onChange={onChange}>Pirana</Checkbox>
                         <br />
                         <Checkbox onChange={onChange}>High Noon</Checkbox>
                         <br />
                         <Checkbox onChange={onChange}>Catarina</Checkbox>
                         <br />
-                        <Checkbox onChange={onChange}>Phoenix</Checkbox>
-                    </Col>
+                        <Checkbox onChange={onChange}>Phoenix</Checkbox> */}
+                    {/* </Col> */}
                 </Row>
             </Modal>
 

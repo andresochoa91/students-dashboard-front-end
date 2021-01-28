@@ -28,9 +28,9 @@ const Students = () => {
     
     return(
         <Card style={styleCard}
-        type="inner"
-        hoverable
-        className="cards-border">
+            type="inner"
+            hoverable
+            className="cards-border">
             <div  className="card-container">
                 <Tabs style={styleTabs} type="card">
                     <TabPane tab="Students" key="1" style={styleTabPane}>
