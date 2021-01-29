@@ -33,11 +33,11 @@ const ActionButton = () => {
     // };
     
     const handleOk = () => {
-        setIsModalVisible(false);
+        setIsEditVisible(false);
     };
     
     const handleCancel = () => {
-        setIsModalVisible(false);
+        setIsEditVisible(false);
     };
 
     const onFinish = (fieldsValue: any) => {
@@ -87,7 +87,7 @@ const ActionButton = () => {
     
     function handleEdit(e) {
         console.log('click', e);
-        setIsModalVisible(true);
+        setIsEditVisible(true);
     }
 
     
@@ -159,7 +159,7 @@ const ActionButton = () => {
             <Modal 
                 width={700}
                 title="Add Student" 
-                visible={isModalVisible} 
+                visible={isEditVisible} 
                 onOk={handleOk} 
                 onCancel={handleCancel}
                 okText="Add"
