@@ -19,6 +19,7 @@ export const UserStore = ({ children }) => {
   useEffect(() => {
     if (!_.isEmpty(cookies)) {
       const getData = async () => {
+        try{
         const response = await fetch('https://forked-student-dashboard.herokuapp.com/user', {
           method: 'POST',
           mode: 'cors',
@@ -26,47 +27,30 @@ export const UserStore = ({ children }) => {
           body: JSON.stringify({ token: authToken }),
           headers: { 'Content-Type': 'application/json' }
         });
-        const data = await response.json();
+        const dataUser = await response.json();
 
-        setUserInfo(data);
+        // const res = await fetch('https://api.airtable.com/v0/appm5NPkqO7P8ePUK/User_Info_Table?api_key=keyclOytaXo7NHQ8M')
+        // const { records } = await res.json();
+        // const dataProfile = records.reduce((acc, curr) => {
+        //   const { fields, id } = curr;
+        //   return [...acc, {...fields, id}]
+        // }, [])
+
+        setUserInfo(dataUser);
+        setUserInfo((prevState) => {
+          return {...prevState, ...dataUser}
+        })
+      }catch (error) {
+        console.log(error);
       }
+      };
       getData();
     }
   }, [])
 
+
   console.log(userInfo)
 
-  const getUser = async () =>{
-    //   return base("User_Info_Table").select({
-    //     maxRecords: 3,
-    //     view: "Grid view"
-    // }).eachPage(function page(records, fetchNextPage) {
-    //     // This function (`page`) will get called for each page of records.
-    // console.log(records, "hello");
-    //     // records.forEach(function(record) {
-    //     //     console.log('Retrieved', record.get('User_ID'));
-    //     // });
-    //     fetchNextPage();
-        
-    
-    //   }, function done(err) {
-    //     if (err) { console.error(err); return; }
-    //     return records;
-    //   })
-    
-      const res = await fetch('https://api.airtable.com/v0/appm5NPkqO7P8ePUK/User_Info_Table?api_key=keyclOytaXo7NHQ8M')
-      const { records } = await res.json();
-      const data = records.reduce((acc, curr) => {
-        const { fields, id } = curr;
-        return [...acc, {...fields, id}]
-      }, [])
-      
-      dispatchUser({type: "all", payload: { field: "all", value: data}});
-    }
-
-  useEffect(()=>{
-      getUser();
-  },[])
 
   return (
 <>

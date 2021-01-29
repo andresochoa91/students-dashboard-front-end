@@ -7,6 +7,7 @@ import { DownOutlined } from '@ant-design/icons';
 //for dropdown in modal
 const menuB = (
     <Menu>
+      
         <Menu.Item key="0">
         <Checkbox onChange={onChange}>Pirana</Checkbox>
         </Menu.Item>
@@ -19,7 +20,7 @@ const menuB = (
         <Menu.Item key="3">
         <Checkbox onChange={onChange}>Phoenix</Checkbox>
        </Menu.Item>
-
+      
     </Menu>
   );
 

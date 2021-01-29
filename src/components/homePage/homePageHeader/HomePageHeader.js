@@ -65,7 +65,7 @@ const HomePageHeader = ({ match }) => {
               <SettingOutlined />
 
               <Dropdown overlay={menu}>
-                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                <a className="ant-dropdown-link" trigger={['click']} onClick={e => e.preventDefault()}>
                   <UserCircle  style={{ width: "25px" }} />
                 </a>
               </Dropdown>

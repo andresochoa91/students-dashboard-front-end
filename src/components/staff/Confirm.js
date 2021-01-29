@@ -1,26 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Button, Space } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
 
+
+
 const Confirms = () => {
-function showConfirm() {
-  confirm({
-    title: 'Delete Student(s)',
-    icon: <ExclamationCircleOutlined />,
-    content: 'Are you sure you want to remove this student from the class?',
-    okText: 'Remove',
-    
-    onOk() {//in here put the function when button is clicked
+  const [remove, setRemove] = useState(false);
+  const [deleteRow, setDeleteRow]=useState(true);
+  
+
+  function showConfirm() {
+
+    confirm({
+      title: 'Delete Student(s)',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Are you sure you want to remove this student from the class?',
+      okText: 'Remove',
+      closable: 'true',
+
+      onOk() {
+        function handleDelete(props) {
+          const source = [remove];
+          source:source.filter((item) =>  item.props !== props); {/*MF: need to remove one line from the table*/}
       
-      console.log('Ok');
-    },
-    onCancel() {
-      console.log('Cancel');
-    },
-  });
-}
+          setRemove(source);
+         
+          console.log("true");
+      
+        };
+        handleDelete();
+
+        console.log('Ok');
+      },
+      onCancel() {
+        setRemove(false);
+        console.log('Cancel');
+      },
+    });
+  }
 return (
 
     // <Space>
@@ -29,6 +48,6 @@ return (
 
 )
 
-}
+};
 
 export default Confirms

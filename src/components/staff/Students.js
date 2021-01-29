@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { Tabs, Input, Row, Col, Button, Modal, Table, Dropdown, Menu, Checkbox, Form } from 'antd';
+import { Tabs, Input, Row, Col, Button, Modal, Table, Dropdown, Menu, Checkbox, Form, Space} from 'antd';
 import { PlusOutlined, FolderAddOutlined, DownOutlined } from '@ant-design/icons';
 import Confirm from "./Confirm";
 import Move from "./Move";
-// import styles from "./styles";
+import Edit from "./Edit";
+import StudentTable from './StudentTable'
+
+
+
 
 
  //table headings
@@ -11,6 +15,7 @@ import Move from "./Move";
     {
       title: 'Name',
       dataIndex: 'name',
+      editable: true,
     },
     {
       title: 'ID',
@@ -28,7 +33,7 @@ import Move from "./Move";
     },
 
     {
-    title: '',
+    title: 'Actions',
     render: () => (<Dropdown overlay={menu} trigger={['click']}>
     <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
       Actions <DownOutlined />
@@ -36,14 +41,15 @@ import Move from "./Move";
   </Dropdown>),
     
     },
+
+    
   ];
 
   //for dropdown
   const menu = (
   <Menu>
-    <Menu.Item key="0">
-      <a href="">Edit</a>
-    </Menu.Item>
+    <Menu.Item key="0"> <Edit /> </Menu.Item> 
+        {/* may not need the edit */}
     <Menu.Item key="1"> <Move /></Menu.Item>
     <Menu.Item key="2"><Confirm /></Menu.Item> 
   </Menu>
@@ -90,7 +96,7 @@ for (let i = 0; i < 46; i++) {
         };
     
 
-    //form layout in modal(could this go int styles file?)
+    //form layout in modal(could this go into styles file?)
     const layout = {
         labelCol: {
           span: 8,
@@ -100,8 +106,11 @@ for (let i = 0; i < 46; i++) {
         },
       };
 
-const Students = () => {
+     
+      
+const Students = (props) => {
     const { TabPane } = Tabs;
+    //for input
     const { Search } = Input;
     const onSearch = value => console.log(value);
 
@@ -150,9 +159,13 @@ const Students = () => {
     };
 
     const hasSelected = selectedRowKeys.length > 0;
-      console.log(rowSelection)
+      console.log(rowSelection);
       
-  
+      //props passed to confirm.js
+      const {
+          deleteRow,
+      }= props
+     
     return(
         
         
@@ -163,22 +176,32 @@ const Students = () => {
                         <Row gutter={[16, 16]}>
                             <Col span={8}>
                                 <h3 style={{fontWeight: "bold"}}>Students in this course</h3>
+                                <Search
+                                placeholder="input search text"
+                                allowClear
+                                onSearch={onSearch}
+                                style={{ width: 200, margin: '0' }}
+                            />
                             </Col>
                             
-                            <Col  span={2}>
-                                <p>Add Student</p>
+                            <Col span={16} >
+                             
+                                <div style={{display: "flex", justifyContent: "flex-end"}}>
+                                    <p>Add Student</p>
+                                    <Button type="primary" shape="circle" icon={<PlusOutlined />} onClick={showModal} />
+                                    <p>Track Students</p>
+                                    <Button type="primary" shape="circle" icon={<FolderAddOutlined />} />              
+                                </div>
+                                
                             </Col>
-                            <Col span={2}>
-                                <Button type="primary" shape="circle" icon={<PlusOutlined />} onClick={showModal} />
-                            </Col>
-                            <Col>
-                                <p>Track Students</p>
-                            </Col>
-                            <Col>
-                                <Button type="primary" shape="circle" icon={<FolderAddOutlined />} />   
-                            </Col>
-                            
+                           
                         </Row>
+                        
+                        {/* <Row>
+                           
+                        </Row> */}
+
+                        {/* Modal to add Student */}
                         <Modal title="Add student to course" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="Add"  width={700}>
                             <Dropdown overlay={menuB}>
                                 <Button>
@@ -210,17 +233,6 @@ const Students = () => {
                                 </Form.Item>
                            </Form>
                         </Modal>
-                        
-                        <Row>
-                            <Col>
-                            <Search
-                                placeholder="input search text"
-                                allowClear
-                                onSearch={onSearch}
-                                style={{ width: 200, margin: '0 10px' }}
-                            />
-                            </Col>
-                        </Row>
                     </TabPane>
                 </Tabs>
              <br />   
@@ -233,10 +245,10 @@ const Students = () => {
                         {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                     </span>
                  </div>
-
-            <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
-
-            
+                
+            <Table rowSelection={rowSelection} columns={columns} dataSource={data} deleteRow={deleteRow} />
+{/* 
+            <StudentTable /> */}
         </div>
        
     )

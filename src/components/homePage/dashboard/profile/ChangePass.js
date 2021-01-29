@@ -4,7 +4,7 @@ import { Card, Row, Col, Typography, Button, Form, Input,  message } from 'antd'
 import { StyledDivSummary } from "../../assignments/styles";
 import { StyledPass } from './styles';
 import UserContext from '../../../contexts/UserContext';
-import AuthContext from '../../../contexts/AuthContext';
+
 
 
 const layout = {
@@ -47,7 +47,7 @@ const layout = {
 const ChangePass =()=>{
   // const checkOldPass =()=>{
     // const [userInfo, dispatchUser] = useContext(UserContext);
-   const [userInfo, setUserInfo]=useContext(AuthContext)
+   const [userInfo, setUserInfo]=useContext(UserContext)
     const updateUser = (values)=>{
     const { id, ...rest } = values;
     base('User_Info_Table').update([

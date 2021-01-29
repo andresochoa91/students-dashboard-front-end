@@ -2,20 +2,12 @@ import React from 'react';
 import { Switch } from "react-router-dom";
 import { Layout } from "antd";
 
-<<<<<<< HEAD:src/components/homePage/homeContent/HomeContent.js
-import * as ROUTES from "../../../constants/routes";
-import PrivateRoute from "../../routes/PrivateRoute";
-import Dashboard from "../dashboard/Dashboard";
-import Assignments from "../assignments/Assignments";
-import FullCalendarDashboard from "../fullCalendar/FullCalendarDashboard";
-import ProfilePage from '../dashboard/profile/ProfilePage';
-=======
 import * as ROUTES from "../../../../constants/routes";
 import PrivateRoute from "../../../routes/PrivateRoute";
 import Dashboard from "../../dashboard/Dashboard";
 import Assignments from "../../assignments/Assignments";
 import FullCalendarDashboard from "../../fullCalendar/FullCalendarDashboard";
->>>>>>> 5b50a2656b61e5979f0c3e904bbfa887efc68bdc:src/components/homePage/homeContent/student/StudentHomeContent.js
+import ProfilePage from "../../dashboard/profile/ProfilePage"
 
 const { Content } = Layout;
 
