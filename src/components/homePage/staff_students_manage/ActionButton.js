@@ -1,10 +1,52 @@
 import React, {useState, useEffect} from "react";
-import { Table,  Input, Button,  Menu, Dropdown, Row, Col, Modal, Checkbox} from 'antd';
+import { Table, Form, Input, Button,  Menu, Dropdown, Row, Col, Modal, Checkbox} from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 
 
 const ActionButton = () => {
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const layout = {
+        labelCol: { 
+            xs: { span: 4 },
+            sm: { span: 4 },
+        },
+        wrapperCol: { 
+            xs: { span: 24 },
+            sm: { span: 16 }, 
+        },
+    };
+      
+      const validateMessages = {
+        required: '${label} is required!',
+        types: {
+            email: '${label} is not a valid email!',
+            number: '${label} is not a valid number!',
+        },
+            number: {
+            range: '${label} must be between ${min} and ${max}',
+        },
+    };
+
+    // const showModal = () => {
+    //     setIsModalVisible(true);
+    // };
+    
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+    
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    const onFinish = (fieldsValue: any) => {
+        // Should format date value before submit.
+        const values = {
+          ...fieldsValue,
+        };
+        console.log('Received values of form: ', values);
+    };
 
     // Dropdawn menu
     const menuEdit = (
@@ -39,12 +81,13 @@ const ActionButton = () => {
         </Menu>
     );
 
-    function handleMenuClick(e) {
-        console.log('click', e);
-    }
+    // function handleMenuClick(e) {
+    //     console.log('click', e);
+    // }
     
     function handleEdit(e) {
         console.log('click', e);
+        setIsModalVisible(true);
     }
 
     
@@ -110,27 +153,40 @@ const ActionButton = () => {
                         </Button> 
                         </Dropdown>
                     </Col>
-                    {/* <Col style ={{ paddingLeft:'30px'}} */}
-                        {/* // xs={{ span: 24, margin:'auto' }}
-                        // sm={{ span: 24, margin:'auto' }}
-                        // md={{ span: 8 }}
-                        // lg={{ span: 8 }} */}
-                    {/* > */}
-                        {/* <Checkbox onChange={onChange}>Pirana</Checkbox>
-                        <br />
-                        <Checkbox onChange={onChange}>High Noon</Checkbox>
-                        <br />
-                        <Checkbox onChange={onChange}>Catarina</Checkbox>
-                        <br />
-                        <Checkbox onChange={onChange}>Phoenix</Checkbox> */}
-                    {/* </Col> */}
                 </Row>
             </Modal>
 
-            <Modal title="Edit Student(s)" visible={isEditVisible} onOk={handleEditOk} onCancel={handleEditCancel} okText='Edit'>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+            <Modal 
+                width={700}
+                title="Add Student" 
+                visible={isModalVisible} 
+                onOk={handleOk} 
+                onCancel={handleCancel}
+                okText="Add"
+                cancelText="Cancel"
+            >
+                <Form 
+                    {...layout} 
+                    name="nest-messages" 
+                    //  onFinish={onFinish} 
+                    validateMessages={validateMessages}
+                    onFinish={onFinish}
+                >
+                    <Form.Item style={{margin: '50px'}} rules={[{ required: true }]}>
+                        <Dropdown overlay={menu} trigger={['click']} >
+                            <Button onClick={e => e.preventDefault()}> 
+                                Choose Course <DownOutlined />
+                            </Button> 
+                        </Dropdown>
+                    </Form.Item>
+
+                    <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name={['user', 'email']} label="Email" rules={[{ type: 'email' }]}>
+                        <Input />
+                    </Form.Item>
+                </Form>
             </Modal>
 
             <Modal title="Delete Student(s)" visible={isDeleteVisible} onOk={handleDeleteOk} onCancel={handleDeleteCancel} okText='Remove'>

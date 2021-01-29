@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { DatePicker, TimePicker, Form, Input, Button,  Menu, Dropdown, Checkbox, Row, Col, Modal} from 'antd';
+import { Form, Input, Button,  Menu, Dropdown, Checkbox, Modal} from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 
 const ModalStudent = () => {
@@ -7,8 +7,8 @@ const ModalStudent = () => {
 
     const layout = {
         labelCol: { 
-            xs: { span: 24 },
-            sm: { span: 8 },
+            xs: { span: 4 },
+            sm: { span: 4 },
         },
         wrapperCol: { 
             xs: { span: 24 },
@@ -37,20 +37,12 @@ const ModalStudent = () => {
     
     const handleCancel = () => {
         setIsModalVisible(false);
-
     };
 
-    const config = {
-        rules: [{ type: 'object', required: true, message: 'Please select time!' }],
-    };
-
-    
     const onFinish = (fieldsValue: any) => {
         // Should format date value before submit.
         const values = {
           ...fieldsValue,
-          'date-picker': fieldsValue['date-picker'].format('YYYY-MM-DD'),
-          'time-picker': fieldsValue['time-picker'].format('HH:mm:ss'),
         };
         console.log('Received values of form: ', values);
     };
@@ -74,10 +66,6 @@ const ModalStudent = () => {
         </Menu>
     );
 
-    function handleMenuClick(e) {
-        console.log('click', e);
-    }
-
     function onChange(e) {
         console.log(`checked = ${e.target.checked}`);
     }
@@ -94,63 +82,28 @@ const ModalStudent = () => {
             okText="Add"
             cancelText="Cancel"
         >
-        <Row >
-        <Col style={{paddingBottom:'20px'}}>
-            <Dropdown overlay={menu} trigger={['click']} >
-            <Button onClick={e => e.preventDefault()}> 
-            Choose Course <DownOutlined />
-            </Button> 
-            </Dropdown>
-        </Col>
-        </Row>
-        <Row >
-            <Col 
-                // style={{paddingLeft:'20px'}} 
-                xs={{ span: 24, margin:'auto'}}
-                sm={{ span: 24, margin:'auto'}}
-                md={{ span: 8, paddingLeft:'20px'}}
-                lg={{ span: 8, paddingLeft:'20px'}}
-                // xs={24}
-                // sm={24}
-                // md={8}
-                // lg={8}
+            <Form 
+                {...layout} 
+                name="nest-messages" 
+                //  onFinish={onFinish} 
+                validateMessages={validateMessages}
+                onFinish={onFinish}
             >
+                <Form.Item style={{margin: '50px'}} rules={[{ required: true }]}>
+                    <Dropdown overlay={menu} trigger={['click']} >
+                        <Button onClick={e => e.preventDefault()}> 
+                            Choose Course <DownOutlined />
+                        </Button> 
+                    </Dropdown>
+                </Form.Item>
 
-            </Col>
-                
-            <Col 
-                // xs={{ span: 24, margin:'auto'}}
-                // sm={{ span: 24, margin:'auto'}}
-                // md={{ span: 16, paddingLeft:'20px'}}
-                // lg={{ span: 16, paddingLeft:'20px'}}
-                style={{paddingRight:'20px'}} 
-                xs={24}
-                sm={24}
-                md={16}
-                lg={16}
-            >
-                <Form 
-                    {...layout} 
-                    name="nest-messages" 
-                    //  onFinish={onFinish} 
-                    validateMessages={validateMessages}
-                    onFinish={onFinish}
-                >
-                    <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item name={['user', 'email']} label="Email" rules={[{ type: 'email' }]}>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item name="date-picker" label="DatePicker" {...config}>
-                        <DatePicker />
-                    </Form.Item>
-                    <Form.Item name="time-picker" label="TimePicker" {...config}>
-                        <TimePicker />
-                    </Form.Item>
-                </Form>
-            </Col>
-        </Row>
+                <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name={['user', 'email']} label="Email" rules={[{ type: 'email' }]}>
+                    <Input />
+                </Form.Item>
+            </Form>
         </Modal>
         </>
     )

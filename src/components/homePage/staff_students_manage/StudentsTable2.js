@@ -18,7 +18,7 @@ const HeaderStyle = styled.div`
 
 `;
 
-const AddStudent = styled.div`
+const AddStudentStyle = styled.div`
   display: flex; 
   justify-content: flex-end; 
   align-items: center;
@@ -27,13 +27,23 @@ const AddStudent = styled.div`
     margin: 10px; 
     padding: 10px;
   }
+
+  @media (max-width: 576px) {
+    justify-content: flex-start; 
+    ${'' /* justify-content: center;  */}
+  }
 `;
 
 const DropDownStyle = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding: 10px;
+  padding: 10px; 
 
+  @media (max-width: 576px) {
+    justify-content: flex-start; 
+    ${'' /* justify-content: center;  */}
+    margin-left: 20px;
+  }
 `;
 
 
@@ -42,28 +52,10 @@ const { Search } = Input;
 
 const onSearch = value => console.log(value);
 
-// // Dropdown menu
-// const menu = (
-//     <Menu>
-//       <Menu.Item key="0" onClick={handleMenuClick}>
-//         <a href="#">Edit</a>
-//       </Menu.Item>
-//       <Menu.Item key="1">
-//         <a href="#">Move</a>
-//       </Menu.Item>
-//       <Menu.Item key="3">Delete</Menu.Item>
-//     </Menu>
-// );
-
-// function handleMenuClick(e) {
-//   console.log('click', e);
-// }
-
 const StudentsTable = () => {
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [students, setStudents] = useState([]);
-  // const [data, setData] = useState([])
 
   useEffect(() => {
     fetch('https://forked-student-dashboard.herokuapp.com/students', {
@@ -86,8 +78,6 @@ const StudentsTable = () => {
     {
       title: 'Name',
       dataIndex: 'name',
-    //   fixed: true,
-    //   width: 200,
     },
     {
       title: 'ID',
@@ -141,9 +131,8 @@ const StudentsTable = () => {
     <TabsContent>
       <Row>
         <Col 
-          // span={12}
           xs={24}
-          sm={24}
+          sm={12}
           md={12}
           lg={12}
         >
@@ -159,23 +148,17 @@ const StudentsTable = () => {
               
         </Col>
         <Col 
-          // span={12}
           xs={24}
-          sm={24}
+          sm={12}
           md={12}
           lg={12}
         >
-          <AddStudent>
+          <AddStudentStyle>
             <p>Add Student</p>
-            <ModalStudent />
-          </AddStudent>
+            <ModalStudent/>
+          </AddStudentStyle>
           <DropDownStyle>
            <ActionButton />
-            {/* <Dropdown overlay={menu} trigger={['click']} >
-            <Button type="primary" onClick={e => e.preventDefault()}> 
-              Actions <DownOutlined />
-            </Button> 
-            </Dropdown> */}
           </DropDownStyle>
         </Col>
       </Row>
