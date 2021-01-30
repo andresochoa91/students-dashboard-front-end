@@ -4,8 +4,7 @@ import { DownOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 
 
-const ActionButton = () => {
-    const [isModalVisible, setIsModalVisible] = useState(false);
+const ActionButton = ({students}) => {
     const layout = {
         labelCol: { 
             xs: { span: 4 },
@@ -28,10 +27,6 @@ const ActionButton = () => {
         },
     };
 
-    // const showModal = () => {
-    //     setIsModalVisible(true);
-    // };
-    
     const handleOk = () => {
         setIsEditVisible(false);
     };

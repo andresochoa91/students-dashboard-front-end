@@ -56,6 +56,7 @@ const StudentsTable = () => {
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [students, setStudents] = useState([]);
+  const [student, setStudent] = useState({});
 
   useEffect(() => {
     fetch('https://forked-student-dashboard.herokuapp.com/students', {
@@ -98,28 +99,29 @@ const StudentsTable = () => {
   ];
 
   const data = [];
-  // students.map( student => (
-  //   data.push({
-  //     key: student.student_id,
-  //     id: student.student_id,
-  //     name: student.first_name + ' ' + student.last_name,
-  //     email: student.user.email,
-  //     course: student.student_course.course.course_name,
-  //   })
-  // ))
-  for (let i = 1; i <=20; i++) {
+  students.map( student => (
     data.push({
-      key: i,
-      id: i,
-      name: `Edward Smith`,
-      email: 'email@email.com',
-      course: `Sunrise`,
-    });
-  }
+      key: student.student_id,
+      id: student.student_id,
+      name: student.first_name + ' ' + student.last_name,
+      email: student.user.email,
+      course: student.student_course.course.course_name,
+    })
+  ))
+  // for (let i = 1; i <=20; i++) {
+  //   data.push({
+  //     key: i,
+  //     id: i,
+  //     name: `Edward Smith`,
+  //     email: 'email@email.com',
+  //     course: `Sunrise`,
+  //   });
+  // }
 
   const onSelectChange = selectedRowKey => {
       console.log('selectedRowKeys changed: ', selectedRowKey);
       setSelectedRowKeys(selectedRowKey);
+      // setStudent(students.)
   }; 
 
   const rowSelection = {
@@ -158,7 +160,7 @@ const StudentsTable = () => {
             <ModalStudent/>
           </AddStudentStyle>
           <DropDownStyle>
-           <ActionButton />
+           <ActionButton students={students}/>
           </DropDownStyle>
         </Col>
       </Row>
