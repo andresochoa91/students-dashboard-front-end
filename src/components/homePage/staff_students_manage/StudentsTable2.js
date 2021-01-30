@@ -56,9 +56,15 @@ const StudentsTable = () => {
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [students, setStudents] = useState([]);
-  const [student, setStudent] = useState({});
+  const [courses, setCourses] = useState([]);
+  // const [student, setStudent] = useState({});
 
   useEffect(() => {
+    getStudents();
+    getCourses();
+  }, [])
+
+  const getStudents = () => {
     fetch('https://forked-student-dashboard.herokuapp.com/students', {
       method: 'GET',
       credentials: 'include',
@@ -72,7 +78,23 @@ const StudentsTable = () => {
       }
     )
     .catch(err => console.error(err));
-  }, [])
+  }
+
+  const getCourses = () => {
+    fetch('https://forked-student-dashboard.herokuapp.com/courses', {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(
+      data => {
+        console.log(data.courses);
+        setCourses(data.courses)
+      }
+    )
+    .catch(err => console.error(err));
+  }
 
   // Table
   const columns = [
@@ -157,10 +179,10 @@ const StudentsTable = () => {
         >
           <AddStudentStyle>
             <p>Add Student</p>
-            <ModalStudent/>
+            <ModalStudent courses={courses}/>
           </AddStudentStyle>
           <DropDownStyle>
-           <ActionButton students={students}/>
+           <ActionButton students={students} selectedRowKeys={selectedRowKeys} courses={courses}/>
           </DropDownStyle>
         </Col>
       </Row>

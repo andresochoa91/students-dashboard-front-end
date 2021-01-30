@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { Form, Input, Button,  Menu, Dropdown, Checkbox, Modal} from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 
-const ModalStudent = () => {
+const ModalStudent = ({courses}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const layout = {
@@ -47,22 +47,17 @@ const ModalStudent = () => {
         console.log('Received values of form: ', values);
     };
 
+    console.log(courses)
     //Choose course
     // Dropdawn menu
     const menu = (
         <Menu>
-            <Menu.Item key="0" >
-                <Checkbox onChange={onChange}>Pirana</Checkbox>
-            </Menu.Item>
-            <Menu.Item key="1">
-                <Checkbox onChange={onChange}>High Noon</Checkbox>
-            </Menu.Item>
-            <Menu.Item key="3">
-                <Checkbox onChange={onChange}>Catarina</Checkbox>
-            </Menu.Item>
-            <Menu.Item key="4">
-                <Checkbox onChange={onChange}>Phoenix</Checkbox>
-            </Menu.Item>
+            {courses.map( course => (
+                <Menu.Item key={course.id} >
+                    <Checkbox onChange={onChange}>{course.course_name}</Checkbox>
+                </Menu.Item>
+            ))
+            }
         </Menu>
     );
 

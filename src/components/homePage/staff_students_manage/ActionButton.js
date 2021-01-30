@@ -4,7 +4,21 @@ import { DownOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 
 
-const ActionButton = ({students}) => {
+const ActionButton = ({students, selectedRowKeys, courses}) => {
+
+    const initialStudent = {
+        name: '',
+        email: ''
+    }
+
+    //Move Modal
+    const [isMoveVisible, setIsMoveVisible] = useState(false);
+    const [isEditVisible, setIsEditVisible] = useState(false);
+    const [isDeleteVisible, setIsDeleteVisible] = useState(false);
+
+
+    const [studentEdit, setStudentEdit] = useState(initialStudent);
+
     const layout = {
         labelCol: { 
             xs: { span: 4 },
@@ -61,18 +75,12 @@ const ActionButton = ({students}) => {
     // Dropdawn menu
     const menu = (
         <Menu>
-            <Menu.Item key="0" >
-                <Checkbox onChange={onChange}>Pirana</Checkbox>
-            </Menu.Item>
-            <Menu.Item key="1">
-                <Checkbox onChange={onChange}>High Noon</Checkbox>
-            </Menu.Item>
-            <Menu.Item key="3">
-                <Checkbox onChange={onChange}>Catarina</Checkbox>
-            </Menu.Item>
-            <Menu.Item key="4">
-                <Checkbox onChange={onChange}>Phoenix</Checkbox>
-            </Menu.Item>
+            {courses.map( course => (
+                <Menu.Item key={course.id} >
+                    <Checkbox onChange={onChange}>{course.course_name}</Checkbox>
+                </Menu.Item>
+            ))
+            }
         </Menu>
     );
 
@@ -90,16 +98,27 @@ const ActionButton = ({students}) => {
         console.log('click', e);
     }
 
-    //Move Modal
-    const [isMoveVisible, setIsMoveVisible] = useState(false);
-    const [isEditVisible, setIsEditVisible] = useState(false);
-    const [isDeleteVisible, setIsDeleteVisible] = useState(false);
+    const getStudentInfo = () => {
+        students.map( student => {
+            if (student.student_id === selectedRowKeys[0]) {
+                setStudentEdit({
+                    name: student.first_name + ' ' + student.last_name,
+                    email: student.user.email,
+                })
+            }
+        });
+    };
 
+
+    
+    console.log(studentEdit)
     function handleMove(e) {
         setIsMoveVisible(true);
     }
     function handleEdit(e) {
         setIsEditVisible(true);
+        getStudentInfo();
+        
     }
     function handleDelete(e) {
         setIsDeleteVisible(true);
@@ -162,7 +181,7 @@ const ActionButton = ({students}) => {
             >
                 <Form 
                     {...layout} 
-                    name="nest-messages" 
+                    // name="nest-messages" 
                     //  onFinish={onFinish} 
                     validateMessages={validateMessages}
                     onFinish={onFinish}
@@ -175,11 +194,11 @@ const ActionButton = ({students}) => {
                         </Dropdown>
                     </Form.Item>
 
-                    <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
-                        <Input />
+                    <Form.Item label="Name" rules={[{ required: true }]}>
+                        <Input value={studentEdit.name}/>
                     </Form.Item>
-                    <Form.Item name={['user', 'email']} label="Email" rules={[{ type: 'email' }]}>
-                        <Input />
+                    <Form.Item label="Email" rules={[{ type: 'email' }]}>
+                        <Input value={studentEdit.email}/>
                     </Form.Item>
                 </Form>
             </Modal>
