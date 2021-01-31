@@ -33,7 +33,7 @@ const StaffHomeContent = ({ keys, selectedKey, setSelectedKey, match }) => {
             component={FullCalendarDashboard}
           />
           <PrivateRoute 
-            path={ `${match.path}${ROUTES.STUDENTSTRACKINGREPORT}` }
+            path={ `${match.path}${ROUTES.STUDENTS}` }
             component={ TrackingReport }
           />
         </Switch>
