@@ -19,12 +19,12 @@ const Breadcrumbs = ({ page, match, keys, setSelectedKey }) => {
           {page === "Dashboard" ? (
             "Home"
           ) : (
-              <Link
-                to={`${match.path}${ROUTES.DASHBOARD}`}
-                onClick={() => setSelectedKey(keys[0])}>
-                Home
-              </Link>
-            )}
+            <Link
+              to={`${match.path}${ROUTES.DASHBOARD}`}
+              onClick={() => setSelectedKey(keys[0])}>
+              Home
+            </Link>
+          )}
         </Breadcrumb.Item>
         <Breadcrumb.Item>
           {page === "Dashboard" ? null : page}

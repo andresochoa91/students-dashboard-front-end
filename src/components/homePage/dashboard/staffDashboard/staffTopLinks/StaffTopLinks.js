@@ -43,7 +43,7 @@ const StaffTopLinks = ({ match }) => {
         <Card type="inner" hoverable className="cards-border">
           <Row>
             <Col xs={24} xl={8}>
-              <Link to={`${match.path}${ROUTES.STUDENTSTRACKINGREPORT}`}>
+              <Link to={`${match.path}${ROUTES.STUDENTS}`}>
                 <ButtonOne>
                   <h3>
                     <strong>
