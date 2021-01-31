@@ -14,7 +14,7 @@ export const UserStore = ({ children }) => {
       setCookie('auth_token', authToken.token);
       setUserInfo(authToken.info);
     }
-  }, [authToken])
+  }, [authToken, cookies, setCookie])
 
   useEffect(() => {
     if (!_.isEmpty(cookies)) {
@@ -31,7 +31,7 @@ export const UserStore = ({ children }) => {
       }
       getData();
     }
-  }, [])
+  }, [authToken, cookies]);
 
   console.log(userInfo)
 

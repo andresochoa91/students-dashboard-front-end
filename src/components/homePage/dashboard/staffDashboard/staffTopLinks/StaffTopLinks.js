@@ -2,8 +2,11 @@ import React from "react";
 import { Row, Col, Space, Card } from "antd";
 import styled from "styled-components";
 import { UnlockOutlined, UserOutlined, TeamOutlined } from "@ant-design/icons";
+import * as ROUTES from '../../../../../constants/routes';
+import { Link } from 'react-router-dom';
 
-const StaffTopLinks = () => {
+
+const StaffTopLinks = ({ match }) => {
   const ButtonOne = styled.button`
     width: 200px;
     height: 102.32px;
@@ -40,14 +43,16 @@ const StaffTopLinks = () => {
         <Card type="inner" hoverable className="cards-border">
           <Row>
             <Col xs={24} xl={8}>
-              <ButtonOne>
-                <h3>
-                  <strong>
-                    <TeamOutlined /> Students
-                  </strong>
-                </h3>
-                Manage & Tracking Report
-              </ButtonOne>
+              <Link to={`${match.path}${ROUTES.STUDENTSTRACKINGREPORT}`}>
+                <ButtonOne>
+                  <h3>
+                    <strong>
+                      <TeamOutlined /> Students
+                    </strong>
+                  </h3>
+                  Manage & Tracking Report
+                </ButtonOne>
+              </Link>
             </Col>
 
             <Col xs={24} xl={8}>

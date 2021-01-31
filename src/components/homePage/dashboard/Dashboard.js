@@ -12,7 +12,7 @@ import StaffTopLinks from "./staffDashboard/staffTopLinks/StaffTopLinks";
 import CurrentCourses from "./staffDashboard/currentCourses/CurrentCourses";
 import Announcements from "./staffDashboard/announcements/Announcements";
 
-const Dashboard = ({ history, menuKey, selectedKey, setSelectedKey }) => {
+const Dashboard = ({ history, menuKey, selectedKey, setSelectedKey, match }) => {
     const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
     const { assignmentsKey, calendarKey, dashboardKey } = menuKey;
 
@@ -36,7 +36,7 @@ const Dashboard = ({ history, menuKey, selectedKey, setSelectedKey }) => {
         } else if (userInfo.role === 'staff') {
             return (
                 <>
-                    <StaffTopLinks />
+                    <StaffTopLinks match={ match }/>
                     <CurrentCourses />
                 </>
             )
