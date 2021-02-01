@@ -23,8 +23,7 @@ export const UserStore = ({ children }) => {
           method: 'POST',
           mode: 'cors',
           credentials: 'include',
-          body: JSON.stringify({ token: authToken }),
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 'Content-Type': 'application/json', 'Authorization': authToken }
         });
         const data = await response.json();
 
