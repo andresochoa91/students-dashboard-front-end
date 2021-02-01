@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Row, Col, Typography, Input } from 'antd';
+import { Table, Row, Col, Typography, Input, Button } from 'antd';
 import styled from 'styled-components';
 
 const { Text } = Typography;
@@ -11,7 +11,9 @@ const TrackingReport = () => {
   const [ sortedInfo, setSortedInfo ] = useState(); 
   const [ filteredInfo, setFilteredInfo ] = useState(); 
   const [ students, setStudents ] = useState([]);
+  const [ currentStudents, setCurrentStudents ] = useState([]);
   const [ courses, setCourses ] = useState([]);
+  const [ temporarySearch, setTemporarySearch ] = useState("");
 
   const rightNow = new Date();
 
@@ -37,13 +39,12 @@ const TrackingReport = () => {
     margin: 30px;
   `;
 
-
-
   useEffect(() => {
     fetch('https://forked-student-dashboard.herokuapp.com/students')
     .then(response => response.json())
     .then(data => {
       setStudents(data);
+      setCurrentStudents(data);
       const courses = [];
       data.forEach((student) => {
         const course = student.student_course.course.course_name
@@ -58,7 +59,15 @@ const TrackingReport = () => {
 
   console.log(students);
 
-  const data = students.map((student) => {
+  const onSearch = (event) => {
+    const name = event.toLowerCase();
+    setTemporarySearch(event);
+    setCurrentStudents(students.filter((student) =>  {
+      return student.first_name.toLowerCase().includes(name) || student.last_name.toLowerCase().includes(name)
+    }));
+  };
+
+  const data = currentStudents.map((student) => {
     return {
       key: student.student_id,
       name: `${student.first_name} ${student.last_name}`,
@@ -71,7 +80,7 @@ const TrackingReport = () => {
             ), 0) / student.student_weekly_progresses.length);
             return (
               studentWeeklyProgress === 3 ? "#0f0" : 
-              studentWeeklyProgress === 2 ? "#ff0" : "#f00" 
+              studentWeeklyProgress === 2 ? "#fc0" : "#f00" 
             ) 
           }}
         />
@@ -84,7 +93,7 @@ const TrackingReport = () => {
             ), 0) / student.student_weekly_progresses.length;
             return (
               studentWeeklyProgress >= 1 ? "#0f0" : 
-              studentWeeklyProgress > 0 ? "#ff0" : "#f00" 
+              studentWeeklyProgress > 0 ? "#fc0" : "#f00" 
             ) 
           }}
         />
@@ -97,11 +106,11 @@ const TrackingReport = () => {
             ), 0) / student.student_weekly_progresses.length);
             return (
               studentWeeklyProgress === 3 ? "#0f0" : 
-              studentWeeklyProgress === 2 ? "#ff0" : "#f00" 
+              studentWeeklyProgress === 2 ? "#fc0" : "#f00" 
             ) 
           }}
         />
-      ),
+      )/* ,
       children: [
         {
           key: 112,
@@ -111,7 +120,7 @@ const TrackingReport = () => {
           key: 111,
           course: 'John Brown'
         }
-      ]
+      ] */
     };
   });
 
@@ -187,7 +196,27 @@ const TrackingReport = () => {
       <DivMargin>
         <Row>
           <Col span={5}>
-            <Search placeholder="Search Student" /* onSearch={onSearch} */ enterButton />          
+            <Search placeholder="Search Student" onSearch={onSearch} enterButton /> 
+            {
+              temporarySearch && (
+                <div>
+                  <br/>
+                  <p>
+                    { temporarySearch }&nbsp;
+                    <Button 
+                      type="danger" 
+                      shape="circle"
+                      onClick={ () => {
+                        setTemporarySearch("") 
+                        setCurrentStudents(students);
+                      }}
+                    >
+                      x
+                    </Button>
+                  </p>         
+                </div>
+              )
+            }
           </Col>
         </Row>
         <Row justify="end">
@@ -197,7 +226,7 @@ const TrackingReport = () => {
           </Col>
           <Col span={3}>
             <SquareDescription>In Progress</SquareDescription> 
-            <Square squareColor="#ff0" />
+            <Square squareColor="#fc0" />
           </Col>
           <Col span={3}>
             <SquareDescription>Not Started</SquareDescription> 
