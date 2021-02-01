@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import { Calendar, Badge, Space, Select, Radio, Col, Row, Typography } from "antd";
 
-import "../../HomePage.css";
-import CalendarContext from "../../../contexts/CalendarContext";
+import "../../../HomePage.css";
+import CalendarContext from "../../../../contexts/CalendarContext";
 import { StyledDiv, StyledLegend, StyledEvents } from "./styles";
-import * as ROUTES from "../../../../constants/routes";
+import * as ROUTES from "../../../../../constants/routes";
 
 function onPanelChange(value, mode) {
     console.log(value, mode);
@@ -36,8 +36,8 @@ const SmallCalendar = ({ history }) => {
         const listData = getListData(value);
         return (
             <StyledEvents>
-                {listData.map((item) => (
-                    <div key={item.content}>
+                {listData.map((item, index) => (
+                    <div key={index}>
                         <Badge status={item.type} text={item.content} />
                     </div>
                 ))}
@@ -79,7 +79,7 @@ const SmallCalendar = ({ history }) => {
                             const monthOptions = [];
 
                             const current = value.clone();
-                            console.log(current);
+
                             const localeData = value.localeData();
                             const months = [];
                             for (let i = 0; i < 12; i++) {
