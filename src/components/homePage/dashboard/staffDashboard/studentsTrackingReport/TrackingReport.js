@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Divider, Row, Col } from 'antd';
+import { Table, Row, Col, Typography, Input } from 'antd';
 import styled from 'styled-components';
+
+const { Text } = Typography;
+const { Search } = Input;
 
 
 const TrackingReport = () => {
 
   const [ sortedInfo, setSortedInfo ] = useState(); 
+  const [ filteredInfo, setFilteredInfo ] = useState(); 
   const [ students, setStudents ] = useState([]);
+  const [ courses, setCourses ] = useState([]);
+
+  const rightNow = new Date();
 
   const handleChange = (pagination, filters, sorter) => {
     console.log('Various parameters', pagination, filters, sorter);
     setSortedInfo(sorter);
+    setFilteredInfo(filters);
   };
 
   const Square = styled.div`
@@ -26,14 +34,24 @@ const TrackingReport = () => {
   `;
 
   const DivMargin = styled.div`
-    margin-bottom: 20px;
+    margin: 30px;
   `;
+
+
 
   useEffect(() => {
     fetch('https://forked-student-dashboard.herokuapp.com/students')
     .then(response => response.json())
     .then(data => {
       setStudents(data);
+      const courses = [];
+      data.forEach((student) => {
+        const course = student.student_course.course.course_name
+        if (!courses.includes(course)) {
+          courses.push(course);
+        }
+      })
+      setCourses(courses);
     })
     .catch(console.error);
   }, []);
@@ -84,11 +102,23 @@ const TrackingReport = () => {
           }}
         />
       ),
+      children: [
+        {
+          key: 112,
+          course: 'John Brown'
+        },
+        {
+          key: 111,
+          course: 'John Brown'
+        }
+      ]
     };
   });
 
   let sI = sortedInfo;
+  let fI = filteredInfo;
   sI = sortedInfo || {};
+  fI = filteredInfo || {};
   
   const columns = [
     {
@@ -104,6 +134,16 @@ const TrackingReport = () => {
       dataIndex: 'course',
       key: 'course',
       ellipsis: true,
+      filters: courses.map((course) => {
+        const st = {
+          text: course,
+          value: course,
+          filteredValue: fI.course || null,
+          onFilter: (value, record) => record.course.includes(value),
+        }
+        return st;
+      })
+      
     },
     // {
     //   title: 'Units',
@@ -132,8 +172,24 @@ const TrackingReport = () => {
   ];
 
   return (
-    <>
+    <DivMargin>
       <DivMargin>
+        <Row>
+          <Col span={8}>
+            <Text strong>CTD Student's Tracking Report</Text>
+          </Col>
+          <Col span={4} offset={8} justify="end">
+            <Text strong>Date: </Text>
+            <Text>{ `${rightNow.getMonth() + 1}/${rightNow.getDate()}/${rightNow.getFullYear()}` }</Text>
+          </Col>
+        </Row>
+      </DivMargin>
+      <DivMargin>
+        <Row>
+          <Col span={5}>
+            <Search placeholder="Search Student" /* onSearch={onSearch} */ enterButton />          
+          </Col>
+        </Row>
         <Row justify="end">
           <Col span={3}>
             <SquareDescription>Complete</SquareDescription> 
@@ -148,7 +204,6 @@ const TrackingReport = () => {
             <Square squareColor="#f00"/>
           </Col>
         </Row>
-
       </DivMargin>
 
       <Table 
@@ -160,7 +215,7 @@ const TrackingReport = () => {
         //   rowExpandable: record => record.name !== 'Not Expandable',
         // }}
       />
-    </>
+    </DivMargin>
   );
 };
 
