@@ -1,41 +1,43 @@
-import React, { useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import _ from 'lodash';
 
 const Context = React.createContext();
 
-const INITIAL_STATE = {
-  username: 'jorge',
-  email: 'jgabitto1792@gmail.com',
-  courseID: 4
-}
-
-const ACTIONS = {
-  SET_EMAIL: 'email',
-  SET_USERNAME: 'username',
-  SET_COURSE: 'course',
-  SET_ALL: 'all'
-}
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case ACTIONS.SET_EMAIL:
-      return { ...state, [action.payload.field]: action.payload.value };
-    case ACTIONS.SET_USERNAME:
-      return { ...state, [action.payload.field]: action.payload.value };
-    case ACTIONS.SET_COURSE:
-      return { ...state, [action.payload.field]: action.payload.value };
-    case ACTIONS.SET_ALL:
-      return { ...action.payload.value };
-    default:
-      throw new Error();
-  }
-}
-
 export const UserStore = ({ children }) => {
-  const [userInfo, dispatchUser] = useReducer(reducer, INITIAL_STATE);
+  const [cookies, setCookie] = useCookies(['auth_token']);
+  const [authToken, setAuthToken,] = useState(cookies['auth_token']);
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    if (authToken && _.isEmpty(cookies)) {
+      setCookie('auth_token', authToken.token);
+      setUserInfo(authToken.info);
+    }
+  }, [authToken, cookies, setCookie])
+
+  useEffect(() => {
+    if (!_.isEmpty(cookies)) {
+      const getData = async () => {
+        const response = await fetch('https://forked-student-dashboard.herokuapp.com/user', {
+          method: 'POST',
+          mode: 'cors',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json', 'Authorization': authToken }
+        });
+        const data = await response.json();
+
+        setUserInfo(data);
+      }
+      getData();
+    }
+  }, [authToken, cookies]);
+
+  console.log(userInfo)
 
   return (
     <Context.Provider
-      value={[userInfo, dispatchUser]}
+      value={[authToken, setAuthToken, userInfo, setUserInfo]}
     >
       {children}
     </Context.Provider>

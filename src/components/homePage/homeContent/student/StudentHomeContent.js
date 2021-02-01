@@ -2,17 +2,15 @@ import React from 'react';
 import { Switch } from "react-router-dom";
 import { Layout } from "antd";
 
-import * as ROUTES from "../../../constants/routes";
-import PrivateRoute from "../../routes/PrivateRoute";
-import Dashboard from "../dashboard/Dashboard";
-import Assignments from "../assignments/Assignments";
-import FullCalendarDashboard from "../fullCalendar/FullCalendarDashboard";
+import * as ROUTES from "../../../../constants/routes";
+import PrivateRoute from "../../../routes/PrivateRoute";
+import Dashboard from "../../dashboard/Dashboard";
+import Assignments from "../../assignments/Assignments";
+import FullCalendarDashboard from "../../fullCalendar/FullCalendarDashboard";
 
 const { Content } = Layout;
 
-
-const HomeContent = ({ keys, selectedKey, setSelectedKey, match }) => {
-
+const StudentHomeContent = ({ keys, selectedKey, setSelectedKey, match }) => {
   return (
     <Content style={{ margin: "0 16px" }}>
       <div className="site-layout-background">
@@ -20,7 +18,7 @@ const HomeContent = ({ keys, selectedKey, setSelectedKey, match }) => {
           <PrivateRoute
             path={`${match.path}${ROUTES.DASHBOARD}`}
             component={Dashboard}
-            menuKey={{ dashboardKey: keys[0], assignmentsKey: keys[2], calendarKey: keys[3] }}
+            menuKey={{ dashboardKey: keys['Dashboard'], assignmentsKey: keys['Assignments'], calendarKey: keys['Calendar'] }}
             selectedKey={selectedKey}
             setSelectedKey={setSelectedKey}
           />
@@ -44,4 +42,4 @@ const HomeContent = ({ keys, selectedKey, setSelectedKey, match }) => {
   )
 }
 
-export default HomeContent;
+export default StudentHomeContent;

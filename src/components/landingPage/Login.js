@@ -4,37 +4,32 @@ import { UserOutlined, LockOutlined, AlignLeftOutlined } from '@ant-design/icons
 
 import * as ROUTES from '../../constants/routes';
 import ForgotPassword from './ForgotPassword';
-import AuthContext from '../contexts/AuthContext';
 import UserContext from '../contexts/UserContext';
-import { LOGIN_LINK } from '../../constants/constants';
 
 const Login = ({ history }) => {
 	const [loginState, setLoginState] = useState({ error: null, loading: null });
 	const { error, loading } = loginState;
-	const [authUser, setAuthUser] = useContext(AuthContext);
-	const [userInfo, dispatchUser] = useContext(UserContext);
-	// const [state, dispatch] = useContext(AuthContext);
-	// const { authUser, username, email, course } = state;
-	// console.log('authUser', authUser)
+	const [authToken, setAuthToken] = useContext(UserContext);
 
 	const onFinish = async (values) => {
-		const { email } = values;
+		// const { email } = values;
 		try {
 			// Have loading symbol turned on
 			setLoginState({ loading: true });
 			// Get user information + token
 			const res = await fetchData(values);
+			console.log(res)
 			// Update state with form values, token, loading=false
-			setLoginState({ error: res, loading: false });
+			setLoginState({ error: null, loading: false });
 			// Check if res has jwt
-			if (res.hasOwnProperty('token')) {
-				// Update auth context with jwt
-				setAuthUser(res.token);
-				// dispatch({ type: 'all', payload: { field: 'all', value: { email, username: 'Jerry', course: 'High Noon' } } });
-				// Switch to home page
+			if (res.token) {
+				// 	// Update auth context with jwt
+				setAuthToken(res);
+				// 	// Switch to home page
 				history.push(`${ROUTES.HOME}${ROUTES.DASHBOARD}`);
+			} else {
+				setLoginState({ error: res.info.message, loading: false });
 			}
-
 		} catch (e) {
 			console.log(e.message);
 		}
@@ -42,13 +37,17 @@ const Login = ({ history }) => {
 
 	async function fetchData(values) {
 		try {
-			const response = await fetch(LOGIN_LINK, {
+			const response = await fetch('https://forked-student-dashboard.herokuapp.com/auth/login', {
 				method: 'POST',
+				mode: 'cors',
+				credentials: 'include',
 				body: JSON.stringify(values),
 				headers: { 'Content-Type': 'application/json' }
 			});
 			const message = await response.json();
-			return message;
+			const token = response.headers.get('authorization');
+
+			return { info: { ...message }, token };
 		} catch (e) {
 			console.log(e.message);
 		}
@@ -64,17 +63,19 @@ const Login = ({ history }) => {
 			<div className='form'>
 				<h2>Sign In</h2>
 				{
-					authUser ?
+					authToken ?
 						<div>
 							You are signed in
-				</div>
+						</div>
 						:
 						<div className='col-10 mx-auto'>
 							<Form
 								name='normal_login'
 								className='login-form'
 								initialValues={{
-									remember: true
+									remember: true,
+									email: "user1@gmail.com",
+									password: "123456"
 								}}
 								onFinish={onFinish}
 							>
@@ -91,7 +92,12 @@ const Login = ({ history }) => {
 									hasFeedback
 									validateStatus={loading ? 'validating' : null}
 								>
-									<Input prefix={<UserOutlined className='site-form-item-icon' />} placeholder='email' />
+									<Input 
+										prefix={<UserOutlined 
+										className='site-form-item-icon' />} 
+										placeholder='email' 
+										// defaultValue="user1@gmail.com"
+									/>
 								</Form.Item>
 								<Form.Item
 									name='password'
@@ -104,7 +110,12 @@ const Login = ({ history }) => {
 									hasFeedback
 									validateStatus={loading ? 'validating' : null}
 								>
-									<Input prefix={<LockOutlined className='site-form-item-icon' />} type='password' placeholder='password' />
+									<Input 
+										prefix={<LockOutlined className='site-form-item-icon' />} 
+										type='password' 
+										placeholder='password'
+										// defaultValue="123456"
+									/>
 								</Form.Item>
 								<Form.Item>
 									<div className='login-form-forgot'>
@@ -117,9 +128,9 @@ const Login = ({ history }) => {
 							</Button>
 								</Form.Item>
 							</Form>
-							{/* <div align="center">
-						{signIn ? signIn.error : null}
-					</div> */}
+							<div align="center" style={{ color: "red" }}>
+								{loginState.error ? loginState.error : null}
+							</div>
 						</div>
 				}
 			</div>

@@ -1,5 +1,3 @@
-/** @format */
-
 import styled from "styled-components";
 
 export const StyledDiv = styled.div`
@@ -30,5 +28,4 @@ export const StyledEvents = styled.div`
     justify-content: center;
     align-items: center;
 }
-
 `;

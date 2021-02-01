@@ -1,23 +1,17 @@
-/** @format */
-
 import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 
-import AuthContext from "../contexts/AuthContext";
+import UserContext from "../contexts/UserContext";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-    const [authUser, setAuthUser] = useContext(AuthContext);
-    // const [state, dispatch] = useContext(AuthContext);
-    // const { authUser, username, email, course } = state;
+    const [authToken, setAuthToken] = useContext(UserContext);
 
     return (
         <Route
             {...rest}
             render={(props) => {
-                return authUser ? <Component {...props} {...rest} /> : <Redirect to="/" />
-            }
-
-            }
+                return authToken ? <Component {...props} {...rest} /> : <Redirect to="/" />
+            }}
         />
     );
 };
