@@ -1,54 +1,91 @@
-import React, { useState } from 'react';
-import { Table } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Table, Divider, Row, Col } from 'antd';
+import styled from 'styled-components';
 
 
 const TrackingReport = () => {
 
   const [ sortedInfo, setSortedInfo ] = useState(); 
+  const [ students, setStudents ] = useState([]);
 
   const handleChange = (pagination, filters, sorter) => {
     console.log('Various parameters', pagination, filters, sorter);
     setSortedInfo(sorter);
   };
 
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      course: 'High Noon',
-      units: '+',
-      assignments: 1,
-      githubLink: 1,
-      status: 1
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      course: 'High Noon',
-      units: '+',
-      assignments: 1,
-      githubLink: 1,
-      status: 1
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      course: 'High Noon',
-      units: '+',
-      assignments: 1,
-      githubLink: 1,
-      status: 1
-    },
-    {
-      key: '4',
-      name: 'Jim Red',
-      course: 'High Noon',
-      units: '+',
-      assignments: 1,
-      githubLink: 1,
-      status: 1
-    },
-  ];
+  const Square = styled.div`
+    height: 25px;
+    width: 25px;
+    background-color: ${ props => props.squareColor };
+    borderColor: #f00;
+  `;
+
+  const SquareDescription = styled.p`
+    margin: 0;
+    padding: 0;
+  `;
+
+  const DivMargin = styled.div`
+    margin-bottom: 20px;
+  `;
+
+  useEffect(() => {
+    fetch('https://forked-student-dashboard.herokuapp.com/students')
+    .then(response => response.json())
+    .then(data => {
+      setStudents(data);
+    })
+    .catch(console.error);
+  }, []);
+
+  console.log(students);
+
+  const data = students.map((student) => {
+    return {
+      key: student.student_id,
+      name: `${student.first_name} ${student.last_name}`,
+      course: student.student_course.course.course_name,
+      assignments: (
+        <Square 
+          squareColor={ () => {
+            const studentWeeklyProgress = Math.floor(student.student_weekly_progresses.reduce((acc, progress) => (
+              (acc + progress.assignment_progress)
+            ), 0) / student.student_weekly_progresses.length);
+            return (
+              studentWeeklyProgress === 3 ? "#0f0" : 
+              studentWeeklyProgress === 2 ? "#ff0" : "#f00" 
+            ) 
+          }}
+        />
+      ),
+      githubLink: (
+        <Square 
+          squareColor={ () => {
+            const studentWeeklyProgress = student.student_weekly_progresses.reduce((acc, progress) => (
+              (acc + (progress.assignment_submission !== "" ? 1 : 0))
+            ), 0) / student.student_weekly_progresses.length;
+            return (
+              studentWeeklyProgress >= 1 ? "#0f0" : 
+              studentWeeklyProgress > 0 ? "#ff0" : "#f00" 
+            ) 
+          }}
+        />
+      ),
+      status: (
+        <Square 
+          squareColor={ () => {
+            const studentWeeklyProgress = Math.floor(student.student_weekly_progresses.reduce((acc, progress) => (
+              (acc + progress.total_progress)
+            ), 0) / student.student_weekly_progresses.length);
+            return (
+              studentWeeklyProgress === 3 ? "#0f0" : 
+              studentWeeklyProgress === 2 ? "#ff0" : "#f00" 
+            ) 
+          }}
+        />
+      ),
+    };
+  });
 
   let sI = sortedInfo;
   sI = sortedInfo || {};
@@ -58,7 +95,7 @@ const TrackingReport = () => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      sorter: (a, b) => a.name.length - b.name.length,
+      sorter: (a, b) => a.name.localeCompare(b.name),
       sortOrder: sI.columnKey === 'name' && sI.order,
       ellipsis: true,
     },
@@ -68,12 +105,12 @@ const TrackingReport = () => {
       key: 'course',
       ellipsis: true,
     },
-    {
-      title: 'Units',
-      dataIndex: 'units',
-      key: 'units',
-      ellipsis: true,
-    },
+    // {
+    //   title: 'Units',
+    //   dataIndex: 'units',
+    //   key: 'units',
+    //   ellipsis: true,
+    // },
     {
       title: 'Assignments',
       dataIndex: 'assignments',
@@ -96,17 +133,35 @@ const TrackingReport = () => {
 
   return (
     <>
+      <DivMargin>
+        <Row justify="end">
+          <Col span={3}>
+            <SquareDescription>Complete</SquareDescription> 
+            <Square squareColor="#0f0"/>
+          </Col>
+          <Col span={3}>
+            <SquareDescription>In Progress</SquareDescription> 
+            <Square squareColor="#ff0" />
+          </Col>
+          <Col span={3}>
+            <SquareDescription>Not Started</SquareDescription> 
+            <Square squareColor="#f00"/>
+          </Col>
+        </Row>
+
+      </DivMargin>
+
       <Table 
         columns={columns} 
         dataSource={data} 
         onChange={handleChange} 
-        expandable={{
-          expandedRowRender: () => <p style={{ margin: 0 }}>Hello</p>,
-          rowExpandable: record => record.name !== 'Not Expandable',
-        }}
+        // expandable={{
+        //   expandedRowRender: () => <p style={{ margin: 0 }}>Hello</p>,
+        //   rowExpandable: record => record.name !== 'Not Expandable',
+        // }}
       />
     </>
   );
-}
+};
 
 export default TrackingReport;
