@@ -43,8 +43,40 @@ const TrackingReport = () => {
     fetch('https://forked-student-dashboard.herokuapp.com/students')
     .then(response => response.json())
     .then(data => {
-      setStudents(data);
-      setCurrentStudents(data);
+      console.log(data);
+
+      const students = data.map((student) => {
+        const units = {};
+
+        student.student_weekly_progresses.forEach((swp) => {
+          
+          const obj = {
+            week: `Week ${swp.week_number}`,
+            assignmentProgress: swp.assignment_progress,
+            githubLink: swp.assignment_submission,
+            status: swp.total_progress
+          };
+
+          if (!units[swp.week.unit.unit_name]) {
+            units[swp.week.unit.unit_name] = [obj];
+          } else {
+            units[swp.week.unit.unit_name].push(obj);
+          }
+        })
+
+        return {
+          student_id: student.student_id,
+          first_name: student.first_name,
+          last_name: student.last_name,
+          course_name: student.student_course.course.course_name,
+          student_weekly_progresses: student.student_weekly_progresses,
+          units
+        }
+      })
+
+      setStudents(students);
+
+      setCurrentStudents(students);
       const courses = [];
       data.forEach((student) => {
         const course = student.student_course.course.course_name
@@ -63,7 +95,10 @@ const TrackingReport = () => {
     const name = event.toLowerCase();
     setTemporarySearch(event);
     setCurrentStudents(students.filter((student) =>  {
-      return student.first_name.toLowerCase().includes(name) || student.last_name.toLowerCase().includes(name)
+      const firstName = student.first_name.toLowerCase();
+      const lastName = student.last_name.toLowerCase();
+      const fullName = `${firstName} ${lastName}`;
+      return firstName.includes(name) || lastName.includes(name) || fullName.includes(name);
     }));
   };
 
@@ -71,7 +106,8 @@ const TrackingReport = () => {
     return {
       key: student.student_id,
       name: `${student.first_name} ${student.last_name}`,
-      course: student.student_course.course.course_name,
+      course: student.course_name,
+      units: "Units",
       assignments: (
         <Square 
           squareColor={ () => {
@@ -110,17 +146,55 @@ const TrackingReport = () => {
             ) 
           }}
         />
-      )/* ,
+      ),
       children: [
         {
           key: 112,
-          course: 'John Brown'
+          units: 'Web Basics 1',
+          assignments: <Square squareColor="#f00" />,
+          githubLink: <Square squareColor="#f00" />,
+          status: <Square squareColor="#f00" />,
+          children: [
+            {
+              key: 123,
+              units: "Week 1",
+              assignments: <Square squareColor="#f00" />,
+              githubLink: "https://www.github.com/assignment1",
+              status: <Square squareColor="#f00" />,
+            },
+            {
+              key: 124,
+              units: "Week 2",
+              assignments: <Square squareColor="#f00" />,
+              githubLink: "https://www.github.com/assignment2",
+              status: <Square squareColor="#f00" />,
+            }
+          ]
         },
         {
-          key: 111,
-          course: 'John Brown'
+          key: 113,
+          units: 'Web Basics 2',
+          assignments: <Square squareColor="#f00" />,
+          githubLink: <Square squareColor="#f00" />,
+          status: <Square squareColor="#f00" />,
+          children: [
+            {
+              key: 125,
+              units: "Week 3",
+              assignments: <Square squareColor="#f00" />,
+              githubLink: "https://www.github.com/assignment3",
+              status: <Square squareColor="#f00" />,
+            },
+            {
+              key: 126,
+              units: "Week 4",
+              assignments: <Square squareColor="#f00" />,
+              githubLink: "https://www.github.com/assignment4",
+              status: <Square squareColor="#f00" />,
+            }
+          ]
         }
-      ] */
+      ]
     };
   });
 
@@ -154,12 +228,12 @@ const TrackingReport = () => {
       })
       
     },
-    // {
-    //   title: 'Units',
-    //   dataIndex: 'units',
-    //   key: 'units',
-    //   ellipsis: true,
-    // },
+    {
+      title: 'Units',
+      dataIndex: 'units',
+      key: 'units',
+      ellipsis: true,
+    },
     {
       title: 'Assignments',
       dataIndex: 'assignments',
@@ -239,6 +313,7 @@ const TrackingReport = () => {
         columns={columns} 
         dataSource={data} 
         onChange={handleChange} 
+        expandIconColumnIndex={2}
         // expandable={{
         //   expandedRowRender: () => <p style={{ margin: 0 }}>Hello</p>,
         //   rowExpandable: record => record.name !== 'Not Expandable',

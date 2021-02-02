@@ -16,7 +16,7 @@ import 'antd/dist/antd.css';
 const App = () => {
 
   useEffect(() => {
-    fetch("http://localhost:3000", {
+    fetch("https://forked-student-dashboard.herokuapp.com", {
       method: "GET",
       credentials: "include",
       headers: {
