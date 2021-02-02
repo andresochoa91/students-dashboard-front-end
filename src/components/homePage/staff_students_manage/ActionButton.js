@@ -12,6 +12,7 @@ const ActionButton = ({students, selectedRowKeys, courses}) => {
     }
 
     //Move Modal
+    const [isAddVisible, setIsAddVisible] = useState(false);
     const [isMoveVisible, setIsMoveVisible] = useState(false);
     const [isEditVisible, setIsEditVisible] = useState(false);
     const [isDeleteVisible, setIsDeleteVisible] = useState(false);
@@ -60,10 +61,13 @@ const ActionButton = ({students, selectedRowKeys, courses}) => {
     // Dropdawn menu
     const menuEdit = (
         <Menu>
-        <Menu.Item key="0" onClick={handleEdit}>
+        <Menu.Item key="0" onClick={handleAdd}>
+            Add to Course
+        </Menu.Item>
+        <Menu.Item key="1" onClick={handleEdit}>
             Edit
         </Menu.Item>
-        <Menu.Item key="1" onClick={handleMove}>
+        <Menu.Item key="2" onClick={handleMove}>
             Move
         </Menu.Item>
         <Menu.Item key="3" onClick={handleDelete}>
@@ -87,16 +91,16 @@ const ActionButton = ({students, selectedRowKeys, courses}) => {
     // function handleMenuClick(e) {
     //     console.log('click', e);
     // }
-    
-    function handleEdit(e) {
-        console.log('click', e);
-        setIsEditVisible(true);
-    }
+
+    // function handleEdit(e) {
+    //     console.log('click', e);
+    //     setIsEditVisible(true);
+    // }
 
     
-    function handleDelete(e) {
-        console.log('click', e);
-    }
+    // function handleDelete(e) {
+    //     console.log('click', e);
+    // }
 
     const getStudentInfo = () => {
         students.map( student => {
@@ -112,6 +116,12 @@ const ActionButton = ({students, selectedRowKeys, courses}) => {
 
     
     console.log(studentEdit)
+
+    function handleAdd(e) {
+        console.log('click', e);
+        setIsAddVisible(true);
+    }
+
     function handleMove(e) {
         setIsMoveVisible(true);
     }
@@ -124,6 +134,11 @@ const ActionButton = ({students, selectedRowKeys, courses}) => {
         setIsDeleteVisible(true);
     }
   
+
+    const handleAddOk = () => {
+        setIsAddVisible(false);
+    };
+
     const handleMoveOk = () => {
         setIsMoveVisible(false);
     };
@@ -134,6 +149,10 @@ const ActionButton = ({students, selectedRowKeys, courses}) => {
         setIsDeleteVisible(false);
     };
   
+    const handleAddCancel = () => {
+        setIsAddVisible(false);
+    };
+
     const handleMoveCancel = () => {
         setIsMoveVisible(false);
     };
@@ -157,8 +176,31 @@ const ActionButton = ({students, selectedRowKeys, courses}) => {
                 </Button> 
             </Dropdown>
 
-            <Modal width={400} title="Move Student(s) from Course" visible={isMoveVisible} onOk={handleMoveOk} onCancel={handleMoveCancel} okText='Move'>
-                {/* <Row style ={{ marginTop: '30px', marginBottom: '50px'}}> */}
+            <Modal width={400} 
+                title="Add Student to Course" 
+                visible={isAddVisible} 
+                onOk={handleAddOk} 
+                onCancel={handleAddCancel} 
+                okText='Add'
+            >
+                 <Row>
+                    <Col>
+                        <Dropdown overlay={menu} trigger={['click']} >
+                        <Button onClick={e => e.preventDefault()}> 
+                        Choose Course <DownOutlined />
+                        </Button> 
+                        </Dropdown>
+                    </Col>
+                </Row>
+            </Modal>
+            
+            <Modal width={400} 
+                title="Move Student(s) from Course" 
+                visible={isMoveVisible} 
+                onOk={handleMoveOk} 
+                onCancel={handleMoveCancel} 
+                okText='Move'
+            >
                  <Row>
                     <Col>
                         <Dropdown overlay={menu} trigger={['click']} >
@@ -172,10 +214,10 @@ const ActionButton = ({students, selectedRowKeys, courses}) => {
 
             <Modal 
                 width={700}
-                title="Add Student" 
+                title="Edit Student" 
                 visible={isEditVisible} 
-                onOk={handleOk} 
-                onCancel={handleCancel}
+                onOk={handleEditOk} 
+                onCancel={handleEditCancel}
                 okText="Add"
                 cancelText="Cancel"
             >

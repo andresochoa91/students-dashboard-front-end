@@ -2,8 +2,17 @@ import React, {useState} from "react";
 import { Form, Input, Button,  Menu, Dropdown, Checkbox, Modal} from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 
-const ModalStudent = ({courses}) => {
+const ModalStudent = ({courses, setStudentAdded}) => {
+
+    const initialStudent = {
+        username: '',
+        email: ''
+    }
+
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [studentAdd, setStudentAdd] = useState(initialStudent);
+    const [selectedMenuItem, setSelectedMenuItem] = useState([]);
+    // const [email, setEmail] = useState('');
 
     const layout = {
         labelCol: { 
@@ -15,7 +24,15 @@ const ModalStudent = ({courses}) => {
             sm: { span: 16 }, 
         },
     };
-      
+
+    const getUsername = (e) => (
+        setStudentAdd({
+            username: e.target.value.split('@', 1)[0],
+            email: e.target.value,
+        })
+    )
+      console.log(studentAdd);
+
       const validateMessages = {
         required: '${label} is required!',
         types: {
@@ -31,8 +48,28 @@ const ModalStudent = ({courses}) => {
         setIsModalVisible(true);
     };
     
-    const handleOk = () => {
+    const handleOk = (e) => {
+        e.preventDefault()
         setIsModalVisible(false);
+        
+        fetch('https://forked-student-dashboard.herokuapp.com/student_courses/create_student_and_course', {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: studentAdd.username,
+                email: studentAdd.email,
+                course_id: selectedMenuItem, 
+            }) 
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            setStudentAdded(true);
+        })
+        .catch(err => console.error(err));
+        
     };
     
     const handleCancel = () => {
@@ -51,10 +88,15 @@ const ModalStudent = ({courses}) => {
     //Choose course
     // Dropdawn menu
     const menu = (
-        <Menu>
+        <Menu onClick={(e) => setSelectedMenuItem(e.key)}
+            >
             {courses.map( course => (
                 <Menu.Item key={course.id} >
-                    <Checkbox onChange={onChange}>{course.course_name}</Checkbox>
+                    <Checkbox 
+                        onChange={onChange}
+                    >
+                        {course.course_name}
+                    </Checkbox>
                 </Menu.Item>
             ))
             }
@@ -65,6 +107,7 @@ const ModalStudent = ({courses}) => {
         console.log(`checked = ${e.target.checked}`);
     }
 
+    console.log(selectedMenuItem);
     return (
         <>
         <Button type="primary" shape="circle" onClick={showModal}> + </Button>
@@ -80,9 +123,8 @@ const ModalStudent = ({courses}) => {
             <Form 
                 {...layout} 
                 name="nest-messages" 
-                //  onFinish={onFinish} 
                 validateMessages={validateMessages}
-                onFinish={onFinish}
+                // onFinish={onFinish}
             >
                 <Form.Item style={{margin: '50px'}} rules={[{ required: true }]}>
                     <Dropdown overlay={menu} trigger={['click']} >
@@ -92,11 +134,13 @@ const ModalStudent = ({courses}) => {
                     </Dropdown>
                 </Form.Item>
 
-                <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
+                {/* <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
                     <Input />
-                </Form.Item>
-                <Form.Item name={['user', 'email']} label="Email" rules={[{ type: 'email' }]}>
-                    <Input />
+                </Form.Item> */}
+                <Form.Item name={['user', 'email']} label="Email" rules={[{ type: 'email', required: true }]}>
+                    <Input 
+                        onChange={e =>getUsername(e)}
+                    />
                 </Form.Item>
             </Form>
         </Modal>

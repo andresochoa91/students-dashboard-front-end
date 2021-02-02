@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Table,  Input, Button,  Menu, Dropdown, Row, Col, Modal} from 'antd';
+import { Table,  Input, Button,  Menu, Dropdown, Row, Col, Modal, Checkbox} from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 import ModalStudent from './AddStudentModal'
@@ -58,15 +58,19 @@ const StudentsTable = () => {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
   // const [student, setStudent] = useState({});
+  const [studentAdded, setStudentAdded] = useState(false);
+
+  console.log(studentAdded);
 
   useEffect(() => {
     getStudents();
     getCourses();
-  }, [])
+  }, [studentAdded])
 
   const getStudents = () => {
     fetch('https://forked-student-dashboard.herokuapp.com/students', {
       method: 'GET',
+      mode: 'cors',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' }
     })
@@ -74,7 +78,8 @@ const StudentsTable = () => {
     .then(
       data => {
         console.log(data);
-        setStudents(data)
+        setStudents(data);
+        setStudentAdded(false);
       }
     )
     .catch(err => console.error(err));
@@ -83,6 +88,7 @@ const StudentsTable = () => {
   const getCourses = () => {
     fetch('https://forked-student-dashboard.herokuapp.com/courses', {
       method: 'GET',
+      mode: 'cors',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' }
     })
@@ -119,6 +125,21 @@ const StudentsTable = () => {
       dataIndex: 'course',
     },
   ];
+  // Dropdawn menu
+  const menu = (
+    <Menu>
+      {courses.map( course => (
+          <Menu.Item key={course.id} >
+            <Checkbox onChange={onChange}>{course.course_name}</Checkbox>
+          </Menu.Item>
+      ))
+      }
+    </Menu>
+  );
+
+  function onChange(e) {
+    console.log(`checked = ${e.target.checked}`);
+  }
 
   const data = [];
   students.map( student => (
@@ -130,15 +151,7 @@ const StudentsTable = () => {
       course: student.student_course.course.course_name,
     })
   ))
-  // for (let i = 1; i <=20; i++) {
-  //   data.push({
-  //     key: i,
-  //     id: i,
-  //     name: `Edward Smith`,
-  //     email: 'email@email.com',
-  //     course: `Sunrise`,
-  //   });
-  // }
+  
 
   const onSelectChange = selectedRowKey => {
       console.log('selectedRowKeys changed: ', selectedRowKey);
@@ -179,7 +192,7 @@ const StudentsTable = () => {
         >
           <AddStudentStyle>
             <p>Add Student</p>
-            <ModalStudent courses={courses}/>
+            <ModalStudent courses={courses} setStudentAdded={setStudentAdded}/>
           </AddStudentStyle>
           <DropDownStyle>
            <ActionButton students={students} selectedRowKeys={selectedRowKeys} courses={courses}/>
