@@ -8,5 +8,5 @@ export const VIDEOS = '/videos';
 export const SUBMISSION = '/submission';
 export const DONE = '/done';
 export const NOTIFICATIONSETTINGS = '/notificationsettings';
-export const STUDENTS = '/students_and_tracking_report';
+export const STUDENTS = '/students';
 
