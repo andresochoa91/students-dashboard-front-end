@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Link } from 'react-router-dom';
 import { Layout, Row, Col, Dropdown, Menu } from "antd";
 import { UserCircle } from "@styled-icons/boxicons-solid/UserCircle";
@@ -13,13 +13,20 @@ import {
   TopNav
 } from "../styles/styles";
 import logo from "../../../graphics/logo.png";
-
+import UserContext from "../../contexts/UserContext";
 import * as ROUTES from '../../../constants/routes';
 
 const { Header } = Layout;
 
 
 const HomePageHeader = ({ match }) => {
+
+  const [authToken, setAuthToken] = useContext(UserContext);
+
+  const logout = async () => {
+    setAuthToken(null);
+    // history.push(`${ROUTES.LANDING}`);
+  }
   console.log(`${match.path}${ROUTES.PROFILE}`)
   const menu = (
     <Menu>
@@ -34,9 +41,8 @@ const HomePageHeader = ({ match }) => {
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
-          Log Out
-        </a>
+      {/* not sure what to pass here. not the route but  the function the endpoint ? */}
+      <Link to="#" onClick={logout}>Logout</Link>
       </Menu.Item>
      
     </Menu>
