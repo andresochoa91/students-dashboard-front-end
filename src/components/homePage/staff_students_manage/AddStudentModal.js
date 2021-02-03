@@ -9,10 +9,15 @@ const ModalStudent = ({courses, setStudentAdded}) => {
         email: ''
     }
 
+    var checkedItemInitial = [false, false, false, false];
+
+
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [studentAdd, setStudentAdd] = useState(initialStudent);
     const [selectedMenuItem, setSelectedMenuItem] = useState([]);
-    // const [email, setEmail] = useState('');
+    const [checkedItem, setCheckedItem] = useState(checkedItemInitial);
+
+    const [form] = Form.useForm();
 
     const layout = {
         labelCol: { 
@@ -25,12 +30,12 @@ const ModalStudent = ({courses, setStudentAdded}) => {
         },
     };
 
-    const getUsername = (e) => (
+    const getStudent = (e) => {
         setStudentAdd({
             username: e.target.value.split('@', 1)[0],
             email: e.target.value,
         })
-    )
+    };
       console.log(studentAdd);
 
       const validateMessages = {
@@ -39,7 +44,7 @@ const ModalStudent = ({courses, setStudentAdded}) => {
             email: '${label} is not a valid email!',
             number: '${label} is not a valid number!',
         },
-            number: {
+        number: {
             range: '${label} must be between ${min} and ${max}',
         },
     };
@@ -53,27 +58,39 @@ const ModalStudent = ({courses, setStudentAdded}) => {
         setIsModalVisible(false);
         
         fetch('https://forked-student-dashboard.herokuapp.com/student_courses/create_student_and_course', {
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                username: studentAdd.username,
-                email: studentAdd.email,
-                course_id: selectedMenuItem, 
-            }) 
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            username: studentAdd.username,
+            email: studentAdd.email,
+            course_id: selectedMenuItem, 
+        }) 
         })
         .then(response => response.json())
         .then(data => {
             console.log(data);
             setStudentAdded(true);
+
+
+            //cleans input fields 
+            form.resetFields();
+            //makes all checkbox unchecked
+            setSelectedMenuItem('');
         })
         .catch(err => console.error(err));
         
     };
     
+
     const handleCancel = () => {
         setIsModalVisible(false);
+        //cleans input fields 
+        form.resetFields();
+        //makes all checkbox unchecked
+        setSelectedMenuItem('');
+        setCheckedItem(checkedItemInitial);
     };
 
     const onFinish = (fieldsValue: any) => {
@@ -93,7 +110,8 @@ const ModalStudent = ({courses, setStudentAdded}) => {
             {courses.map( course => (
                 <Menu.Item key={course.id} >
                     <Checkbox 
-                        onChange={onChange}
+                        checked={checkedItem[course.id]}
+                        onChange={(e) => onChange(e, course.id)}
                     >
                         {course.course_name}
                     </Checkbox>
@@ -103,11 +121,16 @@ const ModalStudent = ({courses, setStudentAdded}) => {
         </Menu>
     );
 
-    function onChange(e) {
+    function onChange(e, id) {
         console.log(`checked = ${e.target.checked}`);
+        console.log(`course_id= ${id}`);
+        var newArray = [ ... checkedItemInitial];
+        newArray[id] = e.target.checked;
+        setCheckedItem(newArray);
     }
 
     console.log(selectedMenuItem);
+
     return (
         <>
         <Button type="primary" shape="circle" onClick={showModal}> + </Button>
@@ -122,6 +145,7 @@ const ModalStudent = ({courses, setStudentAdded}) => {
         >
             <Form 
                 {...layout} 
+                form={form}
                 name="nest-messages" 
                 validateMessages={validateMessages}
                 // onFinish={onFinish}
@@ -137,9 +161,10 @@ const ModalStudent = ({courses, setStudentAdded}) => {
                 {/* <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
                     <Input />
                 </Form.Item> */}
-                <Form.Item name={['user', 'email']} label="Email" rules={[{ type: 'email', required: true }]}>
+                <Form.Item  name='email' label="Email" rules={[{ type: 'email', required: true }]}>
                     <Input 
-                        onChange={e =>getUsername(e)}
+                        onChange={e =>getStudent(e)}
+                        // value={studentAdd.email}
                     />
                 </Form.Item>
             </Form>

@@ -2,7 +2,7 @@ import React from "react";
 import { Card} from "antd";
 import { Tabs } from 'antd';
 import './students.css'
-import StudentsTable from './StudentsTable2'
+import StudentsTable from './StudentsTable';
 const { TabPane } = Tabs;
 
 const Students = () => {
