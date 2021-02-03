@@ -58,14 +58,18 @@ const StudentsTable = () => {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
   // const [student, setStudent] = useState({});
+
+  //true when new student added
   const [studentAdded, setStudentAdded] = useState(false);
+  //true when existing student was edit
+  const [studentEdited, setStudentEdited] = useState(false);
 
   console.log(studentAdded);
 
   useEffect(() => {
     getStudents();
     getCourses();
-  }, [studentAdded])
+  }, [studentAdded, studentEdited])
 
   const getStudents = () => {
     fetch('https://forked-student-dashboard.herokuapp.com/students', {
@@ -80,6 +84,7 @@ const StudentsTable = () => {
         console.log(data);
         setStudents(data);
         setStudentAdded(false);
+        setStudentEdited(false);
       }
     )
     .catch(err => console.error(err));
@@ -192,10 +197,18 @@ const StudentsTable = () => {
         >
           <AddStudentStyle>
             <p>Add Student</p>
-            <ModalStudent courses={courses} setStudentAdded={setStudentAdded}/>
+            <ModalStudent 
+              courses={courses} 
+              setStudentAdded={setStudentAdded}
+            />
           </AddStudentStyle>
           <DropDownStyle>
-           <ActionButton students={students} selectedStudents={selectedStudents} courses={courses}/>
+            <ActionButton 
+              students={students} 
+              selectedStudents={selectedStudents} 
+              courses={courses} 
+              setStudentEdited={setStudentEdited}
+            />
           </DropDownStyle>
         </Col>
       </Row>

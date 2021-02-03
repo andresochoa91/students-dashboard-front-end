@@ -4,21 +4,27 @@ import { DownOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 
 
-const ActionButton = ({students, selectedStudents, courses}) => {
+const ActionButton = ({students, selectedStudents, courses, setStudentEdited}) => {
 
     const initialStudent = {
         name: '',
         email: '',
         id: '',
         enrolled: '',
+        course: '',
+        course_id: '',
     }
 
     const [isAddVisible, setIsAddVisible] = useState(false);
     const [isMoveVisible, setIsMoveVisible] = useState(false);
     const [isEditVisible, setIsEditVisible] = useState(false);
     const [isDeleteVisible, setIsDeleteVisible] = useState(false);
+    const [studentInfo, setStudentInfo] = useState(initialStudent);
 
-    const [studentEdit, setStudentEdit] = useState(initialStudent);
+    const [selectedMenuItem, setSelectedMenuItem] = useState([]);
+
+    var checkedItemInitial = [false, false, false, false];
+    const [checkedItem, setCheckedItem] = useState(checkedItemInitial);
 
     const layout = {
         labelCol: { 
@@ -70,15 +76,29 @@ const ActionButton = ({students, selectedStudents, courses}) => {
 
     // Dropdawn menu
     const menu = (
-        <Menu>
+        <Menu  onClick={(e) => setSelectedMenuItem(e.key)} >
             {courses.map( course => (
                 <Menu.Item key={course.id} >
-                    <Checkbox onChange={onChange}>{course.course_name}</Checkbox>
+                    <Checkbox 
+                        checked={checkedItem[course.id]}
+                        onChange={(e) => onChange(e, course.id)}
+                    >
+                        {course.course_name}
+                    </Checkbox>
                 </Menu.Item>
             ))
             }
         </Menu>
     );
+
+    //checkbox
+    function onChange(e, id) {
+        console.log(`checked = ${e.target.checked}`);
+        console.log(`course_id= ${id}`);
+        var newArray = [ ... checkedItemInitial];
+        newArray[id] = e.target.checked;
+        setCheckedItem(newArray);
+    }
 
     // function handleMenuClick(e) {
     //     console.log('click', e);
@@ -92,11 +112,13 @@ const ActionButton = ({students, selectedStudents, courses}) => {
     const getStudentInfo = () => {
         students.map( student => {
             if (student.student_id === selectedStudents[0]) {
-                setStudentEdit({
+                setStudentInfo({
                     name: student.first_name + ' ' + student.last_name,
                     email: student.user.email,
                     id: student.student_id,
                     enrolled: student.enrolled,
+                    course: student.student_course.course.course_name,
+                    course_id: student.student_course.course.id,
                 })
             }
         });
@@ -104,7 +126,7 @@ const ActionButton = ({students, selectedStudents, courses}) => {
 
 
     
-    console.log(studentEdit)
+    console.log(studentInfo)
 
     //add 
     function handleAdd(e) {
@@ -121,15 +143,15 @@ const ActionButton = ({students, selectedStudents, courses}) => {
     //edit
 
     function getFirstLastName(e) {
-        setStudentEdit({
-            ...studentEdit,
+        setStudentInfo({
+            ...studentInfo,
             name: e.target.value
         })
     }
 
     function getEmail(e) {
-        setStudentEdit({
-            ...studentEdit,
+        setStudentInfo({
+            ...studentInfo,
             email: e.target.value
         })
     }
@@ -141,15 +163,15 @@ const ActionButton = ({students, selectedStudents, courses}) => {
     const handleEditOk = () => {
         setIsEditVisible(false);
         //get changed first and last name
-        var first_name= studentEdit.name.split(' ', 1)[0];
-        var last_name= studentEdit.name.split(' ')[1];
+        var first_name= studentInfo.name.split(' ', 1)[0];
+        var last_name= studentInfo.name.split(' ')[1];
         console.log(first_name);
         console.log(last_name);
         //get changed Email
-        var email= studentEdit.email;
+        var email= studentInfo.email;
         console.log(email);
 
-        fetch(`https://forked-student-dashboard.herokuapp.com/students/${studentEdit.id}`, {
+        fetch(`https://forked-student-dashboard.herokuapp.com/students/${studentInfo.id}`, {
             method: 'PUT',
             mode: 'cors',
             credentials: 'include',
@@ -157,15 +179,15 @@ const ActionButton = ({students, selectedStudents, courses}) => {
             body: JSON.stringify({
                 first_name: first_name,
                 last_name: last_name,
-                enrolled: studentEdit.enrolled,
+                enrolled: studentInfo.enrolled,
             }) 
         })
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            // setStudentAdded(true);
+            setStudentEdited(true);
             //cleans input fields 
-            studentEdit(initialStudent);
+            studentInfo(initialStudent);
         })
         .catch(err => console.error(err));
     };
@@ -179,9 +201,34 @@ const ActionButton = ({students, selectedStudents, courses}) => {
     }
     const handleMoveOk = () => {
         setIsMoveVisible(false);
+        getStudentInfo();
+
+        fetch(` https://forked-student-dashboard.herokuapp.com/student_courses/create`, {
+            method: 'PUT',
+            mode: 'cors',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                student_id: studentInfo.id,
+                course_id: studentInfo.course_id,
+            }) 
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            setStudentEdited(true);
+            //cleans input fields 
+            studentInfo(initialStudent);
+            //makes all checkbox unchecked
+            setSelectedMenuItem('');
+        })
+        .catch(err => console.error(err));
+
     };
     const handleMoveCancel = () => {
         setIsMoveVisible(false);
+        setSelectedMenuItem('');
+        setCheckedItem(checkedItemInitial);
     };
 
     //delete
@@ -195,10 +242,7 @@ const ActionButton = ({students, selectedStudents, courses}) => {
         setIsDeleteVisible(false);
     };
 
-    //checkbox
-    function onChange(e) {
-        console.log(`checked = ${e.target.checked}`);
-    }
+    
 
     return ( 
         <>
@@ -226,14 +270,15 @@ const ActionButton = ({students, selectedStudents, courses}) => {
                 </Row>
             </Modal>
             
-            <Modal width={400} 
+            <Modal 
+                width={400} 
                 title="Move Student(s) from Course" 
                 visible={isMoveVisible} 
                 onOk={handleMoveOk} 
                 onCancel={handleMoveCancel} 
                 okText='Move'
             >
-                 <Row>
+                <Row>
                     <Col>
                         <Dropdown overlay={menu} trigger={['click']} >
                         <Button onClick={e => e.preventDefault()}> 
@@ -268,10 +313,10 @@ const ActionButton = ({students, selectedStudents, courses}) => {
                     </Form.Item> */}
 
                     <Form.Item label="Name" rules={[{ required: true }]}>
-                        <Input value={studentEdit.name} onChange={e =>getFirstLastName(e)}/>
+                        <Input value={studentInfo.name} onChange={e =>getFirstLastName(e)}/>
                     </Form.Item>
                     <Form.Item label="Email" rules={[{ type: 'email' }]}>
-                        <Input value={studentEdit.email} onChange={e =>getEmail(e)}/>
+                        <Input value={studentInfo.email} onChange={e =>getEmail(e)}/>
                     </Form.Item>
                 </Form>
             </Modal>
