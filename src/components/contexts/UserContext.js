@@ -33,8 +33,6 @@ export const UserStore = ({ children }) => {
     }
   }, [])
 
-  console.log(userInfo)
-
   return (
     <Context.Provider
       value={[authToken, setAuthToken, userInfo, setUserInfo]}

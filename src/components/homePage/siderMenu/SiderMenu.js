@@ -14,7 +14,7 @@ const { Sider } = Layout;
 const SiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
-  console.log(keys)
+
   const onCollapse = (collapsed) => {
     setCollapsed(collapsed);
   };

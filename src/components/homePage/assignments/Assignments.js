@@ -96,9 +96,12 @@ const Assignments = ({ match, history }) => {
     const [progressData, dispatchProgress] = useReducer(reducerProgress, INITIAL_STATE);
     const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
 
+    console.log(userInfo)
+    console.log(clickedLessonKey)
+
     const stepsPath = { '/home/assignments': -1, '/home/assignments/instructions': 0, '/home/assignments/videos': 1, '/home/assignments/submission': 2, '/home/assignments/done': 3 }
 
-    const assignments = ['Instructions', 'Treehouse', 'Assignment'];
+    const assignments = ['instructions_progress', 'resources_progress', 'assignment_progress'];
 
     console.log(progressData)
 
@@ -125,55 +128,69 @@ const Assignments = ({ match, history }) => {
         setStepsStatusFinish();
     }, [clickedLessonKey])
 
+    useEffect(() => {
+        setStepsStatusFinish();
+    }, [clickedUnitKey])
+
     const setStepsStatusFinish = async () => {
         const progress = await getProgressData();
 
-        setStepStatus({ 0: parseInt(progress[clickedUnitKey][clickedLessonKey].Instructions), 1: parseInt(progress[clickedUnitKey][clickedLessonKey].Treehouse), 2: parseInt(progress[clickedUnitKey][clickedLessonKey].Assignment) })
+        setStepStatus({ 0: progress[clickedUnitKey][clickedLessonKey].instructions_progress, 1: progress[clickedUnitKey][clickedLessonKey].resources_progress, 2: progress[clickedUnitKey][clickedLessonKey].assignment_progress })
 
         dispatchProgress({
             type: "all",
             payload: { field: "all", value: progress },
         });
+        // setStepStatus({ 0: parseInt(progress[clickedUnitKey][clickedLessonKey].Instructions), 1: parseInt(progress[clickedUnitKey][clickedLessonKey].Treehouse), 2: parseInt(progress[clickedUnitKey][clickedLessonKey].Assignment) })
+
+        // dispatchProgress({
+        //     type: "all",
+        //     payload: { field: "all", value: progress },
+        // });
     }
 
+    // const getProgressData = async () => {
+    //     const response = await fetch(
+    //         process.env.REACT_APP_AIRTABLE_LINK
+    //     );
+    //     const data = await response.json();
+    //     console.log(data)
+    //     return data.records.reduce((acc, curr) => {
+    //         switch (curr.fields.Unit) {
+    //             case 'Frontend 1':
+    //                 return { ...acc, 0: [...acc[0], { id: curr.id, ...curr.fields }] }
+    //             case 'Frontend 2':
+    //                 return { ...acc, 1: [...acc[1], { id: curr.id, ...curr.fields }] }
+    //         }
+
+    //     }, { 0: [], 1: [] })
+    // };
+
     const getProgressData = async () => {
+        const id = userInfo.student.student_id;
         const response = await fetch(
-            process.env.REACT_APP_AIRTABLE_LINK
+            `${process.env.REACT_APP_GET_PROGRESS}/${id}/student_tracking`
         );
         const data = await response.json();
-        console.log(data)
-        return data.records.reduce((acc, curr) => {
-            switch (curr.fields.Unit) {
-                case 'Frontend 1':
-                    return { ...acc, 0: [...acc[0], { id: curr.id, ...curr.fields }] }
-                case 'Frontend 2':
-                    return { ...acc, 1: [...acc[1], { id: curr.id, ...curr.fields }] }
-            }
+        const units = data.units;
 
-        }, { 0: [], 1: [] })
+        return Object.keys(units).reduce((acc, curr, index) => {
+            return { ...acc, [index]: units[curr] }
+        }, {})
+        // return data.reduce((acc, curr) => {
+        //     switch (curr.week.unit.unit_name) {
+        //         case 'Front-End 1':
+        //             return { ...acc, 0: [...acc[0], { ...curr }] }
+        //         case 'Front-End 2':
+        //             return { ...acc, 1: [...acc[1], { ...curr }] }
+        //     }
+        // }, { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [] })
     };
 
 
 
     const determineStep = (pathLocation) => {
         setStep(stepsPath[pathLocation]);
-        // switch (pathLocation) {
-        //     case '/home/assignments':
-        //         setStep(-1);
-        //         break;
-        //     case '/home/assignments/instructions':
-        //         setStep(0);
-        //         break;
-        //     case '/home/assignments/videos':
-        //         setStep(1);
-        //         break;
-        //     case '/home/assignments/submission':
-        //         setStep(2);
-        //         break;
-        //     case '/home/assignments/done':
-        //         setStep(3);
-        //         break;
-        // }
     }
 
     const menu = () => {
@@ -248,10 +265,10 @@ const Assignments = ({ match, history }) => {
     //     setCurrent(current - 1);
     // };
 
-
-
     const handleSubmit = async () => {
         let assignment = assignments[step]
+        const id = userInfo.student.student_id;
+        const weekNumber = progressData[clickedUnitKey][clickedLessonKey].week;
         // switch (step) {
         //     case 0:
         //         assignment = 'Instructions';
@@ -269,19 +286,29 @@ const Assignments = ({ match, history }) => {
         setStepStatus({ ...stepStatus, [step]: 2 })
         // setStepStatus([...stepStaus, step]);
 
-        const res = await fetch(process.env.REACT_APP_UPDATE_PROGRESS_COPY, {
+        // const res = await fetch(process.env.REACT_APP_UPDATE_PROGRESS_COPY, {
+        //     body: JSON.stringify({
+        //         records: [
+        //             {
+        //                 id: progressData[clickedUnitKey][clickedLessonKey].id,
+        //                 fields: {
+        //                     [assignment]: '2',
+        //                 },
+        //             },
+        //         ],
+        //     }),
+        //     headers: {
+        //         Authorization: "Bearer keyclOytaXo7NHQ8M",
+        //         "Content-Type": "application/json",
+        //     },
+        //     method: "PATCH",
+        // });
+
+        const res = await fetch(`${process.env.REACT_APP_UPDATE_PROGRESS}/student_weekly_progress/${id}/week_number/${weekNumber}`, {
             body: JSON.stringify({
-                records: [
-                    {
-                        id: progressData[clickedUnitKey][clickedLessonKey].id,
-                        fields: {
-                            [assignment]: '2',
-                        },
-                    },
-                ],
+                [assignment]: '2'
             }),
             headers: {
-                Authorization: "Bearer keyclOytaXo7NHQ8M",
                 "Content-Type": "application/json",
             },
             method: "PATCH",
