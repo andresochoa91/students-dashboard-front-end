@@ -72,8 +72,6 @@ const ModalStudent = ({courses, setStudentAdded}) => {
         .then(data => {
             console.log(data);
             setStudentAdded(true);
-
-
             //cleans input fields 
             form.resetFields();
             //makes all checkbox unchecked
@@ -157,14 +155,9 @@ const ModalStudent = ({courses, setStudentAdded}) => {
                         </Button> 
                     </Dropdown>
                 </Form.Item>
-
-                {/* <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
-                    <Input />
-                </Form.Item> */}
                 <Form.Item  name='email' label="Email" rules={[{ type: 'email', required: true }]}>
                     <Input 
                         onChange={e =>getStudent(e)}
-                        // value={studentAdd.email}
                     />
                 </Form.Item>
             </Form>

@@ -54,7 +54,7 @@ const onSearch = value => console.log(value);
 
 const StudentsTable = () => {
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedStudents, setSelectedStudents] = useState([]);
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
   // const [student, setStudent] = useState({});
@@ -111,7 +111,7 @@ const StudentsTable = () => {
     {
       title: 'ID',
       dataIndex: 'id',
-      width: 100,
+      width: '10%',
       sorter: {
           compare: (a, b) => a.id - b.id,
       },
@@ -154,13 +154,13 @@ const StudentsTable = () => {
   
 
   const onSelectChange = selectedRowKey => {
-      console.log('selectedRowKeys changed: ', selectedRowKey);
-      setSelectedRowKeys(selectedRowKey);
+      console.log('selectedStudents changed: ', selectedRowKey);
+      setSelectedStudents(selectedRowKey);
       // setStudent(students.)
   }; 
 
   const rowSelection = {
-    selectedRowKeys,
+    selectedStudents,
     onChange: onSelectChange, 
   };
 
@@ -195,7 +195,7 @@ const StudentsTable = () => {
             <ModalStudent courses={courses} setStudentAdded={setStudentAdded}/>
           </AddStudentStyle>
           <DropDownStyle>
-           <ActionButton students={students} selectedRowKeys={selectedRowKeys} courses={courses}/>
+           <ActionButton students={students} selectedStudents={selectedStudents} courses={courses}/>
           </DropDownStyle>
         </Col>
       </Row>
@@ -210,6 +210,7 @@ const StudentsTable = () => {
             dataSource={data} 
             // scroll={{ x: 1000 }}
             scroll={{ y: 1000, x: 800}}
+            // scroll={{ y: 1000}}
           />
 
         </Col>
