@@ -7,21 +7,15 @@ import _ from "lodash";
 const Context = React.createContext();
 
 export const UserStore = ({ children }) => {
-  const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
+  const [cookies, setCookie] = useCookies(['auth_token']);
   const [authToken, setAuthToken,] = useState(cookies['auth_token']);
   const [userInfo, setUserInfo] = useState(null);
-
-  console.log(authToken)
 
   useEffect(() => {
     if (authToken && _.isEmpty(cookies)) {
       setCookie('auth_token', authToken.token);
       setUserInfo(authToken.info);
     }
-    // if (!authToken && !_.isEmpty(cookies)) {
-    //   console.log('hello')
-    //   removeCookie('auth_token');
-    // }
   }, [authToken])
 
   useEffect(() => {
@@ -39,9 +33,13 @@ export const UserStore = ({ children }) => {
       }
       getData();
     }
+<<<<<<< HEAD
   }, [])
 
   console.log(userInfo)
+=======
+  }, [authToken]);
+>>>>>>> worked on createAssignments
 
   return (
     <Context.Provider

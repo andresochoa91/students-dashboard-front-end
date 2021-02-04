@@ -9,14 +9,14 @@ import {
 
 } from "antd";
 
-import * as ROUTES from "../../../constants/routes";
-import { StyledSectionStaff, StyledDiv } from "../assignments/styles";
-import CreateAssignments from '../assignments/staff/CreateAssignments';
-import PrivateRoute from '../../routes/PrivateRoute';
+import * as ROUTES from "../../../../constants/routes";
+import { StyledSectionStaff, StyledDiv } from "../../assignments/styles";
+import CreateAssignments from '../../assignments/staff/CreateAssignments';
+import PrivateRoute from '../../../routes/PrivateRoute';
 
 const { TabPane } = Tabs;
 
-const CreateClass = ({ match }) => {
+const CreateClass = ({ match, history }) => {
 
   const [state, setState] = useState({
     key: 'tab1',
@@ -39,12 +39,23 @@ const CreateClass = ({ match }) => {
               <div className="card-container">
                 <Tabs
                   type="card"
+                  defaultActiveKey={`${history.location.pathname}`}
                   onChange={key =>
                     console.log(key)
                   }
                   tabBarGutter={10}
                 >
-                  <TabPane tab={<Link to={`${match.path}${ROUTES.CREATE_ANNOUNCEMENTS}`}>Announcements</Link>} key="1">
+                  <TabPane tab={<Link to={`${match.path}${ROUTES.CREATE_ANNOUNCEMENTS}`}>Announcements</Link>} key="/home/classes/announcements">
+                    <div className="card-content">
+                      <PrivateRoute
+                        exact
+                        path={`${match.path}${ROUTES.ASSIGNMENTS}`}
+                        history={history}
+                        component={CreateAssignments}
+                      />
+                    </div>
+                  </TabPane>
+                  <TabPane tab={<Link to={`${match.path}${ROUTES.CREATE_UNITS}`}>Units</Link>} key="/home/classes/units">
                     <div className="card-content">
                       <PrivateRoute
                         exact
@@ -53,16 +64,7 @@ const CreateClass = ({ match }) => {
                       />
                     </div>
                   </TabPane>
-                  <TabPane tab={<Link to={`${match.path}${ROUTES.CREATE_UNITS}`}>Units</Link>} key="2">
-                    <div className="card-content">
-                      <PrivateRoute
-                        exact
-                        path={`${match.path}${ROUTES.ASSIGNMENTS}`}
-                        component={CreateAssignments}
-                      />
-                    </div>
-                  </TabPane>
-                  <TabPane tab={<Link to={`${match.path}${ROUTES.ASSIGNMENTS}`}>Assignments</Link>} key="3">
+                  <TabPane tab={<Link to={`${match.path}${ROUTES.ASSIGNMENTS}${ROUTES.INSTRUCTIONS}`}>Assignments</Link>} key="/home/classes/assignments/instructions">
                     <div className="card-content">
                       <PrivateRoute
                         path={`${match.path}${ROUTES.ASSIGNMENTS}`}
@@ -71,7 +73,7 @@ const CreateClass = ({ match }) => {
                       />
                     </div>
                   </TabPane>
-                  <TabPane tab={<Link to={`${match.path}${ROUTES.STUDENTS}`}>Students</Link>} key="4">
+                  <TabPane tab={<Link to={`${match.path}${ROUTES.STUDENTS}`}>Students</Link>} key="/home/classes/students">
                     <div className="card-content">
                       <PrivateRoute
                         exact
@@ -80,7 +82,7 @@ const CreateClass = ({ match }) => {
                       />
                     </div>
                   </TabPane>
-                  <TabPane tab={<Link to={`${match.path}${ROUTES.ADD_MENTORS}`}>Mentors</Link>} key="5">
+                  <TabPane tab={<Link to={`${match.path}${ROUTES.ADD_MENTORS}`}>Mentors</Link>} key="/home/classes/mentors">
                     <div className="card-content">
                       <PrivateRoute
                         exact
