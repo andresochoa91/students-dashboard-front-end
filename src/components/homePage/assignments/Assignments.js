@@ -85,6 +85,7 @@ const reducerProgress = (state, action) => {
 
 const Assignments = ({ match, history }) => {
     const [state, setState] = useState({ key: "Week 1" });
+    const [disabledState, setDisabledState] = useState(true);
     const { key } = state;
     const [clickedUnitKey, setClickedUnitKey] = useState(0);
     const [clickedLessonKey, setClickedLessonKey] = useState(0);
@@ -97,7 +98,6 @@ const Assignments = ({ match, history }) => {
     const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
 
     console.log(userInfo)
-    console.log(clickedLessonKey)
 
     const stepsPath = { '/home/assignments': -1, '/home/assignments/instructions': 0, '/home/assignments/videos': 1, '/home/assignments/submission': 2, '/home/assignments/done': 3 }
 
@@ -130,12 +130,19 @@ const Assignments = ({ match, history }) => {
 
     useEffect(() => {
         setStepsStatusFinish();
+
     }, [clickedUnitKey])
 
     const setStepsStatusFinish = async () => {
         const progress = await getProgressData();
 
         setStepStatus({ 0: progress[clickedUnitKey][clickedLessonKey].instructions_progress, 1: progress[clickedUnitKey][clickedLessonKey].resources_progress, 2: progress[clickedUnitKey][clickedLessonKey].assignment_progress })
+
+        if (progress[clickedUnitKey][clickedLessonKey].assignment_progress === 2) {
+            setDisabledState(null);
+        } else {
+            setDisabledState(true);
+        }
 
         dispatchProgress({
             type: "all",
@@ -257,31 +264,12 @@ const Assignments = ({ match, history }) => {
         setStep(step - 1);
     }
 
-    // const next = () => {
-    //     setCurrent(current + 1);
-    // };
-
-    // const prev = () => {
-    //     setCurrent(current - 1);
-    // };
 
     const handleSubmit = async () => {
         let assignment = assignments[step]
         const id = userInfo.student.student_id;
         const weekNumber = progressData[clickedUnitKey][clickedLessonKey].week;
-        // switch (step) {
-        //     case 0:
-        //         assignment = 'Instructions';
-        //         break;
-        //     case 1:
-        //         assignment = 'Treehouse';
-        //         break;
-        //     case 2:
-        //         assignment = 'Assignment';
-        //         break;
-        //     default:
-        //         assignment = null;
-        // }
+
         // Store step after save progress button is clicked
         setStepStatus({ ...stepStatus, [step]: 2 })
         // setStepStatus([...stepStaus, step]);
@@ -313,14 +301,14 @@ const Assignments = ({ match, history }) => {
             },
             method: "PATCH",
         });
-        const data = await res.json();
         // Set step to next step
         nextStep();
         // Go to the next step component
         history.push(`${steps[step + 1].link}`);
     };
 
-    console.log(stepStatus);
+    console.log(clickedLessonKey);
+    console.log(clickedUnitKey);
 
     const tabPanes = (classKey) => {
         return classInfo.units[classKey].lessons.map((lesson, index) => {
@@ -380,6 +368,17 @@ const Assignments = ({ match, history }) => {
                                 exact
                                 path={`${match.path}${ROUTES.SUBMISSION}`}
                                 lesson={lesson}
+                                progressData={progressData}
+                                clickedUnitKey={clickedUnitKey}
+                                clickedLessonKey={clickedLessonKey}
+                                step={step}
+                                steps={steps}
+                                disabledState={disabledState}
+                                setDisabledState={setDisabledState}
+                                stepStatus={stepStatus}
+                                setStepStatus={setStepStatus}
+                                setStep={setStep}
+                                history={history}
                                 component={GithubLink}
                             />
                             <PrivateRoute
@@ -396,6 +395,7 @@ const Assignments = ({ match, history }) => {
                                     type="primary"
                                     htmlType="submit"
                                     onClick={handleSubmit}
+                                    disabled={step === 2 && disabledState ? true : null}
                                 >
                                     Save Progress
                                 </Button>

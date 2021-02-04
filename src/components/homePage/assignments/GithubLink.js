@@ -1,11 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Form, Input, Button } from 'antd';
 
 import { StyledDivGithub } from './styles';
+import UserContext from "../../contexts/UserContext";
 
-const GithubLink = ({ lesson }) => {
-  const onFinish = (values) => {
-    console.log('Success:', values);
+const ASSIGNMENTS = ['instructions_progress', 'resources_progress', 'assignment_progress'];
+
+const GithubLink = ({ steps, setStep, setStepStatus, stepStatus, history, setDisabledState, lesson, progressData, step, clickedUnitKey, clickedLessonKey }) => {
+  const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
+
+  const onFinish = async (values) => {
+    const assignment = ASSIGNMENTS[step]
+    const id = userInfo.student.student_id;
+    const weekNumber = progressData[clickedUnitKey][clickedLessonKey].week;
+
+    const res = await fetch(`${process.env.REACT_APP_UPDATE_PROGRESS}/student_weekly_progress/${id}/week_number/${weekNumber}`, {
+      body: JSON.stringify({
+        ...values,
+        [assignment]: '2'
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PATCH",
+    });
+
+    setDisabledState(null);
+
+    setStepStatus({ ...stepStatus, [step]: 2 })
+    // Set step to next step
+    setStep(step + 1);
+    // Go to the next step component
+    history.push(`${steps[step + 1].link}`);
   };
 
   return (
@@ -17,7 +43,7 @@ const GithubLink = ({ lesson }) => {
           <h3><strong>Github Link</strong></h3>
         </Form.Item>
         <Form.Item
-          name="link"
+          name="assignment_submission"
           rules={[
             () => ({
               validator(rule, value) {
