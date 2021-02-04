@@ -12,7 +12,7 @@ const Login = ({ history }) => {
 	const [authToken, setAuthToken] = useContext(UserContext);
 
 	const onFinish = async (values) => {
-		const { email } = values;
+		// const { email } = values;
 		try {
 			// Have loading symbol turned on
 			setLoginState({ loading: true });
@@ -66,14 +66,16 @@ const Login = ({ history }) => {
 					authToken ?
 						<div>
 							You are signed in
-				</div>
+						</div>
 						:
 						<div className='col-10 mx-auto'>
 							<Form
 								name='normal_login'
 								className='login-form'
 								initialValues={{
-									remember: true
+									remember: true,
+									email: "user1@gmail.com",
+									password: "123456"
 								}}
 								onFinish={onFinish}
 							>
@@ -90,7 +92,12 @@ const Login = ({ history }) => {
 									hasFeedback
 									validateStatus={loading ? 'validating' : null}
 								>
-									<Input prefix={<UserOutlined className='site-form-item-icon' />} placeholder='email' />
+									<Input 
+										prefix={<UserOutlined 
+										className='site-form-item-icon' />} 
+										placeholder='email' 
+										// defaultValue="user1@gmail.com"
+									/>
 								</Form.Item>
 								<Form.Item
 									name='password'
@@ -103,7 +110,12 @@ const Login = ({ history }) => {
 									hasFeedback
 									validateStatus={loading ? 'validating' : null}
 								>
-									<Input prefix={<LockOutlined className='site-form-item-icon' />} type='password' placeholder='password' />
+									<Input 
+										prefix={<LockOutlined className='site-form-item-icon' />} 
+										type='password' 
+										placeholder='password'
+										// defaultValue="123456"
+									/>
 								</Form.Item>
 								<Form.Item>
 									<div className='login-form-forgot'>
