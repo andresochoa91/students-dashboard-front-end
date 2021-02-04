@@ -10,7 +10,7 @@ const MainProgress = () => {
     //Fetching data from airtable
     useEffect(() => {
         const getMentorsData = async () => {
-            const response = await fetch(process.env.REACT_APP_AIRTABLE_LINK);
+            const response = await fetch(process.env.REACT_APP_UPDATE_PROGRESS_COPY);
             const progressData = await response.json();
             setProgress(progressData);
         };

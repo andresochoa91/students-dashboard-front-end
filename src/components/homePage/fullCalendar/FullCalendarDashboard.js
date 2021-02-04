@@ -20,14 +20,13 @@ const FullCalendarDashboard = ({ menuKey, setSelectedKey }) => {
     const [visible, setVisibility] = useState(false);
     const [eventsInfo, setEvents] = useState([]);
     const [mentorsInfo, setMentorEvents] = useState([]);
-    console.log(userInfo);
+    /*     console.log(userInfo); */
     const [state, setState] = useState({
         weekendsVisible: true,
         visible: false,
         currentEvents: [],
     });
-    const allData = eventsInfo.concat(mentorsInfo);
-    console.log(allData);
+
     useEffect(() => {
         setSelectedKey(menuKey);
     }, []);
@@ -73,7 +72,7 @@ const FullCalendarDashboard = ({ menuKey, setSelectedKey }) => {
                 },
             ];
         }, []);
-
+        console.log(mentorsInfo);
         setEvents((prevState) => {
             return [...prevState, ...sessions];
         });
@@ -117,7 +116,7 @@ const FullCalendarDashboard = ({ menuKey, setSelectedKey }) => {
                 },
             ];
         }, []);
-
+        console.log(infoEvents);
         setEvents((prevState) => {
             return [...prevState, ...infoEvents];
         });
@@ -243,15 +242,8 @@ const renderContent = (eventInfo) => {
                     {eventInfo.event.extendedProps.end}
                 </Descriptions.Item>
             </Descriptions>
-        </div>
-    );
-};
 
-const renderContentMentors = (mentorsInfo) => {
-    console.log(mentorsInfo);
-    return (
-        <div>
-            <Descriptions
+            {/*  <Descriptions
                 title={mentorsInfo.event.title}
                 layout="horizontal"
                 bordered>
@@ -268,7 +260,7 @@ const renderContentMentors = (mentorsInfo) => {
                     {mentorsInfo.event.endTime}
                 </Descriptions.Item>
                 <Button>Sign Up for Mentor Session</Button>
-            </Descriptions>
+            </Descriptions> */}
         </div>
     );
 };
@@ -276,12 +268,10 @@ const renderContentMentors = (mentorsInfo) => {
 function renderEventContent(eventInfo) {
     return (
         <>
+            {}
             <Popover content={renderContent(eventInfo)}>
                 <div>{eventInfo.event.title}</div>
             </Popover>
-            {/*             <Popover content={renderContentMentors(mentorsInfo)}>
-                <div>{eventInfo.event.title}</div>
-            </Popover> */}
         </>
     );
 }
