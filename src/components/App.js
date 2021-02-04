@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
 import { UserStore } from './contexts/UserContext';
@@ -14,19 +14,6 @@ import 'antd/dist/antd.css';
 
 
 const App = () => {
-
-  useEffect(() => {
-    fetch("https://forked-student-dashboard.herokuapp.com", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    .then(response => response.json())
-    .then(console.log)
-    .catch(console.error);
-  }, []);
   
   return (
     <BrowserRouter>

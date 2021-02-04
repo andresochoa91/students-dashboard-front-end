@@ -19,7 +19,6 @@ const StudentsManaging = ({ history, menuKey, selectedKey, setSelectedKey }) => 
             <Row gutter={[16, 24]}>
                 <Col xs={24} sm={24} md={24} lg={14} xl={16} xxl={18}>
                     <Students />
-
                 </Col>
                 <Col
                     xs={24}
@@ -30,14 +29,14 @@ const StudentsManaging = ({ history, menuKey, selectedKey, setSelectedKey }) => 
                     xxl={6}
                     className="site-layout-right">
                     <Space direction="vertical">
-                    <Announcements />
-                    <HomeButtons />
-                    <SmallCalendar
-                        history={history}
-                        menuKey={calendarKey}
-                        selectedKey={selectedKey}
-                        setSelectedKey={setSelectedKey}
-                    />
+                        <Announcements />
+                        <HomeButtons />
+                        <SmallCalendar
+                            history={history}
+                            menuKey={calendarKey}
+                            selectedKey={selectedKey}
+                            setSelectedKey={setSelectedKey}
+                        />
                     </Space>
                 </Col>
             </Row>
