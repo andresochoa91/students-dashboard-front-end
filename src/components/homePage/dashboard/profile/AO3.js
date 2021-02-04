@@ -71,7 +71,7 @@ const onFinish = async (values) => {
     >
       
       <Form.Item
-        label="Lastname"
+        label="Last Name"
         name="last_name"
         // rules={[{ required: true, message: 'Please input your username!' }]}
       >
@@ -79,7 +79,7 @@ const onFinish = async (values) => {
       </Form.Item>
 
       <Form.Item
-        label="Firstname"
+        label="First Name"
         name="first_name"
         // rules={[{ required: true, message: 'Please input your username!' }]}
       >
