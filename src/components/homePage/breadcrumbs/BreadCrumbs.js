@@ -6,7 +6,7 @@ import * as ROUTES from "../../../constants/routes";
 import UserContext from "../../contexts/UserContext";
 
 const Breadcrumbs = ({ page, match, keys, setSelectedKey }) => {
-  const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
+  const [/* authToken, setAuthToken,  */userInfo/* , setUserInfo */] = useContext(UserContext);
 
   return (
     <PageHeader
@@ -30,7 +30,7 @@ const Breadcrumbs = ({ page, match, keys, setSelectedKey }) => {
           {page === "Dashboard" ? null : page}
         </Breadcrumb.Item>
       </Breadcrumb>
-    </PageHeader >
+    </PageHeader>
   )
 }
 
