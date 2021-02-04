@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from "react";
-import { Table,  Input, Button,  Menu, Dropdown, Row, Col, Modal, Checkbox} from 'antd';
+import React, { useState, useEffect } from "react";
+import { Table, Input, Button, Menu, Dropdown, Row, Col, Modal, Checkbox } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 import ModalStudent from './AddStudentModal'
@@ -78,16 +78,16 @@ const StudentsTable = () => {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' }
     })
-    .then(response => response.json())
-    .then(
-      data => {
-        console.log(data);
-        setStudents(data);
-        setStudentAdded(false);
-        setStudentEdited(false);
-      }
-    )
-    .catch(err => console.error(err));
+      .then(response => response.json())
+      .then(
+        data => {
+          console.log(data);
+          setStudents(data);
+          setStudentAdded(false);
+          setStudentEdited(false);
+        }
+      )
+      .catch(err => console.error(err));
   }
 
   const getCourses = () => {
@@ -118,7 +118,7 @@ const StudentsTable = () => {
       dataIndex: 'id',
       width: '10%',
       sorter: {
-          compare: (a, b) => a.id - b.id,
+        compare: (a, b) => a.id - b.id,
       },
     },
     {
@@ -133,10 +133,10 @@ const StudentsTable = () => {
   // Dropdawn menu
   const menu = (
     <Menu>
-      {courses.map( course => (
-          <Menu.Item key={course.id} >
-            <Checkbox onChange={onChange}>{course.course_name}</Checkbox>
-          </Menu.Item>
+      {courses.map(course => (
+        <Menu.Item key={course.id} >
+          <Checkbox onChange={onChange}>{course.course_name}</Checkbox>
+        </Menu.Item>
       ))
       }
     </Menu>
@@ -147,7 +147,7 @@ const StudentsTable = () => {
   }
 
   const data = [];
-  students.map( student => (
+  students.map(student => (
     data.push({
       key: student.student_id,
       id: student.student_id,
@@ -156,40 +156,40 @@ const StudentsTable = () => {
       course: student.student_course.course.course_name,
     })
   ))
-  
+
 
   const onSelectChange = selectedRowKey => {
-      console.log('selectedStudents changed: ', selectedRowKey);
-      setSelectedStudents(selectedRowKey);
-      // setStudent(students.)
-  }; 
+    console.log('selectedStudents changed: ', selectedRowKey);
+    setSelectedStudents(selectedRowKey);
+    // setStudent(students.)
+  };
 
   const rowSelection = {
     selectedStudents,
-    onChange: onSelectChange, 
+    onChange: onSelectChange,
   };
 
   return (
     <TabsContent>
       <Row>
-        <Col 
+        <Col
           xs={24}
           sm={12}
           md={12}
           lg={12}
         >
-        <HeaderStyle>
-          <h3 style={{fontWeight: 'bold'}}>CTD Students's  List</h3>
-          <Search
-            placeholder="Search"
-            allowClear
-            onSearch={onSearch}
-            style={{ width: 200 }}
-          />
-        </HeaderStyle>
-              
+          <HeaderStyle>
+            <h3 style={{ fontWeight: 'bold' }}>CTD Students's  List</h3>
+            <Search
+              placeholder="Search"
+              allowClear
+              onSearch={onSearch}
+              style={{ width: 200 }}
+            />
+          </HeaderStyle>
+
         </Col>
-        <Col 
+        <Col
           xs={24}
           sm={12}
           md={12}
@@ -197,16 +197,16 @@ const StudentsTable = () => {
         >
           <AddStudentStyle>
             <p>Add Student</p>
-            <ModalStudent 
-              courses={courses} 
+            <ModalStudent
+              courses={courses}
               setStudentAdded={setStudentAdded}
             />
           </AddStudentStyle>
           <DropDownStyle>
-            <ActionButton 
-              students={students} 
-              selectedStudents={selectedStudents} 
-              courses={courses} 
+            <ActionButton
+              students={students}
+              selectedStudents={selectedStudents}
+              courses={courses}
               setStudentEdited={setStudentEdited}
             />
           </DropDownStyle>
@@ -215,19 +215,19 @@ const StudentsTable = () => {
 
       <Row>
         <Col span={24}>
-          <Table 
-            pagination={{ pageSize: 10 }} 
-            style={{margin: '20px 10px'}} 
-            rowSelection={rowSelection} 
-            columns={columns} 
-            dataSource={data} 
+          <Table
+            pagination={{ pageSize: 10 }}
+            style={{ margin: '20px 10px' }}
+            rowSelection={rowSelection}
+            columns={columns}
+            dataSource={data}
             // scroll={{ x: 1000 }}
-            scroll={{ y: 1000, x: 800}}
-            // scroll={{ y: 1000}}
+            scroll={{ y: 1000, x: 800 }}
+          // scroll={{ y: 1000}}
           />
 
         </Col>
-      
+
       </Row>
     </TabsContent>
   );

@@ -31,7 +31,6 @@ const HomePage = ({ match, history }) => {
             }
         }
     }, [userInfo]);
-    console.log(selectedKey)
 
     const displayHomeContent = () => {
         if (userInfo.role === 'student') {

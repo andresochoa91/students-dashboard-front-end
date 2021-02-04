@@ -48,10 +48,14 @@ const StaffSiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
               title="Classes"
             >
               <Menu.Item key={keys['Courses']} icon={<UserOutlined />}>
-                Courses
+                <Link to={`${match.path}${ROUTES.CREATE_CLASSES}`}>
+                  Courses
+                </Link>
               </Menu.Item>
               <Menu.Item key={keys['Assignments']} icon={<CalendarOutlined />}>
-                Assignments
+                <Link to={`${match.path}${ROUTES.ASSIGNMENTS}`}>
+                  Assignments
+                </Link>
               </Menu.Item>
             </SubMenu>
             <Menu.Item key={keys['Students']} icon={<TeamOutlined />}>
@@ -81,7 +85,7 @@ const StaffSiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
             <Menu.Item key={keys['Projects']} icon={<RocketOutlined />}>
               Students Projects
             </Menu.Item>
-          </> 
+          </>
         ) : null
       }
     </Menu>

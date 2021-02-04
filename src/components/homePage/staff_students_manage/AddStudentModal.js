@@ -94,7 +94,7 @@ const ModalStudent = ({courses, setStudentAdded}) => {
     const onFinish = (fieldsValue: any) => {
         // Should format date value before submit.
         const values = {
-          ...fieldsValue,
+            ...fieldsValue,
         };
         console.log('Received values of form: ', values);
     };

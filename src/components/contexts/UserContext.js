@@ -31,9 +31,7 @@ export const UserStore = ({ children }) => {
       }
       getData();
     }
-  }, [authToken, cookies]);
-
-  console.log(userInfo)
+  }, [authToken]);
 
   return (
     <Context.Provider

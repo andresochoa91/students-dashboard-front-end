@@ -62,7 +62,7 @@ const SmallCalendar = ({ history }) => {
     }
     function onSelect(selectedDate) {
         setSelectedDate(selectedDate);
-        history.push(`${ROUTES.STAFFHOME}${ROUTES.CALENDAR}`);
+        history.push(`${ROUTES.HOME}${ROUTES.CALENDAR}`);
     }
     return (
         <>
