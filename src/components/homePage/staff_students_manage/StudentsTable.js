@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Input, Button, Menu, Dropdown, Row, Col, Modal, Checkbox } from 'antd';
+import { Table, Input, Button, Menu, Dropdown, Row, Col, Modal, Checkbox, Spin } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 import ModalStudent from './AddStudentModal'
@@ -130,7 +130,7 @@ const StudentsTable = () => {
       dataIndex: 'course',
     },
   ];
-  // Dropdawn menu
+  // Dropdown menu
   const menu = (
     <Menu>
       {courses.map(course => (
@@ -170,66 +170,74 @@ const StudentsTable = () => {
   };
 
   return (
-    <TabsContent>
-      <Row>
-        <Col
-          xs={24}
-          sm={12}
-          md={12}
-          lg={12}
-        >
-          <HeaderStyle>
-            <h3 style={{ fontWeight: 'bold' }}>CTD Students's  List</h3>
-            <Search
-              placeholder="Search"
-              allowClear
-              onSearch={onSearch}
-              style={{ width: 200 }}
-            />
-          </HeaderStyle>
+    <>
+      {
+        students.length ? (
+          <TabsContent>
+            <Row>
+              <Col
+                xs={24}
+                sm={12}
+                md={12}
+                lg={12}
+              >
+                <HeaderStyle>
+                  <h3 style={{ fontWeight: 'bold' }}>CTD Students's  List</h3>
+                  <Search
+                    placeholder="Search"
+                    allowClear
+                    onSearch={onSearch}
+                    style={{ width: 200 }}
+                  />
+                </HeaderStyle>
 
-        </Col>
-        <Col
-          xs={24}
-          sm={12}
-          md={12}
-          lg={12}
-        >
-          <AddStudentStyle>
-            <p>Add Student</p>
-            <ModalStudent
-              courses={courses}
-              setStudentAdded={setStudentAdded}
-            />
-          </AddStudentStyle>
-          <DropDownStyle>
-            <ActionButton
-              students={students}
-              selectedStudents={selectedStudents}
-              courses={courses}
-              setStudentEdited={setStudentEdited}
-            />
-          </DropDownStyle>
-        </Col>
-      </Row>
+              </Col>
+              <Col
+                xs={24}
+                sm={12}
+                md={12}
+                lg={12}
+              >
+                <AddStudentStyle>
+                  <p>Add Student</p>
+                  <ModalStudent
+                    courses={courses}
+                    setStudentAdded={setStudentAdded}
+                  />
+                </AddStudentStyle>
+                <DropDownStyle>
+                  <ActionButton
+                    students={students}
+                    selectedStudents={selectedStudents}
+                    courses={courses}
+                    setStudentEdited={setStudentEdited}
+                  />
+                </DropDownStyle>
+              </Col>
+            </Row>
 
-      <Row>
-        <Col span={24}>
-          <Table
-            pagination={{ pageSize: 10 }}
-            style={{ margin: '20px 10px' }}
-            rowSelection={rowSelection}
-            columns={columns}
-            dataSource={data}
-            // scroll={{ x: 1000 }}
-            scroll={{ y: 1000, x: 800 }}
-          // scroll={{ y: 1000}}
-          />
+            <Row>
+              <Col span={24}>
+                <Table
+                  pagination={{ pageSize: 10 }}
+                  style={{ margin: '20px 10px' }}
+                  rowSelection={rowSelection}
+                  columns={columns}
+                  dataSource={data}
+                  // scroll={{ x: 1000 }}
+                  scroll={{ y: 1000, x: 800 }}
+                // scroll={{ y: 1000}}
+                />
 
-        </Col>
+              </Col>
 
-      </Row>
-    </TabsContent>
+            </Row>
+          </TabsContent>
+        ) : (
+          <Spin size="large" />
+        )
+      }
+    </>
   );
 
 }

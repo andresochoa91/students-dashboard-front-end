@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Row, Col, Typography, Input, Button } from 'antd';
+import { Table, Row, Col, Typography, Input, Button, Spin } from 'antd';
 import styled from 'styled-components';
 
 const { Text } = Typography;
@@ -243,74 +243,83 @@ const TrackingReport = () => {
     },
   ];
 
-  return (
-    <DivMargin>
-      <DivMargin>
-        <Row>
-          <Col span={8}>
-            <Text strong>CTD Student's Tracking Report</Text>
-          </Col>
-          <Col span={4} offset={8} justify="end">
-            <Text strong>Date: </Text>
-            <Text>{ `${rightNow.getMonth() + 1}/${rightNow.getDate()}/${rightNow.getFullYear()}` }</Text>
-          </Col>
-        </Row>
-      </DivMargin>
-      <DivMargin>
-        <Row>
-          <Col span={5}>
-            <Search placeholder="Search Student" onSearch={onSearch} enterButton /> 
-            {
-              temporarySearch && (
-                <div>
-                  <br/>
-                  <p>
-                    { temporarySearch }&nbsp;
-                    <Button 
-                      type="danger" 
-                      shape="circle"
-                      onClick={ () => {
-                        setTemporarySearch("") 
-                        setCurrentStudents(students);
-                      }}
-                    >
-                      x
-                    </Button>
-                  </p>         
-                </div>
-              )
-            }
-          </Col>
-        </Row>
-        <Row justify="end">
-          <Col span={3}>
-            <SquareDescription>Complete</SquareDescription> 
-            <Square squareColor="#0f0"/>
-          </Col>
-          <Col span={3}>
-            <SquareDescription>In Progress</SquareDescription> 
-            <Square squareColor="#fc0" />
-          </Col>
-          <Col span={3}>
-            <SquareDescription>Not Started</SquareDescription> 
-            <Square squareColor="#f00"/>
-          </Col>
-        </Row>
-      </DivMargin>
 
-      <Table 
-        columns={columns} 
-        dataSource={data} 
-        // onChange={handleChange} 
-        scroll={{ y: 500 }}
-        expandIconColumnIndex={2}
-        // pagination={{ pageSize: 5 }}
-        // expandable={{
-        //   expandedRowRender: () => <p style={{ margin: 0 }}>Hello</p>,
-        //   rowExpandable: record => record.name !== 'Not Expandable',
-        // }}
-      />
-    </DivMargin>
+  return ( 
+    <>
+      {
+        currentStudents.length ? (
+          <DivMargin>
+            <DivMargin>
+              <Row>
+                <Col span={8}>
+                  <Text strong>CTD Student's Tracking Report</Text>
+                </Col>
+                <Col span={4} offset={8} justify="end">
+                  <Text strong>Date: </Text>
+                  <Text>{ `${rightNow.getMonth() + 1}/${rightNow.getDate()}/${rightNow.getFullYear()}` }</Text>
+                </Col>
+              </Row>
+            </DivMargin>
+            <DivMargin>
+              <Row>
+                <Col span={5}>
+                  <Search placeholder="Search Student" onSearch={onSearch} enterButton /> 
+                  {
+                    temporarySearch && (
+                      <div>
+                        <br/>
+                        <p>
+                          { temporarySearch }&nbsp;
+                          <Button 
+                            type="danger" 
+                            shape="circle"
+                            onClick={ () => {
+                              setTemporarySearch("") 
+                              setCurrentStudents(students);
+                            }}
+                          >
+                            x
+                          </Button>
+                        </p>         
+                      </div>
+                    )
+                  }
+                </Col>
+              </Row>
+              <Row justify="end">
+                <Col span={3}>
+                  <SquareDescription>Complete</SquareDescription> 
+                  <Square squareColor="#0f0"/>
+                </Col>
+                <Col span={3}>
+                  <SquareDescription>In Progress</SquareDescription> 
+                  <Square squareColor="#fc0" />
+                </Col>
+                <Col span={3}>
+                  <SquareDescription>Not Started</SquareDescription> 
+                  <Square squareColor="#f00"/>
+                </Col>
+              </Row>
+            </DivMargin>
+    
+            <Table 
+              columns={columns} 
+              dataSource={data} 
+              // onChange={handleChange} 
+              scroll={{ y: 500 }}
+              expandIconColumnIndex={2}
+              // pagination={{ pageSize: 5 }}
+              // expandable={{
+              //   expandedRowRender: () => <p style={{ margin: 0 }}>Hello</p>,
+              //   rowExpandable: record => record.name !== 'Not Expandable',
+              // }}
+            />
+          </DivMargin>
+        ) : (
+          <Spin size="large" />
+        )
+      }
+    </>   
   );
 };
 
