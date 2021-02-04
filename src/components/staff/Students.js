@@ -1,61 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Tabs, Input, Row, Col, Button, Modal, Table, Dropdown, Menu, Checkbox, Form, Space} from 'antd';
 import { PlusOutlined, FolderAddOutlined, DownOutlined } from '@ant-design/icons';
-import Confirm from "./Confirm";
-import Move from "./Move";
-import Edit from "./Edit";
-import StudentTable from './StudentTable'
+import StudentTable from './StudentTable';
+import UserContext from "../contexts/UserContext";
+import AddStudent from "./AddStudent";
 
 
 
 
+ 
 
- //table headings
- const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      editable: true,
-    },
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      defaultSortOrder: 'ascend',
-      sorter: (a, b) => a.id - b.id,
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
-    {
-      title: 'Course',
-      dataIndex: 'course',
-    },
-
-    {
-    title: 'Actions',
-    render: () => (<Dropdown overlay={menu} trigger={['click']}>
-    <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-      Actions <DownOutlined />
-    </a>
-  </Dropdown>),
-    
-    },
-
-    
-  ];
-
-  //for dropdown
-  const menu = (
-  <Menu>
-    <Menu.Item key="0"> <Edit /> </Menu.Item> 
-        {/* may not need the edit */}
-    <Menu.Item key="1"> <Move /></Menu.Item>
-    <Menu.Item key="2"><Confirm /></Menu.Item> 
-  </Menu>
-  );
-
-  //for dropdown in modal
+  //for dropdown in add student modal
   const menuB = (
     <Menu>
         <Menu.Item key="0">
@@ -78,17 +33,6 @@ import StudentTable from './StudentTable'
         console.log(`checked = ${e.target.checked}`);
       }
 
-//datasource here or diff file? need to connect to airtable
-const data = [];
-for (let i = 0; i < 46; i++) {
-    data.push({
-    key: i,
-    name: `Edward King ${i}`,
-    id: `${i}`,
-    email: `London, Park Lane no. ${i}`,
-    course: 'sunrise',
-    });
-};
 
     //for form inside modal
         const onFinish = (values) => {
@@ -96,7 +40,7 @@ for (let i = 0; i < 46; i++) {
         };
     
 
-    //form layout in modal(could this go into styles file?)
+    //form layout in modal
     const layout = {
         labelCol: {
           span: 8,
@@ -109,6 +53,26 @@ for (let i = 0; i < 46; i++) {
      
       
 const Students = (props) => {
+    //datasource from userContext
+    const [ authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
+    
+    //state from Add Student component
+    const [students, setStudents] = useState([]);
+    const [courses, setCourses] = useState([]);
+    const [studentAdded, setStudentAdded] = useState(false);
+
+    //datasource from backend
+    const data = [];
+        for (let i = 0; i < 46; i++) {
+    data.push({
+    key: i,
+    name: `${userInfo.student.first_name} ${userInfo.student.last_name}`,
+    id: `${userInfo.id}`,
+    email: `${userInfo.email} ${i}`,
+    course: userInfo.student.student_course.course.course_name,
+    });
+        };
+
     const { TabPane } = Tabs;
     //for input
     const { Search } = Input;
@@ -129,42 +93,12 @@ const Students = (props) => {
         setIsModalVisible(false);
     };
 
-    //table 
-    const [selectedRowKeys, setSelectedRowKeys] = useState([]); // Check here to configure the default column
-    const [loading, setLoading] = useState(false);
-//    const [hasSelected, setHasSelected] = useState(false)
 
-    const start = () => {
-        setLoading(true);
-        // ajax request after empty completing
-        setTimeout(() => {
-          setSelectedRowKeys([]);
-          setLoading(false)
-        }, 1000);
-    };
-
-    // const onSelectChange = (selectedRowKeys, selectedRows) => {
-    //   'selectedRowKeys changed: ';
-    //     setSelectedRowKeys([]);
-       
-    // };
-    // console.log(selectedRowKeys)
-    //MF: not selecting 
-    const rowSelection = {
-        // selectedRowKeys,
-        onChange: (selectedRowKeys, selectedRows) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-          },
-          
-    };
-
-    const hasSelected = selectedRowKeys.length > 0;
-      console.log(rowSelection);
       
       //props passed to confirm.js
-      const {
-          deleteRow,
-      }= props
+    //   const {
+    //       deleteRow,
+    //   }= props
      
     return(
         
@@ -197,9 +131,7 @@ const Students = (props) => {
                            
                         </Row>
                         
-                        {/* <Row>
-                           
-                        </Row> */}
+                    
 
                         {/* Modal to add Student */}
                         <Modal title="Add student to course" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="Add"  width={700}>
@@ -232,23 +164,15 @@ const Students = (props) => {
                                     <Input />
                                 </Form.Item>
                            </Form>
+                           {/* <AddStudent courses={courses} setStudentAdded={setStudentAdded}/> */}
                         </Modal>
                     </TabPane>
                 </Tabs>
              <br />   
             </div>
-                <div style={{ marginBottom: 16 }}>
-                    <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
-                        Reload
-                    </Button>
-                    <span style={{ marginLeft: 8 }}>
-                        {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
-                    </span>
-                 </div>
-                
-            <Table rowSelection={rowSelection} columns={columns} dataSource={data} deleteRow={deleteRow} />
-{/* 
-            <StudentTable /> */}
+               
+
+            <StudentTable />
         </div>
        
     )

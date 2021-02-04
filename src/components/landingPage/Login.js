@@ -18,9 +18,9 @@ const Login = ({ history }) => {
 			setLoginState({ loading: true });
 			// Get user information + token
 			const res = await fetchData(values);
+			console.log(res)
 			// Update state with form values, token, loading=false
 			setLoginState({ error: null, loading: false });
-			console.log(res)
 			// Check if res has jwt
 			if (res.token) {
 				// 	// Update auth context with jwt
@@ -45,7 +45,7 @@ const Login = ({ history }) => {
 				headers: { 'Content-Type': 'application/json' }
 			});
 			const message = await response.json();
-			const token = response.headers.get('Authentication');
+			const token = response.headers.get('authorization');
 
 			return { info: { ...message }, token };
 		} catch (e) {
