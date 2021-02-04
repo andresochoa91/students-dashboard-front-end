@@ -104,32 +104,45 @@ const TrackingReport = () => {
 
   const setColor = (toProcess, word) => {
 
-    if (word === "weekAssignment" || word === "weekStatus") {
+    if (word === "weekAssignment") {
       return ( 
-        toProcess.assignmentProgress === 3 ? "#0f0" : 
-        toProcess.assignmentProgress === 2 ? "#fc0" : "#f00" 
+        toProcess.assignmentProgress === 2 ? "#0f0" : 
+        toProcess.assignmentProgress === 1 ? "#fc0" : "#f00" 
       )
     }
 
-    let studentWeeklyProgress = Math.floor(toProcess.reduce((acc, progress) => {
+    if (word === "weekStatus") {
+      console.log(toProcess);
+      return ( 
+        toProcess.status === 6 ? "#0f0" : 
+        toProcess.status >= 3 ? "#fc0" : "#f00" 
+      )
+    }
+
+    let studentWeeklyProgress = (toProcess.reduce((acc, progress) => {
       return acc + (
         word === "generalAssignments" ? progress.assignment_progress : 
         word === "generalGithubLinks" ? progress.assignment_submission :
         word === "generalStatus" ? progress.total_progress :
         word === "unitAssignments" ? progress.assignment_progress :
         word === "unitGithubLinks" ? progress.githubLink : progress.status 
-      )
+      );
     }, 0) / toProcess.length);
 
-    if (word !== "generalGithubLinks" && word !== "unitGithubLinks") {
+    if (word === "generalAssignments" || word === "unitAssignments") {
       studentWeeklyProgress = Math.floor(studentWeeklyProgress);
       return (
-        studentWeeklyProgress === 3 ? "#0f0" : 
-        studentWeeklyProgress === 2 ? "#fc0" : "#f00" 
+        studentWeeklyProgress === 2 ? "#0f0" : 
+        studentWeeklyProgress === 1 ? "#fc0" : "#f00" 
+      );
+    } else if (word === "generalStatus" || word === "unitStatus") {
+      return (
+        studentWeeklyProgress === 6 ? "#0f0" : 
+        studentWeeklyProgress >= 3 ? "#fc0" : "#f00" 
       );
     } else {
       return (
-        studentWeeklyProgress >= 1 ? "#0f0" : 
+        studentWeeklyProgress >= 2 ? "#0f0" : 
         studentWeeklyProgress > 0 ? "#fc0" : "#f00" 
       ) 
     }
@@ -289,8 +302,9 @@ const TrackingReport = () => {
         columns={columns} 
         dataSource={data} 
         // onChange={handleChange} 
+        scroll={{ y: 500 }}
         expandIconColumnIndex={2}
-        // pagination={{ pageSize: 10 }}
+        // pagination={{ pageSize: 5 }}
         // expandable={{
         //   expandedRowRender: () => <p style={{ margin: 0 }}>Hello</p>,
         //   rowExpandable: record => record.name !== 'Not Expandable',
