@@ -100,8 +100,8 @@ const StudentsTable = () => {
     .then(response => response.json())
     .then(
       data => {
-        console.log(data.courses);
-        setCourses(data.courses)
+        console.log(data);
+        setCourses(data)
       }
     )
     .catch(err => console.error(err));
