@@ -8,20 +8,20 @@ const { Search } = Input;
 
 const TrackingReport = () => {
 
-  const [ sortedInfo, setSortedInfo ] = useState(); 
-  const [ filteredInfo, setFilteredInfo ] = useState(); 
+  // const [ sortedInfo, setSortedInfo ] = useState(); 
+  // const [ filteredInfo, setFilteredInfo ] = useState(); 
   const [ students, setStudents ] = useState([]);
   const [ currentStudents, setCurrentStudents ] = useState([]);
-  const [ courses, setCourses ] = useState([]);
+  // const [ courses, setCourses ] = useState([]);
   const [ temporarySearch, setTemporarySearch ] = useState("");
 
   const rightNow = new Date();
 
-  const handleChange = (pagination, filters, sorter) => {
-    console.log('Various parameters', pagination, filters, sorter);
-    setSortedInfo(sorter);
-    setFilteredInfo(filters);
-  };
+  // const handleChange = (pagination, filters, sorter) => {
+  //   console.log('Various parameters', pagination, filters, sorter);
+  //   setSortedInfo(sorter);
+  //   setFilteredInfo(filters);
+  // };
 
   const Square = styled.div`
     height: 25px;
@@ -77,14 +77,14 @@ const TrackingReport = () => {
       setStudents(students);
 
       setCurrentStudents(students);
-      const courses = [];
-      data.forEach((student) => {
-        const course = student.student_course.course.course_name
-        if (!courses.includes(course)) {
-          courses.push(course);
-        }
-      })
-      setCourses(courses);
+      // const courses = [];
+      // data.forEach((student) => {
+      //   const course = student.student_course.course.course_name
+      //   if (!courses.includes(course)) {
+      //     courses.push(course);
+      //   }
+      // })
+      // setCourses(courses);
     })
     .catch(console.error);
   }, []);
@@ -102,114 +102,90 @@ const TrackingReport = () => {
     }));
   };
 
+  const setColor = (toProcess, word) => {
+
+    if (word === "weekAssignment" || word === "weekStatus") {
+      return ( 
+        toProcess.assignmentProgress === 3 ? "#0f0" : 
+        toProcess.assignmentProgress === 2 ? "#fc0" : "#f00" 
+      )
+    }
+
+    let studentWeeklyProgress = Math.floor(toProcess.reduce((acc, progress) => {
+      return acc + (
+        word === "generalAssignments" ? progress.assignment_progress : 
+        word === "generalGithubLinks" ? progress.assignment_submission :
+        word === "generalStatus" ? progress.total_progress :
+        word === "unitAssignments" ? progress.assignment_progress :
+        word === "unitGithubLinks" ? progress.githubLink : progress.status 
+      )
+    }, 0) / toProcess.length);
+
+    if (word !== "generalGithubLinks" && word !== "unitGithubLinks") {
+      studentWeeklyProgress = Math.floor(studentWeeklyProgress);
+      return (
+        studentWeeklyProgress === 3 ? "#0f0" : 
+        studentWeeklyProgress === 2 ? "#fc0" : "#f00" 
+      );
+    } else {
+      return (
+        studentWeeklyProgress >= 1 ? "#0f0" : 
+        studentWeeklyProgress > 0 ? "#fc0" : "#f00" 
+      ) 
+    }
+  };
+
   const data = currentStudents.map((student) => {
+    const weeklyProgress = student.student_weekly_progresses;
+
     return {
       key: student.student_id,
       name: `${student.first_name} ${student.last_name}`,
       course: student.course_name,
       units: "Units",
-      assignments: (
-        <Square 
-          squareColor={ () => {
-            const studentWeeklyProgress = Math.floor(student.student_weekly_progresses.reduce((acc, progress) => (
-              (acc + progress.assignment_progress)
-            ), 0) / student.student_weekly_progresses.length);
-            return (
-              studentWeeklyProgress === 3 ? "#0f0" : 
-              studentWeeklyProgress === 2 ? "#fc0" : "#f00" 
-            ) 
-          }}
-        />
-      ),
-      githubLink: (
-        <Square 
-          squareColor={ () => {
-            const studentWeeklyProgress = student.student_weekly_progresses.reduce((acc, progress) => (
-              (acc + (progress.assignment_submission !== "" ? 1 : 0))
-            ), 0) / student.student_weekly_progresses.length;
-            return (
-              studentWeeklyProgress >= 1 ? "#0f0" : 
-              studentWeeklyProgress > 0 ? "#fc0" : "#f00" 
-            ) 
-          }}
-        />
-      ),
-      status: (
-        <Square 
-          squareColor={ () => {
-            const studentWeeklyProgress = Math.floor(student.student_weekly_progresses.reduce((acc, progress) => (
-              (acc + progress.total_progress)
-            ), 0) / student.student_weekly_progresses.length);
-            return (
-              studentWeeklyProgress === 3 ? "#0f0" : 
-              studentWeeklyProgress === 2 ? "#fc0" : "#f00" 
-            ) 
-          }}
-        />
-      ),
-      children: [
-        {
-          key: 112,
-          units: 'Web Basics 1',
-          assignments: <Square squareColor="#f00" />,
-          githubLink: <Square squareColor="#f00" />,
-          status: <Square squareColor="#f00" />,
-          children: [
-            {
-              key: 123,
-              units: "Week 1",
-              assignments: <Square squareColor="#f00" />,
-              githubLink: "https://www.github.com/assignment1",
-              status: <Square squareColor="#f00" />,
-            },
-            {
-              key: 124,
-              units: "Week 2",
-              assignments: <Square squareColor="#f00" />,
-              githubLink: "https://www.github.com/assignment2",
-              status: <Square squareColor="#f00" />,
+      assignments: <Square squareColor={ () => setColor(weeklyProgress, "generalAssignments") } />,
+      githubLink: <Square squareColor={ () => setColor(weeklyProgress, "generalGithubLinks") } />,
+      status: <Square squareColor={ () => setColor(weeklyProgress, "generalStatus") } />,
+      
+      children: Object.entries(student.units).map((unit) => {
+        const unitName = unit[0];
+        const unitProgress = unit[1];
+        
+        return {
+          key: unitName,
+          units: unitName,
+          assignments: <Square squareColor={ () => setColor(unitProgress, "unitAssignments") } />,
+          githubLink: <Square squareColor={ () => setColor(unitProgress, "unitGithubLinks") } />,
+          status: <Square squareColor={ () => setColor(unitProgress, "unitStatus") } />,
+
+          children: unitProgress.map((weekData) => {
+            const weekName = weekData.week;            
+
+            return {
+              key: weekName,
+              units: weekName,
+              assignments: <Square squareColor={ setColor(weekData, "weekAssignment") } />,
+              githubLink: weekData.githubLink || "No assignment submited",
+              status: <Square squareColor={ setColor(weekData, "weekStatus") } />
             }
-          ]
-        },
-        {
-          key: 113,
-          units: 'Web Basics 2',
-          assignments: <Square squareColor="#f00" />,
-          githubLink: <Square squareColor="#f00" />,
-          status: <Square squareColor="#f00" />,
-          children: [
-            {
-              key: 125,
-              units: "Week 3",
-              assignments: <Square squareColor="#f00" />,
-              githubLink: "https://www.github.com/assignment3",
-              status: <Square squareColor="#f00" />,
-            },
-            {
-              key: 126,
-              units: "Week 4",
-              assignments: <Square squareColor="#f00" />,
-              githubLink: "https://www.github.com/assignment4",
-              status: <Square squareColor="#f00" />,
-            }
-          ]
+          })
         }
-      ]
+      })
     };
   });
 
-  let sI = sortedInfo;
-  let fI = filteredInfo;
-  sI = sortedInfo || {};
-  fI = filteredInfo || {};
+  // let sI = sortedInfo;
+  // let fI = filteredInfo;
+  // sI = sortedInfo || {};
+  // fI = filteredInfo || {};
   
   const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      sorter: (a, b) => a.name.localeCompare(b.name),
-      sortOrder: sI.columnKey === 'name' && sI.order,
+      // sorter: (a, b) => a.name.localeCompare(b.name),
+      // sortOrder: sI.columnKey === 'name' && sI.order,
       ellipsis: true,
     },
     {
@@ -217,15 +193,15 @@ const TrackingReport = () => {
       dataIndex: 'course',
       key: 'course',
       ellipsis: true,
-      filters: courses.map((course) => {
-        const st = {
-          text: course,
-          value: course,
-          filteredValue: fI.course || null,
-          onFilter: (value, record) => record.course.includes(value),
-        }
-        return st;
-      })
+      // filters: courses.map((course) => {
+      //   const st = {
+      //     text: course,
+      //     value: course,
+      //     // filteredValue: fI.course || null,
+      //     // onFilter: (value, record) => record.course.includes(value),
+      //   }
+      //   return st;
+      // })
       
     },
     {
@@ -312,8 +288,9 @@ const TrackingReport = () => {
       <Table 
         columns={columns} 
         dataSource={data} 
-        onChange={handleChange} 
+        // onChange={handleChange} 
         expandIconColumnIndex={2}
+        // pagination={{ pageSize: 10 }}
         // expandable={{
         //   expandedRowRender: () => <p style={{ margin: 0 }}>Hello</p>,
         //   rowExpandable: record => record.name !== 'Not Expandable',
