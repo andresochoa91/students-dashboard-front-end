@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useReducer } from "react";
-import { Link, Route, Switch } from "react-router-dom";
+import { Link, Switch } from "react-router-dom";
 import {
     Card,
     Menu,
@@ -18,11 +18,9 @@ import _ from "lodash";
 import {
     FileDoneOutlined,
     DownOutlined,
-    LineOutlined,
     YoutubeOutlined,
     GithubOutlined,
     SmileOutlined,
-    CheckOutlined,
 } from "@ant-design/icons";
 
 import * as ROUTES from "../../../constants/routes";
@@ -315,7 +313,8 @@ const Assignments = ({ match, history }) => {
             return (
                 <TabPane
                     tab={<Link to={match.path}>Week {index + 1}</Link>}
-                    key={`${index}`}>
+                    key={`${index}`}
+                >
                     <Steps current={current}>
                         {!_.isEmpty(stepStatus) ? steps.map((item, index) => (
                             index === 3 ?

@@ -5,6 +5,7 @@ import { Layout } from "antd";
 import * as ROUTES from "../../../../constants/routes";
 import PrivateRoute from "../../../routes/PrivateRoute";
 import Dashboard from "../../dashboard/Dashboard";
+import CreateClass from "../../createClass/CreateClass";
 import FullCalendarDashboard from "../../fullCalendar/FullCalendarDashboard";
 import StudentsManaging from "../../staff_students_manage/StudentsManaging";
 
@@ -24,6 +25,13 @@ const StaffHomeContent = ({ keys, selectedKey, setSelectedKey, match }) => {
             selectedKey={selectedKey}
             setSelectedKey={setSelectedKey}
             match={ match }
+          />
+          <PrivateRoute
+            path={`${match.path}${ROUTES.CREATE_CLASSES}`}
+            menuKey={keys['Courses']}
+            selectedKey={selectedKey}
+            setSelectedKey={setSelectedKey}
+            component={CreateClass}
           />
           <PrivateRoute
             path={`${match.path}${ROUTES.CALENDAR}`}
