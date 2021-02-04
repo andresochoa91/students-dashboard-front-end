@@ -1,6 +1,7 @@
 /** @format */
 import React, { useEffect, useContext } from "react";
 import SignUpMentor from "./studentDashboard/signUpMentor/signUpMentor";
+import EventsStaffButton from "./staffDashboard/eventsButton/eventsStaffButton";
 import EventsButton from "./studentDashboard/eventsButton/eventsButton";
 import MeetingButton from "./studentDashboard/meetingButton/meetingButton";
 import { Row, Col, Space } from "antd";
@@ -74,7 +75,7 @@ const Dashboard = ({ history, menuKey, selectedKey, setSelectedKey }) => {
             return (
                 <>
                     <Announcements />
-                    <EventsButton />
+                    <EventsStaffButton />
                     <MeetingButton />
                     <SmallCalendar
                         history={history}

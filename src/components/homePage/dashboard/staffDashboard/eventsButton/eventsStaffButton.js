@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "antd";
 import { StyledDiv } from "./styles.js";
 import { CalendarOutlined } from "@ant-design/icons";
-const EventsButton = () => {
+const EventsStaffButton = () => {
     return (
         <>
             <StyledDiv>
@@ -22,4 +22,4 @@ const EventsButton = () => {
     );
 };
 
-export default EventsButton;
+export default EventsStaffButton;

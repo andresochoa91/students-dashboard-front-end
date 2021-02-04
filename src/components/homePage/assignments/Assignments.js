@@ -88,6 +88,7 @@ const reducerProgress = (state, action) => {
 
 const Assignments = ({ match, history }) => {
     const [state, setState] = useState({ key: "Week 1" });
+    const [disabledState, setDisabledState] = useState(true);
     const { key } = state;
     const [clickedUnitKey, setClickedUnitKey] = useState(0);
     const [clickedLessonKey, setClickedLessonKey] = useState(0);
@@ -102,6 +103,8 @@ const Assignments = ({ match, history }) => {
     );
     const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
 
+    console.log(userInfo);
+
     const stepsPath = {
         "/home/assignments": -1,
         "/home/assignments/instructions": 0,
@@ -110,7 +113,11 @@ const Assignments = ({ match, history }) => {
         "/home/assignments/done": 3,
     };
 
-    const assignments = ["Instructions", "Treehouse", "Assignment"];
+    const assignments = [
+        "instructions_progress",
+        "resources_progress",
+        "assignment_progress",
+    ];
 
     console.log(progressData);
 
@@ -137,63 +144,77 @@ const Assignments = ({ match, history }) => {
         setStepsStatusFinish();
     }, [clickedLessonKey]);
 
+    useEffect(() => {
+        setStepsStatusFinish();
+    }, [clickedUnitKey]);
+
     const setStepsStatusFinish = async () => {
         const progress = await getProgressData();
 
         setStepStatus({
-            0: parseInt(progress[clickedUnitKey][clickedLessonKey].Instructions),
-            1: parseInt(progress[clickedUnitKey][clickedLessonKey].Treehouse),
-            2: parseInt(progress[clickedUnitKey][clickedLessonKey].Assignment),
+            0: progress[clickedUnitKey][clickedLessonKey].instructions_progress,
+            1: progress[clickedUnitKey][clickedLessonKey].resources_progress,
+            2: progress[clickedUnitKey][clickedLessonKey].assignment_progress,
         });
+
+        if (progress[clickedUnitKey][clickedLessonKey].assignment_progress === 2) {
+            setDisabledState(null);
+        } else {
+            setDisabledState(true);
+        }
 
         dispatchProgress({
             type: "all",
             payload: { field: "all", value: progress },
         });
+        // setStepStatus({ 0: parseInt(progress[clickedUnitKey][clickedLessonKey].Instructions), 1: parseInt(progress[clickedUnitKey][clickedLessonKey].Treehouse), 2: parseInt(progress[clickedUnitKey][clickedLessonKey].Assignment) })
+
+        // dispatchProgress({
+        //     type: "all",
+        //     payload: { field: "all", value: progress },
+        // });
     };
 
+    // const getProgressData = async () => {
+    //     const response = await fetch(
+    //         process.env.REACT_APP_AIRTABLE_LINK
+    //     );
+    //     const data = await response.json();
+    //     console.log(data)
+    //     return data.records.reduce((acc, curr) => {
+    //         switch (curr.fields.Unit) {
+    //             case 'Frontend 1':
+    //                 return { ...acc, 0: [...acc[0], { id: curr.id, ...curr.fields }] }
+    //             case 'Frontend 2':
+    //                 return { ...acc, 1: [...acc[1], { id: curr.id, ...curr.fields }] }
+    //         }
+
+    //     }, { 0: [], 1: [] })
+    // };
+
     const getProgressData = async () => {
-        const response = await fetch(process.env.REACT_APP_AIRTABLE_LINK);
-        const data = await response.json();
-        console.log(data);
-        return data.records.reduce(
-            (acc, curr) => {
-                switch (curr.fields.Unit) {
-                    case "Frontend 1":
-                        return {
-                            ...acc,
-                            0: [...acc[0], { id: curr.id, ...curr.fields }],
-                        };
-                    case "Frontend 2":
-                        return {
-                            ...acc,
-                            1: [...acc[1], { id: curr.id, ...curr.fields }],
-                        };
-                }
-            },
-            { 0: [], 1: [] }
+        const id = userInfo.student.student_id;
+        const response = await fetch(
+            `${process.env.REACT_APP_GET_PROGRESS}/${id}/student_tracking`
         );
+        const data = await response.json();
+        const units = data.units;
+
+        return Object.keys(units).reduce((acc, curr, index) => {
+            return { ...acc, [index]: units[curr] };
+        }, {});
+        // return data.reduce((acc, curr) => {
+        //     switch (curr.week.unit.unit_name) {
+        //         case 'Front-End 1':
+        //             return { ...acc, 0: [...acc[0], { ...curr }] }
+        //         case 'Front-End 2':
+        //             return { ...acc, 1: [...acc[1], { ...curr }] }
+        //     }
+        // }, { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [] })
     };
 
     const determineStep = (pathLocation) => {
         setStep(stepsPath[pathLocation]);
-        // switch (pathLocation) {
-        //     case '/home/assignments':
-        //         setStep(-1);
-        //         break;
-        //     case '/home/assignments/instructions':
-        //         setStep(0);
-        //         break;
-        //     case '/home/assignments/videos':
-        //         setStep(1);
-        //         break;
-        //     case '/home/assignments/submission':
-        //         setStep(2);
-        //         break;
-        //     case '/home/assignments/done':
-        //         setStep(3);
-        //         break;
-        // }
     };
 
     const menu = () => {
@@ -260,58 +281,53 @@ const Assignments = ({ match, history }) => {
         setStep(step - 1);
     };
 
-    // const next = () => {
-    //     setCurrent(current + 1);
-    // };
-
-    // const prev = () => {
-    //     setCurrent(current - 1);
-    // };
-
     const handleSubmit = async () => {
         let assignment = assignments[step];
-        // switch (step) {
-        //     case 0:
-        //         assignment = 'Instructions';
-        //         break;
-        //     case 1:
-        //         assignment = 'Treehouse';
-        //         break;
-        //     case 2:
-        //         assignment = 'Assignment';
-        //         break;
-        //     default:
-        //         assignment = null;
-        // }
+        const id = userInfo.student.student_id;
+        const weekNumber = progressData[clickedUnitKey][clickedLessonKey].week;
+
         // Store step after save progress button is clicked
         setStepStatus({ ...stepStatus, [step]: 2 });
         // setStepStatus([...stepStaus, step]);
 
-        const res = await fetch(process.env.REACT_APP_UPDATE_PROGRESS_COPY, {
-            body: JSON.stringify({
-                records: [
-                    {
-                        id: progressData[clickedUnitKey][clickedLessonKey].id,
-                        fields: {
-                            [assignment]: "2",
-                        },
-                    },
-                ],
-            }),
-            headers: {
-                Authorization: "Bearer keyclOytaXo7NHQ8M",
-                "Content-Type": "application/json",
-            },
-            method: "PATCH",
-        });
-        const data = await res.json();
+        // const res = await fetch(process.env.REACT_APP_UPDATE_PROGRESS_COPY, {
+        //     body: JSON.stringify({
+        //         records: [
+        //             {
+        //                 id: progressData[clickedUnitKey][clickedLessonKey].id,
+        //                 fields: {
+        //                     [assignment]: '2',
+        //                 },
+        //             },
+        //         ],
+        //     }),
+        //     headers: {
+        //         Authorization: "Bearer keyclOytaXo7NHQ8M",
+        //         "Content-Type": "application/json",
+        //     },
+        //     method: "PATCH",
+        // });
+
+        const res = await fetch(
+            `${process.env.REACT_APP_UPDATE_PROGRESS}/student_weekly_progress/${id}/week_number/${weekNumber}`,
+            {
+                body: JSON.stringify({
+                    [assignment]: "2",
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                method: "PATCH",
+            }
+        );
         // Set step to next step
         nextStep();
         // Go to the next step component
         history.push(`${steps[step + 1].link}`);
     };
 
-    console.log(stepStatus);
+    console.log(clickedLessonKey);
+    console.log(clickedUnitKey);
 
     const tabPanes = (classKey) => {
         return classInfo.units[classKey].lessons.map((lesson, index) => {
@@ -402,6 +418,17 @@ const Assignments = ({ match, history }) => {
                                 exact
                                 path={`${match.path}${ROUTES.SUBMISSION}`}
                                 lesson={lesson}
+                                progressData={progressData}
+                                clickedUnitKey={clickedUnitKey}
+                                clickedLessonKey={clickedLessonKey}
+                                step={step}
+                                steps={steps}
+                                disabledState={disabledState}
+                                setDisabledState={setDisabledState}
+                                stepStatus={stepStatus}
+                                setStepStatus={setStepStatus}
+                                setStep={setStep}
+                                history={history}
                                 component={GithubLink}
                             />
                             <PrivateRoute
@@ -417,7 +444,10 @@ const Assignments = ({ match, history }) => {
                                     style={{ marginRight: "1rem" }}
                                     type="primary"
                                     htmlType="submit"
-                                    onClick={handleSubmit}>
+                                    onClick={handleSubmit}
+                                    disabled={
+                                        step === 2 && disabledState ? true : null
+                                    }>
                                     Save Progress
                                 </Button>
                             ) : null}

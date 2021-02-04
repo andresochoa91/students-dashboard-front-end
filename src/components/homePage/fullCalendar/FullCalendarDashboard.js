@@ -26,21 +26,16 @@ const FullCalendarDashboard = ({ menuKey, setSelectedKey }) => {
         visible: false,
         currentEvents: [],
     });
-
+    const allData = eventsInfo.concat(mentorsInfo);
+    console.log(allData);
     useEffect(() => {
         setSelectedKey(menuKey);
     }, []);
 
     useEffect(() => {
         if (userInfo) {
-            /* console.log(userInfo.student.student_weekly_progresses[0].course_id); */
-            Promise.all([getMentorEventData(), getEventsData()])
-                .then(([mentorDataResponse, studentsDataResponse]) => {
-                    console.log(mentorDataResponse, studentsDataResponse);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+            getMentorEventData();
+            getEventsData();
         }
     }, [userInfo]);
 
@@ -284,6 +279,9 @@ function renderEventContent(eventInfo) {
             <Popover content={renderContent(eventInfo)}>
                 <div>{eventInfo.event.title}</div>
             </Popover>
+            {/*             <Popover content={renderContentMentors(mentorsInfo)}>
+                <div>{eventInfo.event.title}</div>
+            </Popover> */}
         </>
     );
 }

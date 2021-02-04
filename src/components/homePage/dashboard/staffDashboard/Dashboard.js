@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { Row, Col, Space } from "antd";
 
 import SmallCalendar from "./smallCalendar/SmallCalendar";
-import EventsButton from "./eventsButton/eventsButton";
+import EventsButton from "./eventsStaffButton/eventsStaffButton";
 import MeetingButton from "./meetingButton/meetingButton";
 import StaffTopLinks from "./staffTopLinks/StaffTopLinks";
 import CurrentCourses from "./currentCourses/CurrentCourses";
@@ -21,11 +21,8 @@ const Dashboard = ({ history, menuKey, selectedKey, setSelectedKey }) => {
         <div className="container-fluid">
             <Row gutter={[16, 24]}>
                 <Col xs={24} sm={24} md={24} lg={14} xl={16} xxl={18}>
-                    <Space direction="vertical">
-                        <StaffTopLinks />
-
-                        <CurrentCourses />
-                    </Space>
+                    <StaffTopLinks />
+                    <CurrentCourses />
                 </Col>
                 <Col
                     xs={24}
