@@ -12,7 +12,7 @@ const Confirms = () => {
   
 
   function showConfirm() {
-
+//MF:maybe use the key in students component to help with the delete function
     confirm({
       title: 'Delete Student(s)',
       icon: <ExclamationCircleOutlined />,
@@ -22,15 +22,15 @@ const Confirms = () => {
 
       onOk() {
         function handleDelete(props) {
-          const source = [remove];
-          source:source.filter((item) =>  item.props !== props); {/*MF: need to remove one line from the table*/}
+          const source = [deleteRow(true)];
+          deleteRow.filter((item) =>  { return item.props !== props}); {/*MF: need to remove one line from the table*/}
       
           setRemove(source);
          
           console.log("true");
       
         };
-        handleDelete();
+        handleDelete(); 
 
         console.log('Ok');
       },
@@ -39,7 +39,8 @@ const Confirms = () => {
         console.log('Cancel');
       },
     });
-  }
+  };
+
 return (
 
     // <Space>

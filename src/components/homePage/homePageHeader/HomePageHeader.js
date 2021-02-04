@@ -15,15 +15,17 @@ import {
 import logo from "../../../graphics/logo.png";
 import UserContext from "../../contexts/UserContext";
 import * as ROUTES from '../../../constants/routes';
+import { useCookies } from 'react-cookie';
 
 const { Header } = Layout;
 
 
 const HomePageHeader = ({ match }) => {
-
+  const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
   const [authToken, setAuthToken] = useContext(UserContext);
 
   const logout = async () => {
+    removeCookie('auth_token')
     setAuthToken(null);
     // history.push(`${ROUTES.LANDING}`);
   }
@@ -41,7 +43,6 @@ const HomePageHeader = ({ match }) => {
         </a>
       </Menu.Item>
       <Menu.Item>
-      {/* not sure what to pass here. not the route but  the function the endpoint ? */}
       <Link to="#" onClick={logout}>Logout</Link>
       </Menu.Item>
      
