@@ -33,13 +33,7 @@ export const UserStore = ({ children }) => {
       }
       getData();
     }
-<<<<<<< HEAD
-  }, [])
-
-  console.log(userInfo)
-=======
   }, [authToken]);
->>>>>>> worked on createAssignments
 
   return (
     <Context.Provider
