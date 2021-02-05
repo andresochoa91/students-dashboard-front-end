@@ -4,8 +4,8 @@ import React from "react";
 import { Row, Col, Space, Card } from "antd";
 import styled from "styled-components";
 import { UnlockOutlined, UserOutlined, TeamOutlined } from "@ant-design/icons";
-import * as ROUTES from '../../../../../constants/routes';
-import { Link } from 'react-router-dom';
+import * as ROUTES from "../../../../../constants/routes";
+import { Link } from "react-router-dom";
 
 const StaffTopLinks = ({ match }) => {
     // const Container = styled.div`
@@ -70,27 +70,29 @@ const StaffTopLinks = ({ match }) => {
                     <Row>
                         <Col xs={24} xl={8}>
                             <Link to={`${match.path}${ROUTES.STUDENTS}`}>
-                            <ButtonOne>
-                                <h3>
-                                <strong>
-                                    <TeamOutlined /> Students
-                                </strong>
-                                </h3>
-                                Manage & Tracking Report
-                            </ButtonOne>
+                                <ButtonOne>
+                                    <h3>
+                                        <strong>
+                                            <TeamOutlined /> Students
+                                        </strong>
+                                    </h3>
+                                    Manage & Tracking Report
+                                </ButtonOne>
                             </Link>
                         </Col>
 
                         <Col xs={24} xl={8}>
-                            <ButtonTwo>
-                                <h3>
-                                    {" "}
-                                    <strong>
-                                        <UserOutlined /> Mentors
-                                    </strong>
-                                </h3>
-                                Manage & Tracking Report
-                            </ButtonTwo>
+                            <Link to={`${match.path}${ROUTES.ADD_MENTORS}`}>
+                                <ButtonTwo>
+                                    <h3>
+                                        {" "}
+                                        <strong>
+                                            <UserOutlined /> Mentors
+                                        </strong>
+                                    </h3>
+                                    Manage & Tracking Report
+                                </ButtonTwo>
+                            </Link>
                         </Col>
                         <Col xs={24} xl={8}>
                             <ButtonThree>
