@@ -16,7 +16,6 @@ const Todo = ({ todo, completeTodo }) => {
         </div>
     );
 };
-
 const ToDoList = () => {
     const getToDoData = async () => {
         const response = await fetch(
@@ -29,7 +28,6 @@ const ToDoList = () => {
     useEffect(() => {
         getToDoData().then((data) => setTodos(data.records));
     }, []);
-
     const completeTodo = (id, status) => {
         fetch("https://api.airtable.com/v0/appm5NPkqO7P8ePUK/List", {
             body: JSON.stringify({
@@ -56,7 +54,6 @@ const ToDoList = () => {
                 alert("Unable to update to do ");
             });
     };
-
     return (
         <>
             <Card className="card-todo">
@@ -77,3 +74,12 @@ const ToDoList = () => {
     );
 };
 export default ToDoList;
+
+
+
+
+
+
+
+
+

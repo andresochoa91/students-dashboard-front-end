@@ -51,22 +51,23 @@ const ButtonStyle = styled.button`
 `;
 
 const HomeButtons = () => {
-    return (
-        <>
-            <Space direction="vertical" className="center">
-                <ButtonStyle as="a" href="/">
-                    <CalendarOutlined /> View Calendar
-                </ButtonStyle>
-                <ButtonStyle
-                    as="a"
-                    href="https://us02web.zoom.us/j/8270372532?pwd=cGJHazFVUURyTTc1a3REQytqZjYyZz09"
-                    target="_blank">
-                    <VideoCameraOutlined /> Mentor Session
-                </ButtonStyle>
-            </Space>
-            <br />
-        </>
-    );
+  return (
+    <>
+      <Space direction="vertical" className="center">
+        <ButtonStyle as="a" href="/">
+          <CalendarOutlined /> View Calendar
+        </ButtonStyle>
+        <ButtonStyle
+          as="a"
+          href="https://us02web.zoom.us/j/8270372532?pwd=cGJHazFVUURyTTc1a3REQytqZjYyZz09"
+          target="_blank"
+        >
+          <VideoCameraOutlined /> Mentor Session
+        </ButtonStyle>
+      </Space>
+     
+    </>
+  );
 };
 
 export default HomeButtons;

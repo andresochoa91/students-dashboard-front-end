@@ -10,7 +10,7 @@ export const StyledSection = styled.section`
         margin: 2rem 0;
     }
     .cardContent {
-        margin: 20px;
+        margin: 0px;
         padding: 20px;
     }
     .card-container p {
@@ -27,7 +27,7 @@ export const StyledSection = styled.section`
         width: 1em;
     }
     .card-container > .ant-tabs-card .ant-tabs-content {
-        min-height: 100vh;
+        min-height: 77.8vh;
         margin-top: -16px;
     }
     .card-container > .ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane {
@@ -69,6 +69,9 @@ export const StyledSection = styled.section`
         border-color: #141414;
         background: #141414;
     }
+    .ant-steps {
+        padding-top: 20px;
+    }
 `;
 
 export const StyledSectionStaff = styled.section`
@@ -76,15 +79,14 @@ export const StyledSectionStaff = styled.section`
     overflow: hidden;
     padding: 24px;
     border: 1px solid red;
-    width: 800px;
-    
+    /* width: 800px; */
+
     .courseOutline {
         margin: 2rem 0;
     }
     .cardContent {
-        margin: 20px;
+        margin: 0px;
         padding: 20px;
-        border: 1px solid pink;
     }
     .card-container p {
         margin-bottom: 10px;
@@ -101,9 +103,10 @@ export const StyledSectionStaff = styled.section`
         width: 1em;
     }
     .card-container > .ant-tabs-card .ant-tabs-content {
-        min-height: 100vh;
+        min-height: 70vh;
         margin-top: -16px;
     }
+
     .card-container > .ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane {
         background: #fff;
         padding: 16px;
@@ -146,6 +149,7 @@ export const StyledSectionStaff = styled.section`
 `;
 
 export const StyledDiv = styled.div`
+    width: 100%;
     .ant-card-head {
         margin-bottom: 0.5em;
         color: rgba(0, 0, 0, 0.85);
@@ -155,7 +159,7 @@ export const StyledDiv = styled.div`
         border: none;
     }
     .ant-card-body {
-        min-height: 100vh;
+        min-height: 70vh;
     }
     .ant-card {
         background: #ffffff;
@@ -168,12 +172,20 @@ export const StyledDivSummary = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-bottom: 20px;
 
+    button {
+    }
+`;
+export const StyledDivSummaryDashboard = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     button {
         margin-top: 10px;
     }
 `;
-export const StyledDivBadge = styled.div`
+export const StyledDivBadgeDashboard = styled.div`
     width: 100%;
     display: var(--display);
      justify-content: flex-end;
@@ -184,6 +196,26 @@ export const StyledDivBadge = styled.div`
         display: var(--display);
         align-items:center;
     }
+             @media only screen and (max-width: 767px) {
+         flex-flow:column;
+     }
+`;
+export const StyledDivBadge = styled.div`
+    width: 100%;
+    display: var(--display);
+     justify-content: center;
+    align-items: center;
+
+}
+    img {
+        width: 150px;
+        display: var(--display);
+        align-items:center;
+    }
+                 @media only screen and (max-width: 767px) {
+         flex-flow:column;
+     }
+
 `;
 
 export const StyledList = styled.div`
@@ -198,4 +230,9 @@ export const StyledList = styled.div`
 
 export const StyledDivGithub = styled.div`
     margin-bottom: 50px;
+`;
+export const StyledDivList = styled.div`
+    ul {
+        padding-left: 30px;
+    }
 `;

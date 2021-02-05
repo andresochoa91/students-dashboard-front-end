@@ -82,7 +82,7 @@ const Login = ({ history }) => {
 								className='login-form'
 								initialValues={{
 									remember: true,
-									email: "user1@gmail.com",
+									email: "user2@gmail.com",
 									password: "123456"
 								}}
 								onFinish={onFinish}

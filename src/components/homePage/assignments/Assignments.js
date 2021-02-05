@@ -332,9 +332,8 @@ const Assignments = ({ match, history }) => {
             return (
                 <TabPane
                     tab={<Link to={match.path}>Week {index + 1}</Link>}
-                    key={`${index}`}
-                >
-                    <Steps current={current}>
+                    key={`${index}`}>
+                    <Steps size="small" current={current}>
                         {!_.isEmpty(stepStatus)
                             ? steps.map((item, index) =>
                                   index === 3 ? (
@@ -492,7 +491,7 @@ const Assignments = ({ match, history }) => {
 
     return (
         <div className="container-fluid">
-            <Row gutter={[16, 24]}>
+            <Row>
                 <Col xs={24} sm={24} md={24} lg={14} xl={16} xxl={18}>
                     <StyledDiv>
                         {!_.isEmpty(classInfo) ? (

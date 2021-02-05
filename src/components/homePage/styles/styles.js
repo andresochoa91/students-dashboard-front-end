@@ -81,7 +81,7 @@ export const Logo = styled.div`
 `;
 export const TopNav = styled.div`
     display: flex;
-    padding: 16px;
+    padding: 0px;
     padding-right: 30px;
     justify-content: space-between;
     align-items: center;

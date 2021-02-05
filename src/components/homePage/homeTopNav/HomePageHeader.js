@@ -1,16 +1,46 @@
 /** @format */
 
-import React from "react";
-import { Layout, Row, Col } from "antd";
+import React, {useContext} from "react";
+import { Layout, Row, Col, Dropdown, Menu } from "antd";
 import { UserCircle } from "@styled-icons/boxicons-solid/UserCircle";
 import { SettingOutlined, BellOutlined } from "@ant-design/icons";
 
 import { HeaderPage, Logo, TopNav } from "../styles/styles";
 import logo from "../../../graphics/logo.png";
+import { useCookies } from 'react-cookie';
+import UserContext from "../../contexts/UserContext";
+import { Link } from 'react-router-dom';
+import * as ROUTES from '../../../constants/routes';
 
 const { Header } = Layout;
 
-const HomePageHeader = () => {
+const HomePageHeader = ({match}) => {
+    const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
+    const [authToken, setAuthToken] = useContext(UserContext);
+  
+    const logout = async () => {
+      removeCookie('auth_token')
+      setAuthToken(null);
+      // history.push(`${ROUTES.LANDING}`);
+    }
+    const menu = (
+        <Menu>
+          <Menu.Item>
+            <Link to={`${match.path}${ROUTES.PROFILE}`}>
+              Account
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
+              Settings
+            </a>
+          </Menu.Item>
+          <Menu.Item>
+          <Link to="#" onClick={logout}>Logout</Link>
+          </Menu.Item>
+         
+        </Menu>
+      );
     return (
         <HeaderPage>
             <Header
@@ -33,7 +63,11 @@ const HomePageHeader = () => {
                         <TopNav className="top-nav">
                             <BellOutlined />
                             <SettingOutlined />
-                            <UserCircle style={{ width: "25px" }} />
+                            <Dropdown overlay={menu}>
+                                <a className="ant-dropdown-link" trigger={['click']} onClick={e => e.preventDefault()}>
+                                     <UserCircle  style={{ width: "25px" }} />
+                                </a>
+                                </Dropdown>
                         </TopNav>
                     </Col>
                 </Row>

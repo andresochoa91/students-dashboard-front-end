@@ -72,7 +72,7 @@ const HomePage = ({ match, history }) => {
                     />
                     <div className="container-fluid">
                         <Layout className="site-layout">
-                            <HomePageHeader />
+                            <HomePageHeader match={match} />
                             <Breadcrumbs
                                 page={page}
                                 match={match}
