@@ -1,9 +1,8 @@
+/** @format */
+
 import React, { useState, useEffect } from "react";
 import { Card, Typography, Checkbox } from "antd";
 import "./styles.css";
-import { CheckSquareFilled, CloseSquareFilled } from "@ant-design/icons";
-
-
 const Todo = ({ todo, completeTodo }) => {
     return (
         <div style={{ textDecoration: todo.Status ? "line-through" : "" }}>
@@ -57,20 +56,20 @@ const ToDoList = () => {
     };
     return (
         <>
-            <>
-                <Card className="card-todo white-gray shadow center">
-                    <Typography.Title level={4}>To Do</Typography.Title>
-                    {todos &&
-                        todos.map((todo, index) => (
-                            <Todo
-                                key={index}
-                                id={todo.id}
-                                todo={todo}
-                                completeTodo={completeTodo}
-                            />
-                        ))}
-                </Card>
-            </>
+            <Card className="card-todo">
+                <Typography.Title level={5} style={{ color: "black" }}>
+                    To Do
+                </Typography.Title>
+                {todos &&
+                    todos.map((todo, index) => (
+                        <Todo
+                            key={index}
+                            id={todo.id}
+                            todo={todo}
+                            completeTodo={completeTodo}
+                        />
+                    ))}
+            </Card>
         </>
     );
 };

@@ -12,7 +12,9 @@ import HomePage from './homePage/HomePage';
 import GlobalStyles from '../styles/Global';
 import 'antd/dist/antd.css';
 
+
 const App = () => {
+  
   return (
     <BrowserRouter>
       <CookiesProvider>

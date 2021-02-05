@@ -1,6 +1,14 @@
-.card-todo 
-{    width: 305px;    
-    padding: 0;    
-    border: "1px solid #D3D3D3";   
-    border-radius: 6px;    
-    background-color: #f1f1f2;}
+/** @format */
+
+.card-todo {
+    background: #fff;
+    color: #000;
+    line-height: 2;
+    padding: 0px;
+}
+
+@media only screen and (max-width: 996px) {
+    .card-todo {
+        display: none;
+    }
+}

@@ -1,32 +1,48 @@
-import React, { useState, useContext } from 'react';
-import { Row, Col, Avatar, Layout } from "antd";
-import { UserOutlined } from '@ant-design/icons';
-import UserContext from '../../contexts/UserContext';
-import StudentSiderMenu from './student/StudentSiderMenu';
-import StaffSiderMenu from './staff/StaffSiderMenu';
+/** @format */
 
+import React, { useState, useContext } from "react";
+import { Row, Col, Avatar, Layout } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+
+import UserContext from "../../contexts/UserContext";
+import StudentSiderMenu from "./student/StudentSiderMenu";
+import StaffSiderMenu from "./staff/StaffSiderMenu";
 
 const { Sider } = Layout;
 
 const SiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
-  const [collapsed, setCollapsed] = useState(false);
-  const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
-  console.log(keys)
-  const onCollapse = (collapsed) => {
-    setCollapsed(collapsed);
-  };
+    const [collapsed, setCollapsed] = useState(false);
+    const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
 
-  const displaySider = () => {
-    if (userInfo.role === 'student') {
-      return <StudentSiderMenu match={match} keys={keys} setSelectedKey={setSelectedKey} selectedKey={selectedKey} />;
-    } else if (userInfo.role === 'staff') {
-      return <StaffSiderMenu match={match} keys={keys} setSelectedKey={setSelectedKey} selectedKey={selectedKey} />;
-    } else if (userInfo.role === 'admin') {
-      return null;
-    } else {
-      return null;
-    }
-  }
+    const onCollapse = (collapsed) => {
+        setCollapsed(collapsed);
+    };
+
+    const displaySider = () => {
+        if (userInfo.role === "student") {
+            return (
+                <StudentSiderMenu
+                    match={match}
+                    keys={keys}
+                    setSelectedKey={setSelectedKey}
+                    selectedKey={selectedKey}
+                />
+            );
+        } else if (userInfo.role === "staff") {
+            return (
+                <StaffSiderMenu
+                    match={match}
+                    keys={keys}
+                    setSelectedKey={setSelectedKey}
+                    selectedKey={selectedKey}
+                />
+            );
+        } else if (userInfo.role === "admin") {
+            return null;
+        } else {
+            return null;
+        }
+    };
 
   const displayName = () => {
     if (userInfo.role === 'student') {

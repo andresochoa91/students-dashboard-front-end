@@ -1,7 +1,52 @@
 <<<<<<< HEAD
 {
+<<<<<<< HEAD
     "cSpell.words": [
         "airtable"
+=======
+    "cSpell.ignoreWords": [
+        "a",
+        "adipiscing",
+        "aliquet",
+        "amet",
+        "at",
+        "congue",
+        "consectetur",
+        "diam",
+        "dolor",
+        "donec",
+        "elit",
+        "erat",
+        "est",
+        "eu",
+        "feugiat",
+        "gravida",
+        "in",
+        "ipsum",
+        "lacus",
+        "laoreet",
+        "ligula",
+        "lorem",
+        "malesuada",
+        "massa",
+        "neque",
+        "nibh",
+        "nisi",
+        "noopener",
+        "noreferrer",
+        "oyta",
+        "placerat",
+        "proin",
+        "regularsession",
+        "sit",
+        "sollicitudin",
+        "suspendisse",
+        "tellus",
+        "tempus",
+        "tincidunt",
+        "turpis",
+        "ultrices"
+>>>>>>> 2615507f4268843693e6de11c98ccd12b17ddead
     ]
 } // {
 //     "workbench.colorCustomizations": {

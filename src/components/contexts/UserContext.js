@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
-import _ from 'lodash';
+/** @format */
+
+import React, { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import _ from "lodash";
 
 const Context = React.createContext();
 

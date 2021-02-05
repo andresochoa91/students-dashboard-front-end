@@ -20,8 +20,6 @@ import * as ROUTES from "../../../../constants/routes";
 const { SubMenu } = Menu;
 
 const StudentSiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
-  console.log(selectedKey)
-  console.log(keys['Dashboard'])
   return (
     <Menu
       theme="dark"
