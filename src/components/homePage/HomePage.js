@@ -26,7 +26,7 @@ const HomePage = ({ match, history }) => {
         if (userInfo) {
             if (userInfo.role === "student") {
                 setSelectedKey(KEYS["student"][page]);
-            } else if ((userInfo.role = "staff")) {
+            } else if ((userInfo.role === "staff")) {
                 setSelectedKey(KEYS["staff"][page]);
             } else {
                 // Need to put setSelectedKey for other roles  ('mentor', 'admin')

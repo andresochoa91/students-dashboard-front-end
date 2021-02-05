@@ -1,20 +1,13 @@
 import React, { useEffect } from "react";
 import { Row, Col, Space } from "antd";
 
-<<<<<<< HEAD:src/components/homePage/staff_students_manage/StudentsManaging.js
-import Announcements from "../dashboard/staffDashboard/announcements/Announcements";
-import SmallCalendar from "../dashboard/staffDashboard/smallCalendar/SmallCalendar";
-// import HomeButtons from "../dashboard/staffDashboard/homeButtons/HomeButtons"; 
-
-import EventsButton from "../dashboard/staffDashboard/eventsButton/eventsStaffButton";
-import MeetingButton from "../dashboard/staffDashboard/meetingButton/meetingButton";
-
-=======
-
 import Announcements from "../../dashboard/staffDashboard/announcements/Announcements";
 import SmallCalendar from "../../dashboard/staffDashboard/smallCalendar/SmallCalendar";
-import HomeButtons from "../../dashboard/staffDashboard/homeButtons/HomeButtons";
->>>>>>> worked on createAssignments:src/components/homePage/staff/staff_students_manage/StudentsManaging.js
+// import HomeButtons from "../dashboard/staffDashboard/homeButtons/HomeButtons"; 
+
+import EventsButton from "../../dashboard/staffDashboard/eventsButton/eventsStaffButton";
+import MeetingButton from "../../dashboard/staffDashboard/meetingButton/meetingButton";
+
 import Students from './Students'
 
 const StudentsManaging = ({ history, menuKey, selectedKey, setSelectedKey }) => {
