@@ -1,15 +1,17 @@
-import React, { useState, useContext } from 'react';
-import { Button, Form, Input } from 'antd';
-import { UserOutlined, LockOutlined, AlignLeftOutlined } from '@ant-design/icons';
+/** @format */
 
-import * as ROUTES from '../../constants/routes';
-import ForgotPassword from './ForgotPassword';
-import UserContext from '../contexts/UserContext';
+import React, { useState, useContext } from "react";
+import { Button, Form, Input } from "antd";
+import { UserOutlined, LockOutlined, AlignLeftOutlined } from "@ant-design/icons";
+
+import * as ROUTES from "../../constants/routes";
+import ForgotPassword from "./ForgotPassword";
+import UserContext from "../contexts/UserContext";
 
 const Login = ({ history }) => {
-	const [loginState, setLoginState] = useState({ error: null, loading: null });
-	const { error, loading } = loginState;
-	const [authToken, setAuthToken] = useContext(UserContext);
+    const [loginState, setLoginState] = useState({ error: null, loading: null });
+    const { error, loading } = loginState;
+    const [authToken, setAuthToken] = useContext(UserContext);
 
 	const onFinish = async (values) => {
 		// const { email } = values;
@@ -35,30 +37,36 @@ const Login = ({ history }) => {
 		}
 	};
 
-	async function fetchData(values) {
-		try {
-			const response = await fetch('https://forked-student-dashboard.herokuapp.com/auth/login', {
-				method: 'POST',
-				mode: 'cors',
-				credentials: 'include',
-				body: JSON.stringify(values),
-				headers: { 'Content-Type': 'application/json' }
-			});
-			const message = await response.json();
-			const token = response.headers.get('authorization');
+    async function fetchData(values) {
+        try {
+            const response = await fetch(
+                "https://forked-student-dashboard.herokuapp.com/auth/login",
+                {
+                    method: "POST",
+                    mode: "cors",
+                    credentials: "include",
+                    body: JSON.stringify(values),
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+            const message = await response.json();
+            const token = response.headers.get("authorization");
 
-			return { info: { ...message }, token };
-		} catch (e) {
-			console.log(e.message);
-		}
-	}
+            return { info: { ...message }, token };
+        } catch (e) {
+            console.log(e.message);
+        }
+    }
 
-	return (
-		<div className=' col-4 contain'>
-			<h1>
-				Welcome to CTD's School
-				<span className='span-txt'>This website is your main hub for class materials for Code the Dream’s classes.</span>
-			</h1>
+    return (
+        <div className=" col-4 contain">
+            <h1>
+                Welcome to CTD's School
+                <span className="span-txt">
+                    This website is your main hub for class materials for Code the
+                    Dream’s classes.
+                </span>
+            </h1>
 
 			<div className='form'>
 				<h2>Sign In</h2>

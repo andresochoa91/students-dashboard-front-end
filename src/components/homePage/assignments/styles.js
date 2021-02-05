@@ -1,21 +1,20 @@
+/** @format */
+
 import styled from "styled-components";
 
 export const StyledSection = styled.section`
     background: #f5f5f5;
     overflow: hidden;
     padding: 24px;
-    border: 1px solid red;
     .courseOutline {
         margin: 2rem 0;
     }
     .cardContent {
         margin: 20px;
         padding: 20px;
-        border: 1px solid pink;
     }
     .card-container p {
         margin-bottom: 10px;
-        border: 1px solid blue;
     }
     .card-container > .ant-steps-item-wait,
     .ant-steps-item-container,
@@ -158,25 +157,32 @@ export const StyledDiv = styled.div`
     .ant-card-body {
         min-height: 100vh;
     }
+    .ant-card {
+        background: #ffffff;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+    }
 `;
 
 export const StyledDivSummary = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: center;
+
     button {
-        margin: 10px;
+        margin-top: 10px;
     }
 `;
 export const StyledDivBadge = styled.div`
     width: 100%;
     display: var(--display);
-     
+     justify-content: flex-end;
+    align-items: center;
 }
     img {
-        width: 100px;
-        margin-right: 40px;
+        width: 250px;
         display: var(--display);
+        align-items:center;
     }
 `;
 
@@ -188,8 +194,8 @@ export const StyledList = styled.div`
     li a {
         color: inherit;
     }
-`
+`;
 
 export const StyledDivGithub = styled.div`
     margin-bottom: 50px;
-`
+`;

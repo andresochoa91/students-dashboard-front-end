@@ -1,7 +1,9 @@
+/** @format */
+
 import React, { useContext } from "react";
 import { PageHeader, Breadcrumb } from "antd";
 import { Link } from "react-router-dom";
-
+import { StyledHeadDiv } from "./styles.js";
 import * as ROUTES from "../../../constants/routes";
 import UserContext from "../../contexts/UserContext";
 

@@ -16,6 +16,7 @@ const GlobalStyles = createGlobalStyle`
     --orange: #FF5C35;
     --white: #fff;
     --display:flex;
+    --gray-bk:#f5f5f5;
     --flow-column:column nowrap;
     --flow-row:column nowrap;
     --center:center;
@@ -35,7 +36,7 @@ const GlobalStyles = createGlobalStyle`
 .site-layout,
 .site-layout-background,
 .header {
-  background-color: var(--white);
+  background-color: var(----gray-bk);
 }
  .ctd-logo, .site-layout-right, .center{ 
   display: var(--display);
@@ -64,7 +65,6 @@ const GlobalStyles = createGlobalStyle`
     align-items:top;
     padding:0;
     margin:0 auto;
-    border:1px solid red;
 }
 .shadow{
   box-shadow: var(--shadow);
@@ -79,6 +79,15 @@ p {
     padding-top:30px;
     color: var(--white);
 }
+
+ .ant-card {
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+border-radius: 6px;
+    }
+
+    .ant-layout-footer {
+        background-color: #d5d4d4;
+    }
 @media all and (max-width:450px){
 }
 

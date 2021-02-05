@@ -1,4 +1,6 @@
-import React from 'react';
+/** @format */
+
+import React from "react";
 import { Switch } from "react-router-dom";
 import { Layout } from "antd";
 
@@ -11,35 +13,39 @@ import FullCalendarDashboard from "../../fullCalendar/FullCalendarDashboard";
 const { Content } = Layout;
 
 const StudentHomeContent = ({ keys, selectedKey, setSelectedKey, match }) => {
-  return (
-    <Content style={{ margin: "0 16px" }}>
-      <div className="site-layout-background">
-        <Switch>
-          <PrivateRoute
-            path={`${match.path}${ROUTES.DASHBOARD}`}
-            component={Dashboard}
-            menuKey={{ dashboardKey: keys['Dashboard'], assignmentsKey: keys['Assignments'], calendarKey: keys['Calendar'] }}
-            selectedKey={selectedKey}
-            setSelectedKey={setSelectedKey}
-          />
-          <PrivateRoute
-            path={`${match.path}${ROUTES.ASSIGNMENTS}`}
-            menuKey={keys[2]}
-            selectedKey={selectedKey}
-            setSelectedKey={setSelectedKey}
-            component={Assignments}
-          />
-          <PrivateRoute
-            path={`${match.path}${ROUTES.CALENDAR}`}
-            menuKey={keys[3]}
-            selectedKey={selectedKey}
-            setSelectedKey={setSelectedKey}
-            component={FullCalendarDashboard}
-          />
-        </Switch>
-      </div>
-    </Content>
-  )
-}
+    return (
+        <Content style={{ margin: "0 16px" }}>
+            <div className="site-layout-background">
+                <Switch>
+                    <PrivateRoute
+                        path={`${match.path}${ROUTES.DASHBOARD}`}
+                        component={Dashboard}
+                        menuKey={{
+                            dashboardKey: keys["Dashboard"],
+                            assignmentsKey: keys["Assignments"],
+                            calendarKey: keys["Calendar"],
+                        }}
+                        selectedKey={selectedKey}
+                        setSelectedKey={setSelectedKey}
+                    />
+                    <PrivateRoute
+                        path={`${match.path}${ROUTES.ASSIGNMENTS}`}
+                        menuKey={keys[2]}
+                        selectedKey={selectedKey}
+                        setSelectedKey={setSelectedKey}
+                        component={Assignments}
+                    />
+                    <PrivateRoute
+                        path={`${match.path}${ROUTES.CALENDAR}`}
+                        menuKey={keys[3]}
+                        selectedKey={selectedKey}
+                        setSelectedKey={setSelectedKey}
+                        component={FullCalendarDashboard}
+                    />
+                </Switch>
+            </div>
+        </Content>
+    );
+};
 
 export default StudentHomeContent;

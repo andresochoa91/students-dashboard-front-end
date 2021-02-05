@@ -1,3 +1,5 @@
+/** @format */
+
 import styled from "styled-components";
 
 export const StyledDiv = styled.div`
@@ -10,11 +12,13 @@ export const StyledDiv = styled.div`
     }
 `;
 export const StyledLegend = styled.div`
-        margin-left:17px;
-        margin-top:17px;
-        padding: 30px 10px;
-        width: 300px;
-        border-top: 1px solid #ccc;
+        width:100%;
+        
+
+}
+.ant-card{
+    margin-top:15px;
+
 }
         `;
 

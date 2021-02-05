@@ -1,14 +1,9 @@
+/** @format */
+
 import React, { useState, useEffect } from "react";
 import { Card, Typography, Checkbox } from "antd";
-import { CheckSquareFilled, CloseSquareFilled } from "@ant-design/icons";
-
+import "./styles.css";
 const Todo = ({ todo, completeTodo }) => {
-    const boxesStyle = {
-        marginRight: 5,
-        color: "#0275D8",
-        border: "none",
-        paddingLeft: 8,
-    };
     return (
         <div style={{ textDecoration: todo.Status ? "line-through" : "" }}>
             <div>
@@ -16,7 +11,7 @@ const Todo = ({ todo, completeTodo }) => {
                     checked={todo.fields.Status ? true : null}
                     onChange={() => completeTodo(todo.id, !todo.fields.Status)}
                 />
-                {todo.fields.ToDo}
+                <span style={{ paddingLeft: 10 }}>{todo.fields.ToDo}</span>
             </div>
         </div>
     );
@@ -25,7 +20,7 @@ const Todo = ({ todo, completeTodo }) => {
 const ToDoList = () => {
     const getToDoData = async () => {
         const response = await fetch(
-            process.env.REACT_APP_GET_TODO_LIST
+            "https://api.airtable.com/v0/appm5NPkqO7P8ePUK/List?api_key=keyclOytaXo7NHQ8M"
         );
         const todoData = await response.json();
         return todoData;
@@ -36,7 +31,7 @@ const ToDoList = () => {
     }, []);
 
     const completeTodo = (id, status) => {
-        fetch(process.env.REACT_APP_UPDATE_TODO_LIST, {
+        fetch("https://api.airtable.com/v0/appm5NPkqO7P8ePUK/List", {
             body: JSON.stringify({
                 records: [
                     {
@@ -64,17 +59,10 @@ const ToDoList = () => {
 
     return (
         <>
-            <Card
-                className="shadow center"
-                style={{
-                    width: 295,
-                    padding: 0,
-                    border: "1px solid #D3D3D3",
-                    borderRadius: 6,
-                    background: "#F1F1F2",
-                }}
-            >
-                <Typography.Title level={4}>To Do</Typography.Title>
+            <Card className="card-todo">
+                <Typography.Title level={5} style={{ color: "black" }}>
+                    To Do
+                </Typography.Title>
                 {todos &&
                     todos.map((todo, index) => (
                         <Todo
@@ -84,7 +72,6 @@ const ToDoList = () => {
                             completeTodo={completeTodo}
                         />
                     ))}
-                <br></br>
             </Card>
         </>
     );
