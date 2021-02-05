@@ -107,21 +107,33 @@ const MentorsTable = () => {
       ),
   });
   useEffect(() => {
-    getMentorsData().then((data) => setMentors(data));
+    getMentorsData().then((data) => {
+      const mentor = data.map(mentor => {
+        return {
+          ...mentor,
+          key: mentor.Key
+        }
+      })
+      setMentors(mentor)
+    });
   }, []);
+
   const handleDelete = (key) => {
     console.log(key);
     setMentors((mentors) => mentors.filter((item) => item.Key !== key));
   };
+
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
+
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
   };
+  
   const columns = [
     {
       title: "Name",

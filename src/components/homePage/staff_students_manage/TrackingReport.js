@@ -112,7 +112,6 @@ const TrackingReport = () => {
     }
 
     if (word === "weekStatus") {
-      console.log(toProcess);
       return ( 
         toProcess.status === 6 ? "#0f0" : 
         toProcess.status >= 3 ? "#fc0" : "#f00" 
@@ -158,7 +157,7 @@ const TrackingReport = () => {
       units: "Units",
       assignments: <Square squareColor={ () => setColor(weeklyProgress, "generalAssignments") } />,
       githubLink: <Square squareColor={ () => setColor(weeklyProgress, "generalGithubLinks") } />,
-      status: <Square squareColor={ () => setColor(weeklyProgress, "generalStatus") } />,
+      // status: <Square squareColor={ () => setColor(weeklyProgress, "generalStatus") } />,
       
       children: Object.entries(student.units).map((unit) => {
         const unitName = unit[0];
@@ -169,7 +168,7 @@ const TrackingReport = () => {
           units: unitName,
           assignments: <Square squareColor={ () => setColor(unitProgress, "unitAssignments") } />,
           githubLink: <Square squareColor={ () => setColor(unitProgress, "unitGithubLinks") } />,
-          status: <Square squareColor={ () => setColor(unitProgress, "unitStatus") } />,
+          // status: <Square squareColor={ () => setColor(unitProgress, "unitStatus") } />,
 
           children: unitProgress.map((weekData) => {
             const weekName = weekData.week;            
@@ -178,8 +177,8 @@ const TrackingReport = () => {
               key: weekName,
               units: weekName,
               assignments: <Square squareColor={ setColor(weekData, "weekAssignment") } />,
-              githubLink: weekData.githubLink || "No assignment submited",
-              status: <Square squareColor={ setColor(weekData, "weekStatus") } />
+              githubLink: <a href={ `https://${weekData.githubLink}` }>{ weekData.githubLink }</a>,
+              // status: <Square squareColor={ setColor(weekData, "weekStatus") } />
             }
           })
         }
@@ -235,12 +234,12 @@ const TrackingReport = () => {
       key: 'githubLink',
       ellipsis: true,
     },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      ellipsis: true,
-    },
+    // {
+    //   title: 'Status',
+    //   dataIndex: 'status',
+    //   key: 'status',
+    //   ellipsis: true,
+    // }
   ];
 
 
