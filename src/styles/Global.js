@@ -49,6 +49,12 @@ const GlobalStyles = createGlobalStyle`
   width: 170px;
   padding: 0;
  }
+
+ .githublink{
+     display:flex;
+
+     padding:30px;
+ }
  .cards-border{
     border: var(--gray-border);
  }
