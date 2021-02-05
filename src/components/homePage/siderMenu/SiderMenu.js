@@ -28,6 +28,17 @@ const SiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
     }
   }
 
+  const displayName = () => {
+    if (userInfo.role === 'student') {
+      return `${userInfo.student.first_name} ${userInfo.student.last_name}`
+    } else if (userInfo.role === 'staff') {
+      return `${userInfo.staff.first_name} ${userInfo.staff.last_name}`
+    } else if (userInfo.role === 'admin') {
+      return null;
+    } else {
+      return null;
+    }
+  }
   return (
     <Sider
       style={{ backgroundColor: "#12284C" }}
@@ -58,7 +69,8 @@ const SiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
         </Col>
         <Col span={24} align="center">
           <div className="username" style={{ paddingBottom: "30px" }}>
-            {`${userInfo.student.first_name} ${userInfo.student.last_name}`}
+           {displayName()}
+            
             </div>
         </Col>
       </Row>
