@@ -1,14 +1,30 @@
-import React, {useState, useEffect} from "react";
-import { Table,  Input, Button,  Menu,  Row, Col, Checkbox, Spin} from 'antd';
+/** @format */
+
+import React, { useState, useEffect } from "react";
+import {
+    Table,
+    Input,
+    Button,
+    Menu,
+    Dropdown,
+    Row,
+    Col,
+    Modal,
+    Checkbox,
+    Spin,
+    Typography,
+} from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
-import ModalStudent from './AddStudentModal';
-import ActionButton from './ActionButton';
+import ModalStudent from "./AddStudentModal";
+import ActionButton from "./ActionButton";
+
 // import { VariableSizeGrid as Grid } from 'react-window';
 // import ResizeObserver from 'rc-resize-observer';
 // import classNames from 'classnames';
 
 const TabsContent = styled.div`
-  margin: '0 20px';
+    margin: "0 20px";
 `;
 
 const HeaderStyle = styled.div`
@@ -200,7 +216,10 @@ const StudentsTable = () => {
                 lg={12}
               >
               <HeaderStyle>
-                <h3 style={{fontWeight: 'bold'}}>CTD Students's  List</h3>
+                <Typography.Title level={5}>
+                  CTD Students's List
+                </Typography.Title>
+                {/* <h3 style={{fontWeight: 'bold'}}>CTD Students's  List</h3> */}
                 <Search
                   placeholder="Search"
                   allowClear
@@ -208,26 +227,26 @@ const StudentsTable = () => {
                   enterButton
                   style={{ width: 200 }}
                 />
-                  {
-                    temporarySearch && (
-                      <div>
-                        <br/>
-                        <p>
-                          { temporarySearch }&nbsp;
-                          <Button 
-                            type="danger" 
-                            shape="circle"
-                            onClick={ () => {
-                              setTemporarySearch("") 
-                              setCurrentStudents(students);
-                            }}
-                          >
-                            x
-                          </Button>
-                        </p>         
-                      </div>
-                    )
-                  }
+                {
+                  temporarySearch && (
+                    <div>
+                      <br/>
+                      <p>
+                        { temporarySearch }&nbsp;
+                        <Button 
+                          type="danger" 
+                          shape="circle"
+                          onClick={ () => {
+                            setTemporarySearch("") 
+                            setCurrentStudents(students);
+                          }}
+                        >
+                          x
+                        </Button>
+                      </p>         
+                    </div>
+                  )
+                }
               </HeaderStyle>
                     
               </Col>
@@ -273,7 +292,11 @@ const StudentsTable = () => {
             </Row>
           </TabsContent>
         ) : (
-          <Spin size="large" />
+          <Row>
+            <Col span={12} offset={12}>
+              <Spin size="large" />
+            </Col>
+          </Row>
         )
       }
     </>

@@ -30,8 +30,7 @@ const MainProgress = () => {
                             </Typography.Title>
                         }
                         bordered={false}
-                        style={{ backgroundColor: "white" }}
-                        extra={<a href="#">More</a>}>
+                        style={{ backgroundColor: "white" }}>
                         <div className="progress">
                             <Row justify="center" align="middle" gutter={[8, 16]}>
                                 {progress && progress.records ? (

@@ -46,7 +46,7 @@ const Dashboard = ({ history, menuKey, selectedKey, setSelectedKey, match }) => 
         } else if (userInfo.role === "staff") {
             return (
                 <>
-                    <StaffTopLinks match={ match }/>
+                    <StaffTopLinks match={match} />
                     <CurrentCourses />
                 </>
             );
