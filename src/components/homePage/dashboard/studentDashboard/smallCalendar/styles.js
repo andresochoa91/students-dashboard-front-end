@@ -10,31 +10,38 @@ export const StyledDiv = styled.div`
     border: 1px solid #f0f0f0;
     border-radius: 2px;
     border: none;
+
     .ant-picker-calendar .ant-picker-calendar-mini {
         border: none;
     }
+
     .ant-row {
         display: flex;
         flex-flow: row nowrap;
         align-items: center;
         justify-content: space-between;
     }
+
     .ant-typography,
     .ant-typography h5 {
         margin: 0px;
     }
+
     @media only screen and (max-width: 996px) {
         .ant-space-item {
             display: none;
         }
     }
 `;
+
 export const StyledLegend = styled.div`
     margin-left: 15px;
     width: 100%;
+    
     .ant-card .ant-card-bordered {
         width: 100%;
     }
+    
     @media only screen and (max-width: 880px) {
         margin-left: 0;
         margin-top: 20px;
@@ -54,5 +61,4 @@ export const StyledEvents = styled.div`
     display: inline-flex;
     justify-content: center;
     align-items: center;
-}
 `;

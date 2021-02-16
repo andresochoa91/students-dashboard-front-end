@@ -31,7 +31,8 @@ const Students = () => {
         <Card style={styleCard}
             type="inner"
             hoverable
-            className="cards-border">
+            className="cards-border"
+        >
             <div  className="card-container">
                 <Tabs style={styleTabs} type="card">
                     <TabPane tab="Students Management" key="1" style={styleTabPane}>

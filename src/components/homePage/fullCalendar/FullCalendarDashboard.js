@@ -1,25 +1,25 @@
 /** @format */
 
 import React, { useState, useContext, useEffect } from "react";
-import FullCalendar, { formatDate } from "@fullcalendar/react";
+import FullCalendar/* , { formatDate } */ from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-import { Modal, Card, Button, Popover, Space, Descriptions, Row, Col } from "antd";
+import { /* Modal,  */Card, /* Button,  */Popover, Space, Descriptions, Row, Col } from "antd";
 import CalLegends from "../dashboard/calLegends/CalLegends";
-import makeDate from "./utils/makeDate";
-import moment from "moment";
+// import makeDate from "./utils/makeDate";
+// import moment from "moment";
 import CalendarContext from "../../contexts/CalendarContext";
 import UserContext from "../../contexts/UserContext";
 import "./styles.css";
 
 const FullCalendarDashboard = ({ menuKey, setSelectedKey }) => {
     const [selectedDate, setSelectedDate] = useContext(CalendarContext);
-    const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
-    const [visible, setVisibility] = useState(false);
+    const [/* authToken, setAuthToken,  */ userInfo /* , setUserInfo */] = useContext(UserContext);
+    // const [visible, setVisibility] = useState(false);
     const [eventsInfo, setEvents] = useState([]);
-    const [mentorsInfo, setMentorEvents] = useState([]);
+    // const [mentorsInfo, setMentorEvents] = useState([]);
     /*     console.log(userInfo); */
     const [state, setState] = useState({
         weekendsVisible: true,

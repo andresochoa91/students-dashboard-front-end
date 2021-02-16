@@ -16,7 +16,7 @@ import CurrentCourses from "./staffDashboard/currentCourses/CurrentCourses";
 import Announcements from "./staffDashboard/announcements/Announcements";
 
 const Dashboard = ({ history, menuKey, selectedKey, setSelectedKey, match }) => {
-    const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
+    const [/* authToken, setAuthToken,  */userInfo, /* setUserInfo */] = useContext(UserContext);
     const { assignmentsKey, calendarKey, dashboardKey } = menuKey;
 
     useEffect(() => {

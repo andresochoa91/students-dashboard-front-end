@@ -6,47 +6,59 @@ export const StyledSection = styled.section`
     background: #f5f5f5;
     overflow: hidden;
     padding: 24px;
+
     .courseOutline {
         margin: 2rem 0;
     }
+
     .cardContent {
         margin: 0 1rem;
     }
+
     .card-container p {
         margin: 0;
     }
+
     .card-container > .ant-tabs-card .ant-tabs-content {
         height: 300px;
         margin-top: -16px;
     }
+
     .card-container > .ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane {
         background: #fff;
         padding: 16px;
     }
+
     .card-container > .ant-tabs-card > .ant-tabs-nav::before {
         display: none;
     }
+
     .card-container > .ant-tabs-card .ant-tabs-tab,
     [data-theme="compact"] .card-container > .ant-tabs-card .ant-tabs-tab {
         border-color: transparent;
         background: transparent;
     }
+
     .card-container > .ant-tabs-card .ant-tabs-tab-active,
     [data-theme="compact"] .card-container > .ant-tabs-card .ant-tabs-tab-active {
         border-color: #fff;
         background: #fff;
     }
+
     [data-theme="compact"] .card-container > .ant-tabs-card .ant-tabs-content {
         height: 120px;
         margin-top: -8px;
     }
+
     [data-theme="dark"] .card-container > .ant-tabs-card .ant-tabs-tab {
         border-color: transparent;
         background: transparent;
     }
+
     [data-theme="dark"] #components-tabs-demo-card-top .code-box-demo {
         background: #000;
     }
+
     [data-theme="dark"]
         .card-container
         > .ant-tabs-card
@@ -54,6 +66,7 @@ export const StyledSection = styled.section`
         > .ant-tabs-tabpane {
         background: #141414;
     }
+
     [data-theme="dark"] .card-container > .ant-tabs-card .ant-tabs-tab-active {
         border-color: #141414;
         background: #141414;
@@ -74,11 +87,13 @@ export const HeaderPage = styled.div`
     background-color: white;
     box-shadow: 7px 7px 19px -12px rgba(0, 0, 0, 0.32);
 `;
+
 export const Logo = styled.div`
     justify-content: flex-start;
     align-items: center;
     padding-left: 20px;
 `;
+
 export const TopNav = styled.div`
     display: flex;
     padding: 0px;
@@ -89,6 +104,7 @@ export const TopNav = styled.div`
     font-size: 18px;
     width: 160px;
 `;
+
 export const FooterBottom = styled.footer`
     z-index: 4;
     width: 100%;
@@ -111,6 +127,7 @@ export const FooterBottom = styled.footer`
         padding-left: 0;
     }
 `;
+
 export const Copyright = styled.div`
     display: flex;
     justify-content: flex-end;
@@ -122,6 +139,7 @@ export const Copyright = styled.div`
         font-size: 20px;
     }
 `;
+
 export const Icon = styled.div`
     display: flex;
     justify-content: space-between;
@@ -138,6 +156,7 @@ export const Icon = styled.div`
         padding-top: 12px;
     }
 `;
+
 export const FooterLinks = styled.a`
     display: flex;
     font-size: 20px;
