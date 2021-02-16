@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { Row, Col, Space } from "antd";
 
-import Announcements from "../dashboard/staffDashboard/announcements/Announcements";
-import SmallCalendar from "../dashboard/staffDashboard/smallCalendar/SmallCalendar";
+import Announcements from "../../dashboard/staffDashboard/announcements/Announcements";
+import SmallCalendar from "../../dashboard/staffDashboard/smallCalendar/SmallCalendar";
 // import HomeButtons from "../dashboard/staffDashboard/homeButtons/HomeButtons"; 
 
-import EventsButton from "../dashboard/staffDashboard/eventsButton/eventsStaffButton";
-import MeetingButton from "../dashboard/staffDashboard/meetingButton/meetingButton";
+import EventsButton from "../../dashboard/staffDashboard/eventsButton/eventsStaffButton";
+import MeetingButton from "../../dashboard/staffDashboard/meetingButton/meetingButton";
 
 import Students from './Students'
 
@@ -14,7 +14,7 @@ const StudentsManaging = ({ history, menuKey, selectedKey, setSelectedKey }) => 
     const { calendarKey, studentsdKey } = menuKey;
 
     useEffect(() => {
-        setSelectedKey(studentsdKey); 
+        setSelectedKey(studentsdKey);
     }, [])
 
     return (

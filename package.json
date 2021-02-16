@@ -1,62 +1,77 @@
 {
-    "name": "students-dashboard-front-end",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-        "@ant-design/icons": "^4.2.2",
-        "@fullcalendar/core": "^5.4.0",
-        "@fullcalendar/daygrid": "^5.4.0",
-        "@fullcalendar/interaction": "^5.4.0",
-        "@fullcalendar/list": "^5.4.0",
-        "@fullcalendar/react": "^5.4.0",
-        "@fullcalendar/timegrid": "^5.4.0",
-        "@testing-library/jest-dom": "^4.2.4",
-        "@testing-library/react": "^9.3.2",
-        "@testing-library/user-event": "^7.1.2",
-        "airtable": "^0.10.1",
-        "antd": "^4.7.0",
-        "fullcalendar": "^5.4.0",
-        "lodash": "^4.17.20",
-        "moment": "^2.29.1",
-        "rc-calendar": "^9.15.11",
-        "react": "^16.13.1",
-        "react-big-calendar": "^0.28.6",
-        "react-big-calendar-slot": "^0.22.1",
-        "react-cookie": "^4.0.3",
-        "react-dom": "^16.13.1",
-        "react-highlight-words": "^0.17.0",
-        "react-intl": "^5.10.0",
-        "react-moment-proptypes": "^1.7.0",
-        "react-router-dom": "^5.2.0",
-        "react-scripts": "^3.4.4",
-        "react-tackle-box": "^2.1.0",
-        "styled-components": "^5.2.0",
-        "styled-icons": "^10.22.0"
-    },
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
-    },
-    "eslintConfig": {
-        "extends": "react-app"
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
-    "devDependencies": {
-        "css-loader": "^4.3.0",
-        "style-loader": "^2.0.0",
-        "typescript": "^3.6.4"
-    }
+  "name": "students-dashboard-front-end",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ant-design/icons": "^4.2.2",
+    "@fullcalendar/core": "^5.4.0",
+    "@fullcalendar/daygrid": "^5.4.0",
+    "@fullcalendar/interaction": "^5.4.0",
+    "@fullcalendar/list": "^5.4.0",
+    "@fullcalendar/react": "^5.4.0",
+    "@fullcalendar/timegrid": "^5.4.0",
+    "@progress/kendo-date-math": "^1.5.1",
+    "@progress/kendo-drawing": "^1.9.3",
+    "@progress/kendo-licensing": "^1.0.1",
+    "@progress/kendo-react-animation": "^4.0.0",
+    "@progress/kendo-react-buttons": "^4.0.0",
+    "@progress/kendo-react-dateinputs": "^4.0.0",
+    "@progress/kendo-react-dialogs": "^4.0.0",
+    "@progress/kendo-react-dropdowns": "^4.0.0",
+    "@progress/kendo-react-form": "^4.0.0",
+    "@progress/kendo-react-inputs": "^4.0.0",
+    "@progress/kendo-react-intl": "^4.0.0",
+    "@progress/kendo-react-popup": "^4.0.0",
+    "@progress/kendo-react-scheduler": "^4.0.0",
+    "@progress/kendo-theme-default": "^4.25.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "airtable": "^0.10.1",
+    "antd": "^4.7.0",
+    "fullcalendar": "^5.4.0",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+    "rc-calendar": "^9.15.11",
+    "react": "^16.13.1",
+    "react-big-calendar": "^0.28.6",
+    "react-big-calendar-slot": "^0.22.1",
+    "react-cookie": "^4.0.3",
+    "react-dom": "^16.13.1",
+    "react-highlight-words": "^0.17.0",
+    "react-intl": "^5.10.0",
+    "react-moment-proptypes": "^1.7.0",
+    "react-quill": "^1.3.5",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^3.4.4",
+    "react-tackle-box": "^2.1.0",
+    "styled-components": "^5.2.0",
+    "styled-icons": "^10.22.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "css-loader": "^4.3.0",
+    "style-loader": "^2.0.0",
+    "typescript": "^3.6.4"
+  }
 }
