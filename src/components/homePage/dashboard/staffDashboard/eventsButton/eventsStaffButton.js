@@ -14,7 +14,8 @@ const EventsStaffButton = () => {
                     as="a"
                     href=""
                     className="shadow"
-                    style={{ marginBottom: "8px" }}>
+                    style={{ marginBottom: "8px" }}
+                >
                     <CalendarOutlined /> List of Events
                 </Button>
             </StyledDiv>

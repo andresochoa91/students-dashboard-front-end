@@ -15,7 +15,7 @@ import { KEYS } from "./utils/constants/homepage_keys";
 
 const HomePage = ({ match, history }) => {
     // const KEYS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
+    const [/* authToken, setAuthToken,  */userInfo/* , setUserInfo */] = useContext(UserContext);
     const [selectedKey, setSelectedKey] = useState(0);
     const page = `${history.location.pathname
         .split("/")[2]

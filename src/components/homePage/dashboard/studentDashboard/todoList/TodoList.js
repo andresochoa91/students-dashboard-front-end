@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, Typography, Checkbox } from "antd";
 import "./styles.css";
+
 const Todo = ({ todo, completeTodo }) => {
     return (
         <div style={{ textDecoration: todo.Status ? "line-through" : "" }}>
@@ -16,6 +17,7 @@ const Todo = ({ todo, completeTodo }) => {
         </div>
     );
 };
+
 const ToDoList = () => {
     const getToDoData = async () => {
         const response = await fetch(
@@ -24,10 +26,13 @@ const ToDoList = () => {
         const todoData = await response.json();
         return todoData;
     };
+
     const [todos, setTodos] = useState([]);
+
     useEffect(() => {
         getToDoData().then((data) => setTodos(data.records));
     }, []);
+
     const completeTodo = (id, status) => {
         fetch("https://api.airtable.com/v0/appm5NPkqO7P8ePUK/List", {
             body: JSON.stringify({
@@ -60,19 +65,23 @@ const ToDoList = () => {
                 <Typography.Title level={5} style={{ color: "black" }}>
                     To Do
                 </Typography.Title>
-                {todos &&
-                    todos.map((todo, index) => (
-                        <Todo
-                            key={index}
-                            id={todo.id}
-                            todo={todo}
-                            completeTodo={completeTodo}
-                        />
-                    ))}
+                {
+                    todos && (
+                        todos.map((todo, index) => (
+                            <Todo
+                                key={index}
+                                id={todo.id}
+                                todo={todo}
+                                completeTodo={completeTodo}
+                            />
+                        ))
+                    )
+                }
             </Card>
         </>
     );
 };
+
 export default ToDoList;
 
 

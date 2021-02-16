@@ -11,7 +11,6 @@ const ModalStudent = ({courses, setStudentAdded}) => {
 
     var checkedItemInitial = [false, false, false, false];
 
-
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [studentAdd, setStudentAdd] = useState(initialStudent);
     const [selectedMenuItem, setSelectedMenuItem] = useState([]);
@@ -36,9 +35,10 @@ const ModalStudent = ({courses, setStudentAdded}) => {
             email: e.target.value,
         })
     };
-      console.log(studentAdd);
 
-      const validateMessages = {
+    console.log(studentAdd);
+
+    const validateMessages = {
         required: '${label} is required!',
         types: {
             email: '${label} is not a valid email!',
@@ -58,15 +58,15 @@ const ModalStudent = ({courses, setStudentAdded}) => {
         setIsModalVisible(false);
         
         fetch('https://forked-student-dashboard.herokuapp.com/student_courses/create_student_and_course', {
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            username: studentAdd.username,
-            email: studentAdd.email,
-            course_id: selectedMenuItem, 
-        }) 
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: studentAdd.username,
+                email: studentAdd.email,
+                course_id: selectedMenuItem, 
+            }) 
         })
         .then(response => response.json())
         .then(data => {
@@ -78,7 +78,6 @@ const ModalStudent = ({courses, setStudentAdded}) => {
             setSelectedMenuItem('');
         })
         .catch(err => console.error(err));
-        
     };
     
 
@@ -91,7 +90,7 @@ const ModalStudent = ({courses, setStudentAdded}) => {
         setCheckedItem(checkedItemInitial);
     };
 
-    const onFinish = (fieldsValue: any) => {
+    const onFinish = (fieldsValue/* : any */) => {
         // Should format date value before submit.
         const values = {
             ...fieldsValue,
@@ -103,18 +102,18 @@ const ModalStudent = ({courses, setStudentAdded}) => {
     //Choose course
     // Dropdawn menu
     const menu = (
-        <Menu onClick={(e) => setSelectedMenuItem(e.key)}
-            >
-            {courses.map( course => (
-                <Menu.Item key={course.id} >
-                    <Checkbox 
-                        checked={checkedItem[course.id]}
-                        onChange={(e) => onChange(e, course.id)}
-                    >
-                        {course.course_name}
-                    </Checkbox>
-                </Menu.Item>
-            ))
+        <Menu onClick={(e) => setSelectedMenuItem(e.key)}>
+            {
+                courses.map( course => (
+                    <Menu.Item key={course.id} >
+                        <Checkbox 
+                            checked={checkedItem[course.id]}
+                            onChange={(e) => onChange(e, course.id)}
+                        >
+                            {course.course_name}
+                        </Checkbox>
+                    </Menu.Item>
+                ))
             }
         </Menu>
     );
@@ -131,37 +130,38 @@ const ModalStudent = ({courses, setStudentAdded}) => {
 
     return (
         <>
-        <Button type="primary" shape="circle" onClick={showModal}> + </Button>
-        <Modal 
-            width={700}
-            title="Add Student" 
-            visible={isModalVisible} 
-            onOk={handleOk} 
-            onCancel={handleCancel}
-            okText="Add"
-            cancelText="Cancel"
-        >
-            <Form 
-                {...layout} 
-                form={form}
-                name="nest-messages" 
-                validateMessages={validateMessages}
-                // onFinish={onFinish}
+            <Button type="primary" shape="circle" onClick={showModal}> + </Button>
+            <Modal 
+                width={700}
+                title="Add Student" 
+                visible={isModalVisible} 
+                onOk={handleOk} 
+                onCancel={handleCancel}
+                okText="Add"
+                cancelText="Cancel"
             >
-                <Form.Item style={{margin: '50px'}} rules={[{ required: true }]}>
-                    <Dropdown overlay={menu} trigger={['click']} >
-                        <Button onClick={e => e.preventDefault()}> 
-                            Choose Course <DownOutlined />
-                        </Button> 
-                    </Dropdown>
-                </Form.Item>
-                <Form.Item  name='email' label="Email" rules={[{ type: 'email', required: true }]}>
-                    <Input 
-                        onChange={e =>getStudent(e)}
-                    />
-                </Form.Item>
-            </Form>
-        </Modal>
+                <Form 
+                    {...layout} 
+                    form={form}
+                    name="nest-messages" 
+                    validateMessages={validateMessages}
+                    // onFinish={onFinish}
+                >
+                    <Form.Item style={{margin: '50px'}} rules={[{ required: true }]}>
+                        <Dropdown overlay={menu} trigger={['click']} >
+                            <Button onClick={e => e.preventDefault()}> 
+                                Choose Course <DownOutlined />
+                            </Button> 
+                        </Dropdown>
+                    </Form.Item>
+
+                    <Form.Item  name='email' label="Email" rules={[{ type: 'email', required: true }]}>
+                        <Input 
+                            onChange={e =>getStudent(e)}
+                        />
+                    </Form.Item>
+                </Form>
+            </Modal>
         </>
     )
 }

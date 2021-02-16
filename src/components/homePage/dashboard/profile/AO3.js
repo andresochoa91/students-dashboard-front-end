@@ -27,8 +27,8 @@ const { Text/* , Paragraph */ } = Typography;
 
 
 const AO2 = () => {
-	const [isInEditMode, setIsInEditMode] = useState(false);
-	const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
+	// const [isInEditMode, setIsInEditMode] = useState(false);
+	const [authToken, /* setAuthToken,  */userInfo, setUserInfo] = useContext(UserContext);
 	const [size, setSize] = useState("large");
 	const color = "volcano"; {/*tooltip color*/ }
 
@@ -36,17 +36,20 @@ const AO2 = () => {
 	const onFinish = async (values) => {
 		let token = authToken.hasOwnProperty('auth_token') ? authToken.token : authToken;
 		console.log('Success:', values);
-		console.log(authToken)
+		console.log(authToken);
+
 		setUserInfo(prevState => {
 			return { ...prevState, values }
 		})
+
+		//Response and catch still missing
 		const response = await fetch('https://forked-student-dashboard.herokuapp.com/students', {
 			method: 'PUT',
 			mode: 'cors',
 			credentials: 'include',
 			headers: { 'Content-Type': 'application/json', 'Authorization': token },
 			body: JSON.stringify(values)
-		}); //Response and catch still missing
+		}); 
 	};
 
 	const onFinishFailed = (errorInfo) => {

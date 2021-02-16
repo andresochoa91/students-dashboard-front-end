@@ -11,10 +11,10 @@ import {
     Spin,
     Row,
     Col,
-    Form,
+    // Form,
     Steps,
     Space,
-    message,
+    // message,
 } from "antd";
 import _ from "lodash";
 import {
@@ -99,7 +99,7 @@ const Assignments = ({ match, history }) => {
         reducerProgress,
         INITIAL_STATE
     );
-    const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
+    const [/* authToken, setAuthToken,  */userInfo/* , setUserInfo */] = useContext(UserContext);
 
     console.log(userInfo);
 
@@ -218,17 +218,18 @@ const Assignments = ({ match, history }) => {
     const menu = () => {
         return (
             <Menu onClick={({ key }) => setClickedUnitKey(key)}>
-                {classInfo
-                    ? classInfo.units.map((unit, index) => {
-                          return (
-                              <Menu.Item key={index}>
-                                  <a target="_blank" rel="noopener noreferrer">
-                                      {unit.unit_name}
-                                  </a>
-                              </Menu.Item>
-                          );
-                      })
-                    : null}
+                {
+                    classInfo ? (
+                        classInfo.units.map((unit, index) => (
+                                <Menu.Item key={index}>
+                                    <a target="_blank" rel="noopener noreferrer">
+                                        {unit.unit_name}
+                                    </a>
+                                </Menu.Item>
+                            )
+                        )
+                    ) : null
+                }
             </Menu>
         );
     };
@@ -241,7 +242,8 @@ const Assignments = ({ match, history }) => {
                     className="ant-dropdown-link"
                     to="#"
                     className="ant-dropdown-link"
-                    onClick={(e) => e.preventDefault()}>
+                    onClick={(e) => e.preventDefault()}
+                >
                     Your Units <DownOutlined />
                 </Button>
             </Dropdown>
@@ -334,53 +336,53 @@ const Assignments = ({ match, history }) => {
                     tab={<Link to={match.path}>Week {index + 1}</Link>}
                     key={`${index}`}>
                     <Steps size="small" current={current}>
-                        {!_.isEmpty(stepStatus)
-                            ? steps.map((item, index) =>
-                                  index === 3 ? (
-                                      <Step
-                                          id={index}
-                                          key={item.title}
-                                          status={
-                                              stepStatus[2] === 2 ? "finish" : null
-                                          }
-                                          title={
-                                              stepStatus[2] === 2 ? (
-                                                  <Link
-                                                      to={item.link}
-                                                      style={{ color: "inherit" }}>
-                                                      {item.title}
-                                                  </Link>
-                                              ) : (
-                                                  item.title
-                                              )
-                                          }
-                                          icon={
-                                              index !== 3 ? null : <SmileOutlined />
-                                          }
-                                      />
-                                  ) : (
-                                      <Step
-                                          id={index}
-                                          key={item.title}
-                                          status={
-                                              stepStatus[index] === 2
-                                                  ? "finish"
-                                                  : null
-                                          }
-                                          title={
-                                              <Link
-                                                  to={item.link}
-                                                  style={{ color: "inherit" }}>
-                                                  {item.title}
-                                              </Link>
-                                          }
-                                          icon={
-                                              index !== 3 ? null : <SmileOutlined />
-                                          }
-                                      />
-                                  )
-                              )
-                            : null}
+                        {
+                            !_.isEmpty(stepStatus) ? steps.map((item, index) =>
+                                index === 3 ? (
+                                    <Step
+                                        id={index}
+                                        key={item.title}
+                                        status={
+                                            stepStatus[2] === 2 ? "finish" : null
+                                        }
+                                        title={
+                                            stepStatus[2] === 2 ? (
+                                                <Link
+                                                    to={item.link}
+                                                    style={{ color: "inherit" }}>
+                                                    {item.title}
+                                                </Link>
+                                            ) : (
+                                                item.title
+                                            )
+                                        }
+                                        icon={
+                                            index !== 3 ? null : <SmileOutlined />
+                                        }
+                                    />
+                                ) : (
+                                    <Step
+                                        id={index}
+                                        key={item.title}
+                                        status={
+                                            stepStatus[index] === 2
+                                                ? "finish"
+                                                : null
+                                        }
+                                        title={
+                                            <Link
+                                                to={item.link}
+                                                style={{ color: "inherit" }}>
+                                                {item.title}
+                                            </Link>
+                                        }
+                                        icon={
+                                            index !== 3 ? null : <SmileOutlined />
+                                        }
+                                    />
+                                )
+                            ) : null
+                        }
                     </Steps>
                     <div className="cardContent">
                         <Switch>

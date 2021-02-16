@@ -1,13 +1,13 @@
 // import React, {useState, useEffect} from "react";
 import React, { useState, useContext } from "react";
-import { Table, Form, Input, Button,  Menu, Dropdown, Row, Col, Modal, Checkbox} from 'antd';
+import { /* Table,  */Form, Input, Button,  Menu, Dropdown, Row, Col, Modal, Checkbox} from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 // import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
 
 const ActionButton = ({students, selectedStudents, courses, setChangedStudentInfo}) => {
 
-    const [authToken, setAuthToken] = useContext(UserContext);
+    const [authToken/* , setAuthToken */] = useContext(UserContext);
 
     console.log(authToken)
 
@@ -65,34 +65,35 @@ const ActionButton = ({students, selectedStudents, courses, setChangedStudentInf
     // Dropdawn menu
     const menuEdit = (
         <Menu>
-        <Menu.Item key="0" onClick={handleAdd}>
-            Add to Course
-        </Menu.Item>
-        <Menu.Item key="1" onClick={handleEdit}>
-            Edit
-        </Menu.Item>
-        <Menu.Item key="2" onClick={handleMove}>
-            Move
-        </Menu.Item>
-        <Menu.Item key="3" onClick={handleDelete}>
-            Delete
-        </Menu.Item>
+            <Menu.Item key="0" onClick={handleAdd}>
+                Add to Course
+            </Menu.Item>
+            <Menu.Item key="1" onClick={handleEdit}>
+                Edit
+            </Menu.Item>
+            <Menu.Item key="2" onClick={handleMove}>
+                Move
+            </Menu.Item>
+            <Menu.Item key="3" onClick={handleDelete}>
+                Delete
+            </Menu.Item>
         </Menu>
     );
 
     // Dropdawn menu
     const menu = (
         <Menu  onClick={(e) => setSelectedMenuItem(e.key)} >
-            {courses.map( course => (
-                <Menu.Item key={course.id} >
-                    <Checkbox 
-                        checked={checkedItem[course.id]}
-                        onChange={(e) => onChange(e, course.id)}
-                    >
-                        {course.course_name}
-                    </Checkbox>
-                </Menu.Item>
-            ))
+            {
+                courses.map( course => (
+                    <Menu.Item key={course.id} >
+                        <Checkbox 
+                            checked={checkedItem[course.id]}
+                            onChange={(e) => onChange(e, course.id)}
+                        >
+                            {course.course_name}
+                        </Checkbox>
+                    </Menu.Item>
+                ))
             }
         </Menu>
     );
@@ -137,9 +138,11 @@ const ActionButton = ({students, selectedStudents, courses, setChangedStudentInf
         console.log('click', e);
         setIsAddVisible(true);
     }
+
     const handleAddOk = () => {
         setIsAddVisible(false);
     };
+
     const handleAddCancel = () => {
         setIsAddVisible(false);
     };
@@ -164,6 +167,7 @@ const ActionButton = ({students, selectedStudents, courses, setChangedStudentInf
         setIsEditVisible(true);
         getStudentInfo();
     }
+
     const handleEditOk = () => {
         setIsEditVisible(false);
         //get changed first and last name
@@ -197,15 +201,18 @@ const ActionButton = ({students, selectedStudents, courses, setChangedStudentInf
         })
         .catch(err => console.error(err));
     };
+
     const handleEditCancel = () => {
         setIsEditVisible(false);
     };
+
     console.log(studentInfo);
     //move
     function handleMove(e) {
         setIsMoveVisible(true);
         getStudentInfo();
     }
+
     const handleMoveOk = () => {
         setIsMoveVisible(false);
         console.log(selectedMenuItem)
@@ -229,8 +236,8 @@ const ActionButton = ({students, selectedStudents, courses, setChangedStudentInf
             setSelectedMenuItem('');
         })
         .catch(err => console.error(err));
-
     };
+
     const handleMoveCancel = () => {
         setIsMoveVisible(false);
         setSelectedMenuItem('');
@@ -242,9 +249,9 @@ const ActionButton = ({students, selectedStudents, courses, setChangedStudentInf
         setIsDeleteVisible(true);
         getStudentInfo();
     }
+
     const handleDeleteOk = () => {
         setIsDeleteVisible(false);
-
         setIsMoveVisible(false);
         console.log(studentInfo.course_id)
         fetch(`https://forked-student-dashboard.herokuapp.com/student_courses/${studentInfo.id}/delete`, {
@@ -288,9 +295,9 @@ const ActionButton = ({students, selectedStudents, courses, setChangedStudentInf
                 <Row>
                     <Col>
                         <Dropdown overlay={menu} trigger={['click']} >
-                        <Button onClick={e => e.preventDefault()}> 
-                        Choose Course <DownOutlined />
-                        </Button> 
+                            <Button onClick={e => e.preventDefault()}> 
+                                Choose Course <DownOutlined />
+                            </Button> 
                         </Dropdown>
                     </Col>
                 </Row>
@@ -307,9 +314,9 @@ const ActionButton = ({students, selectedStudents, courses, setChangedStudentInf
                 <Row>
                     <Col>
                         <Dropdown overlay={menu} trigger={['click']} >
-                        <Button onClick={e => e.preventDefault()}> 
-                        Choose Course <DownOutlined />
-                        </Button> 
+                            <Button onClick={e => e.preventDefault()}> 
+                                Choose Course <DownOutlined />
+                            </Button> 
                         </Dropdown>
                     </Col>
                 </Row>

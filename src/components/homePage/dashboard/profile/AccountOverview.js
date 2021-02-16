@@ -72,7 +72,7 @@ const AccountOverview = () => {
   //     });
   //   });
   //   dispatchUser({type: "all", payload: { field: "all", value: values}});
-  
+
 
   // render() {
 	// use for email input
@@ -301,7 +301,7 @@ const AccountOverview = () => {
 //     //   }
 //     //   return file;
 //     // });
-	  
+
 //     // };
 //         setFileList({ fileList });
 
@@ -329,7 +329,7 @@ const AccountOverview = () => {
 //                         <div className="column-one">
 //                         </div>
 //                         <Form className="column-two">
-						  
+						
 //                             <Form.Item label="Name">
 //                                 <Input/>
 //                             </Form.Item>
@@ -344,7 +344,7 @@ const AccountOverview = () => {
 //                 <button>Cancel</button>
 //                 <button>Edit Profile</button>
 //             </div>   
-		   
+		
 
 		
 //     </> 

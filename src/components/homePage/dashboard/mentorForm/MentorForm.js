@@ -17,7 +17,7 @@ const CreateForm = ({ visible, onCreate, onCancel }) => {
 		console.log("checked = ", e.target.value);
 		setAssignmentOptions(e.target.value);
 	}
-	const plainOptions = ["Yes", "No", "Working on it"];
+	// const plainOptions = ["Yes", "No", "Working on it"];
   //Fetching data from airtable
 	const getMentorsData = async () => {
 		const response = await fetch(

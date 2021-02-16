@@ -12,6 +12,7 @@ const MentorsTable = () => {
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
     const [mentors, setMentors] = useState(null);
+
     const getMentorsData = async () => {
         const response = await fetch(
             "https://api.airtable.com/v0/appm5NPkqO7P8ePUK/Mentors?api_key=keyclOytaXo7NHQ8M"
@@ -23,6 +24,7 @@ const MentorsTable = () => {
         });
         return data;
     };
+
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({
             setSelectedKeys,
@@ -53,13 +55,15 @@ const MentorsTable = () => {
                         }
                         icon={<SearchOutlined />}
                         size="small"
-                        style={{ width: 90 }}>
+                        style={{ width: 90 }}
+                    >
                         Search
                     </Button>
                     <Button
                         onClick={() => handleReset(clearFilters)}
                         size="small"
-                        style={{ width: 90 }}>
+                        style={{ width: 90 }}
+                    >
                         Reset
                     </Button>
                     <Button
@@ -69,7 +73,8 @@ const MentorsTable = () => {
                             confirm({ closeDropdown: false });
                             setSearchText(selectedKeys[0]);
                             setSearchedColumn(dataIndex);
-                        }}>
+                        }}
+                    >
                         Filter
                     </Button>
                 </Space>
@@ -81,42 +86,47 @@ const MentorsTable = () => {
         onFilter: (value, record) =>
             record[dataIndex]
                 ? record[dataIndex]
-                      .toString()
-                      .toLowerCase()
-                      .includes(value.toLowerCase())
+                    .toString()
+                    .toLowerCase()
+                    .includes(value.toLowerCase())
                 : "",
         onFilterDropdownVisibleChange: (visible) => {
             if (visible) {
             }
         },
         render: (text) =>
-          searchedColumn === dataIndex ? (
-              <Highlighter
-                  highlightStyle={{ backgroundColor: "#FFC069", padding: 0 }}
-                  searchWords={[searchText]}
-                  autoEscape
-                  textToHighlight={text ? text.toString() : ""}
-              />
-          ) : (
-              text
-          ),
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{ backgroundColor: "#FFC069", padding: 0 }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ""}
+                />
+        ) : (
+            text
+        ),
     });
+
     useEffect(() => {
         getMentorsData().then((data) => setMentors(data));
     }, []);
+
     const handleDelete = (key) => {
         console.log(key);
         setMentors((mentors) => mentors.filter((item) => item.Key !== key));
     };
+
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0]);
         setSearchedColumn(dataIndex);
     };
+
     const handleReset = (clearFilters) => {
         clearFilters();
         setSearchText("");
     };
+    
     const columns = [
         {
             title: "Name",

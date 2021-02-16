@@ -27,7 +27,7 @@ const TrackingReport = () => {
         height: 20px;
         width: 20px;
         background-color: ${(props) => props.squareColor};
-        bordercolor: #f00;
+        border-color: #f00;
     `;
 
     const SquareDescription = styled.p`

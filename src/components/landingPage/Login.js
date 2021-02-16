@@ -2,7 +2,7 @@
 
 import React, { useState, useContext } from "react";
 import { Button, Form, Input } from "antd";
-import { UserOutlined, LockOutlined, AlignLeftOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined/* , AlignLeftOutlined */ } from "@ant-design/icons";
 
 import * as ROUTES from "../../constants/routes";
 import ForgotPassword from "./ForgotPassword";
@@ -71,11 +71,11 @@ const Login = ({ history }) => {
 			<div className='form'>
 				<h2>Sign In</h2>
 				{
-					authToken ?
+					authToken ? (
 						<div>
 							You are signed in
 						</div>
-						:
+					) : (
 						<div className='col-10 mx-auto'>
 							<Form
 								name='normal_login'
@@ -133,13 +133,15 @@ const Login = ({ history }) => {
 								<Form.Item>
 									<Button type='primary' htmlType='submit' className='login-form-button button-hover' id='validating'>
 										Login
-							</Button>
+									</Button>
 								</Form.Item>
 							</Form>
+							
 							<div align="center" style={{ color: "red" }}>
 								{loginState.error ? loginState.error : null}
 							</div>
 						</div>
+					)
 				}
 			</div>
 		</div>

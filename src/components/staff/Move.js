@@ -7,27 +7,28 @@ import { DownOutlined } from '@ant-design/icons';
 //for dropdown in modal
 const menuB = (
     <Menu>
-      
         <Menu.Item key="0">
-        <Checkbox onChange={onChange}>Pirana</Checkbox>
+            <Checkbox onChange={onChange}>Pirana</Checkbox>
         </Menu.Item>
+
         <Menu.Item key="1">
-        <Checkbox onChange={onChange}>High Noon</Checkbox>
+            <Checkbox onChange={onChange}>High Noon</Checkbox>
         </Menu.Item>
+
         <Menu.Item key="2">
-        <Checkbox onChange={onChange}>Catarina</Checkbox>
+            <Checkbox onChange={onChange}>Catarina</Checkbox>
         </Menu.Item>
+
         <Menu.Item key="3">
-        <Checkbox onChange={onChange}>Phoenix</Checkbox>
-       </Menu.Item>
-      
+            <Checkbox onChange={onChange}>Phoenix</Checkbox>
+        </Menu.Item>
     </Menu>
-  );
+);
 
   //checkbox in menuB
-  function onChange(e) {
+function onChange(e) {
     console.log(`checked = ${e.target.checked}`);
-  }
+}
 
 const Move = () => {
     //modal
@@ -45,20 +46,26 @@ const Move = () => {
         setIsModalVisible(false);
     };
     return(
-     <>   
+        <>   
+            <Modal 
+                title="Move student from course" 
+                description= "To where do you want to move the student" 
+                visible={isModalVisible} 
+                onOk={handleOk} 
+                onCancel={handleCancel} 
+                okText="Move"
+            >
+                <Form>
+                    <Dropdown overlay={menuB}>
+                        <Button>
+                            Choose Course <DownOutlined />
+                        </Button>
+                    </Dropdown>
+                </Form>
+            </Modal>   
 
-        <Modal title="Move student from course" description= "To where do you want to move the student" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} okText="Move">
-            <Form>
-            <Dropdown overlay={menuB}>
-                <Button>
-                Choose Course <DownOutlined />
-                </Button>
-            </Dropdown>
-            </Form>
-        </Modal>   
-
-        <Button onClick={showModal}>Move</Button>
-     </>                    
+            <Button onClick={showModal}>Move</Button>
+        </>                    
     )
 };
 

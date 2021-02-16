@@ -14,7 +14,8 @@ const GetHelp = () => {
                     <a
                         href="https://www.codethedream.org/contact-us/"
                         target="_blank"
-                        rel="noopener noreferrer">
+                        rel="noopener noreferrer"
+                    >
                         <Card type="inner" hoverable>
                             <Typography.Title level={4} className="left">
                                 <LikeOutlined />
