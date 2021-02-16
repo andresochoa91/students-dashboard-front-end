@@ -3,7 +3,7 @@ import React, { useState, useContext } from "react";
 import { /* Table,  */Form, Input, Button,  Menu, Dropdown, Row, Col, Modal, Checkbox} from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 // import styled from "styled-components";
-import UserContext from "../../contexts/UserContext";
+import UserContext from "../../../contexts/UserContext";
 
 const ActionButton = ({students, selectedStudents, courses, setChangedStudentInfo}) => {
 
