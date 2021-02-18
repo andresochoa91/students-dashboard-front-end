@@ -1,7 +1,7 @@
 /** @format */
 
 import React from "react";
-import { Row, Col, /* Space, */ Card } from "antd";
+import { Row, Col, Space, Card } from "antd";
 import styled from "styled-components";
 import { UnlockOutlined, UserOutlined, TeamOutlined } from "@ant-design/icons";
 import * as ROUTES from "../../../../../constants/routes";

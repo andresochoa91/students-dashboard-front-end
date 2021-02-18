@@ -1,18 +1,17 @@
 // import React, {useState, useEffect} from "react";
 import React, { useState, useContext } from "react";
-import { /* Table,  */Form, Input, Button,  Menu, Dropdown, Row, Col, Modal, Checkbox} from 'antd';
+import { Table, Form, Input, Button,  Menu, Dropdown, Row, Col, Modal, Checkbox} from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 // import styled from "styled-components";
 import UserContext from "../../../contexts/UserContext";
 
 const ActionButton = ({students, selectedStudents, courses, setChangedStudentInfo}) => {
 
-    const [authToken/* , setAuthToken */] = useContext(UserContext);
+    const [authToken, setAuthToken] = useContext(UserContext);
 
     console.log(authToken)
 
     const initialStudent = {
-
         name: '',
         email: '',
         id: '',

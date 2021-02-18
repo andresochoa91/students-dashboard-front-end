@@ -15,14 +15,17 @@ import * as ROUTES from '../../../constants/routes';
 const { Header } = Layout;
 
 const HomePageHeader = ({match}) => {
-	const [/* cookies, setCookie,  */removeCookie] = useCookies(['auth_token']);
+	const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
 	const [authToken, setAuthToken] = useContext(UserContext);
 
 	const logout = async () => {
 		removeCookie('auth_token')
-		setAuthToken(null);
+		window.location.reload();
+
+		// setAuthToken(null);
 	  // history.push(`${ROUTES.LANDING}`);
 	}
+	
 	const menu = (
 		<Menu>
 			<Menu.Item>

@@ -15,7 +15,7 @@ import { KEYS } from "./utils/constants/homepage_keys";
 
 const HomePage = ({ match, history }) => {
     // const KEYS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    const [/* authToken, setAuthToken,  */userInfo/* , setUserInfo */] = useContext(UserContext);
+    const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
     const [selectedKey, setSelectedKey] = useState(0);
     const page = `${history.location.pathname
         .split("/")[2]
@@ -62,29 +62,31 @@ const HomePage = ({ match, history }) => {
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
-            {userInfo ? (
-                <>
-                    <SiderMenu
-                        match={match}
-                        keys={KEYS[userInfo.role]}
-                        selectedKey={selectedKey}
-                        setSelectedKey={setSelectedKey}
-                    />
-                    <div className="container-fluid">
-                        <Layout className="site-layout">
-                            <HomePageHeader match={match} />
-                            <Breadcrumbs
-                                page={page}
-                                match={match}
-                                keys={KEYS[userInfo.role]}
-                                setSelectedKey={setSelectedKey}
-                            />
-                            {displayHomeContent()}
-                            <FooterHome />
-                        </Layout>
-                    </div>
-                </>
-            ) : null}
+            {
+                userInfo ? (
+                    <>
+                        <SiderMenu
+                            match={match}
+                            keys={KEYS[userInfo.role]}
+                            selectedKey={selectedKey}
+                            setSelectedKey={setSelectedKey}
+                        />
+                        <div className="container-fluid">
+                            <Layout className="site-layout">
+                                <HomePageHeader match={match} />
+                                <Breadcrumbs
+                                    page={page}
+                                    match={match}
+                                    keys={KEYS[userInfo.role]}
+                                    setSelectedKey={setSelectedKey}
+                                />
+                                {displayHomeContent()}
+                                <FooterHome />
+                            </Layout>
+                        </div>
+                    </>
+                ) : null
+            }
         </Layout>
     );
 };

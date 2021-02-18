@@ -3,7 +3,6 @@ import { Modal, Menu, Checkbox, Dropdown, Button, Form } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 // import { StyledModal } from "./styles";
 
-
 //for dropdown in modal
 const menuB = (
     <Menu>

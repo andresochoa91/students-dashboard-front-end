@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Input, Button, Modal, /* Dropdown, Menu, Checkbox,  */Form } from 'antd';
-// import { DownOutlined } from '@ant-design/icons';
+import { Input, Button, Modal, Dropdown, Menu, Checkbox, Form } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 
 
 const layout = {
@@ -36,12 +36,12 @@ const onFinish = (values) => {
     console.log(values);
 };
 
-       //checkbox in menuB
-    // function onChange(e) {
-    //     console.log(`checked = ${e.target.checked}`);
-    // }
+//checkbox in menuB
+function onChange(e) {
+    console.log(`checked = ${e.target.checked}`);
+}
 
-const Edit = ()=>{
+const Edit = () => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     
@@ -70,9 +70,9 @@ const Edit = ()=>{
                         name={['user', 'name']}
                         label="Name"
                         rules={[
-                        {
-                            required: true,
-                        },
+                            {
+                                required: true,
+                            },
                         ]}
                     >
                         <Input />
@@ -81,9 +81,9 @@ const Edit = ()=>{
                         name={['user', 'email']}
                         label="Email"
                         rules={[
-                        {
-                            type: 'email',
-                        },
+                            {
+                                type: 'email',
+                            },
                         ]}
                     >
                         <Input />

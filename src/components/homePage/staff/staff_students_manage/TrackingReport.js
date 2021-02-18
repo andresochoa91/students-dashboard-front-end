@@ -332,84 +332,86 @@ const TrackingReport = () => {
 
     return (
         <>
-            {currentStudents.length ? (
-                <DivMargin>
+            {
+                currentStudents.length ? (
                     <DivMargin>
-                        <Row>
-                            <Col xs={24} sm={12} md={12} lg={12}>
-                                <Text strong>
-                                    <Typography.Title level={5}>
-                                        CTD Student's Tracking Report
-                                    </Typography.Title>
-                                </Text>
-                                <Search
-                                    placeholder="Search Student"
-                                    onSearch={onSearch}
-                                    enterButton
-                                />
-                                {temporarySearch && (
-                                    <div>
-                                        <br />
-                                        <p>
-                                            {temporarySearch}&nbsp;
-                                            <Button
-                                                type="danger"
-                                                shape="circle"
-                                                onClick={() => {
-                                                    setTemporarySearch("");
-                                                    setCurrentStudents(students);
-                                                }}>
-                                                x
-                                            </Button>
-                                        </p>
-                                    </div>
-                                )}
-                            </Col>
-                            <Col xs={24} sm={12} md={12} lg={12}>
-                                <StyledDate>
-                                    <Text strong>Date: </Text>
-                                    <Text>{`${
-                                        rightNow.getMonth() + 1
-                                    }/${rightNow.getDate()}/${rightNow.getFullYear()}`}</Text>
-                                </StyledDate>
-                            </Col>
-                        </Row>
-                    </DivMargin>
+                        <DivMargin>
+                            <Row>
+                                <Col xs={24} sm={12} md={12} lg={12}>
+                                    <Text strong>
+                                        <Typography.Title level={5}>
+                                            CTD Student's Tracking Report
+                                        </Typography.Title>
+                                    </Text>
+                                    <Search
+                                        placeholder="Search Student"
+                                        onSearch={onSearch}
+                                        enterButton
+                                    />
+                                    {temporarySearch && (
+                                        <div>
+                                            <br />
+                                            <p>
+                                                {temporarySearch}&nbsp;
+                                                <Button
+                                                    type="danger"
+                                                    shape="circle"
+                                                    onClick={() => {
+                                                        setTemporarySearch("");
+                                                        setCurrentStudents(students);
+                                                    }}>
+                                                    x
+                                                </Button>
+                                            </p>
+                                        </div>
+                                    )}
+                                </Col>
+                                <Col xs={24} sm={12} md={12} lg={12}>
+                                    <StyledDate>
+                                        <Text strong>Date: </Text>
+                                        <Text>{`${
+                                            rightNow.getMonth() + 1
+                                        }/${rightNow.getDate()}/${rightNow.getFullYear()}`}</Text>
+                                    </StyledDate>
+                                </Col>
+                            </Row>
+                        </DivMargin>
 
-                    <ContainerLegend>
-                        <DivLegend>
-                            <SquareDescription>Complete </SquareDescription>{" "}
-                            <Square squareColor="#0f0" style={{ marginLeft: 10 }} />
-                        </DivLegend>
-                        <DivLegend>
-                            <SquareDescription>In Progress </SquareDescription>{" "}
-                            <Square squareColor="#fc0" style={{ marginLeft: 10 }} />
-                        </DivLegend>
-                        <DivLegend>
-                            <SquareDescription>Not Started </SquareDescription>{" "}
-                            <Square squareColor="#f00" style={{ marginLeft: 10 }} />
-                        </DivLegend>
-                    </ContainerLegend>
-                    <Table
-                        columns={columns}
-                        dataSource={data}
-                        // onChange={handleChange}
-                        scroll={{ y: 500 }}
-                        expandIconColumnIndex={2}
-                        // pagination={{ pageSize: 5 }}
-                        // expandable={{
-                        //   expandedRowRender: () => <p style={{ margin: 0 }}>Hello</p>,
-                        //   rowExpandable: record => record.name !== 'Not Expandable',
-                        // }}
-                    />
-                </DivMargin>
-            ) : (
-                <Row>
-                    <Col span={12} offset={12}>
-                        <Spin size="large" />
-                    </Col>
-                </Row>
-            )}
+                        <ContainerLegend>
+                            <DivLegend>
+                                <SquareDescription>Complete </SquareDescription>{" "}
+                                <Square squareColor="#0f0" style={{ marginLeft: 10 }} />
+                            </DivLegend>
+                            <DivLegend>
+                                <SquareDescription>In Progress </SquareDescription>{" "}
+                                <Square squareColor="#fc0" style={{ marginLeft: 10 }} />
+                            </DivLegend>
+                            <DivLegend>
+                                <SquareDescription>Not Started </SquareDescription>{" "}
+                                <Square squareColor="#f00" style={{ marginLeft: 10 }} />
+                            </DivLegend>
+                        </ContainerLegend>
+                        <Table
+                            columns={columns}
+                            dataSource={data}
+                            // onChange={handleChange}
+                            scroll={{ y: 500 }}
+                            expandIconColumnIndex={2}
+                            // pagination={{ pageSize: 5 }}
+                            // expandable={{
+                            //   expandedRowRender: () => <p style={{ margin: 0 }}>Hello</p>,
+                            //   rowExpandable: record => record.name !== 'Not Expandable',
+                            // }}
+                        />
+                    </DivMargin>
+                ) : (
+                    <Row>
+                        <Col span={12} offset={12}>
+                            <Spin size="large" />
+                        </Col>
+                    </Row>
+                )
+            }
         </>
     );
 };

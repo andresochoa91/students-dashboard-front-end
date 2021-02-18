@@ -21,8 +21,6 @@ const beforeUpload=(file) => {
 	return isJpgOrPng && isLt2M;
 }
 
-
-
 const Avatar = () => {
 	const [loading, setLoading] = useState(false);
 	const [ imageUrl, setImageUrl] = useState(false)

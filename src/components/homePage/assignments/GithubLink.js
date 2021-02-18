@@ -1,16 +1,16 @@
 /** @format */
 
-import React/* , { useContext } */ from "react";
+import React, { useContext } from "react";
 import { Form, Input, Button } from "antd";
 import { Typography } from "antd";
 import { StyledDivGithub } from "./styles";
-// import UserContext from "../../contexts/UserContext";
+import UserContext from "../../contexts/UserContext";
 
-// const ASSIGNMENTS = [
-//     "instructions_progress",
-//     "resources_progress",
-//     "assignment_progress",
-// ];
+const ASSIGNMENTS = [
+    "instructions_progress",
+    "resources_progress",
+    "assignment_progress",
+];
 
 const GithubLink = ({
     steps,
@@ -25,26 +25,26 @@ const GithubLink = ({
     clickedUnitKey,
     clickedLessonKey,
 }) => {
-    // const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
+    const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
 
     const onFinish = async (values) => {
-        // const assignment = ASSIGNMENTS[step];
-        // const id = userInfo.student.student_id;
-        // const weekNumber = progressData[clickedUnitKey][clickedLessonKey].week;
+        const assignment = ASSIGNMENTS[step];
+        const id = userInfo.student.student_id;
+        const weekNumber = progressData[clickedUnitKey][clickedLessonKey].week;
 
-        // const res = await fetch(
-        //     `${process.env.REACT_APP_UPDATE_PROGRESS}/student_weekly_progress/${id}/week_number/${weekNumber}`,
-        //     {
-        //         body: JSON.stringify({
-        //             ...values,
-        //             [assignment]: "2",
-        //         }),
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         method: "PATCH",
-        //     }
-        // );
+        const res = await fetch(
+            `${process.env.REACT_APP_UPDATE_PROGRESS}/student_weekly_progress/${id}/week_number/${weekNumber}`,
+            {
+                body: JSON.stringify({
+                    ...values,
+                    [assignment]: "2",
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                method: "PATCH",
+            }
+        );
 
         setDisabledState(null);
 
