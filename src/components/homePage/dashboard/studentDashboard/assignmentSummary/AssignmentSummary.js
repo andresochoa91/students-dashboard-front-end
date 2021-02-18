@@ -3,7 +3,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Space, Card, Button, Typography } from "antd";
-// import { DownloadOutlined } from "@ant-design/icons";
+import { DownloadOutlined } from "@ant-design/icons";
 
 import FrontEnd from "../../../../../graphics/dashboard-summary.png";
 import * as ROUTES from "../../../../../constants/routes";

@@ -1,7 +1,7 @@
-import React, { useState/* , useContext */ } from 'react';
-import { Modal, Button/* , Space */ } from 'antd';
+import React, { useState, useContext } from 'react';
+import { Modal, Button, Space } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-// import UserContext from "../contexts/UserContext";
+import UserContext from "../contexts/UserContext";
 
 const { confirm } = Modal;
 
@@ -10,7 +10,7 @@ const { confirm } = Modal;
 const Confirms = () => {
 	const [remove, setRemove] = useState(false);
 	const [deleteRow, setDeleteRow]=useState(true);
-//   const [ authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
+	const [ authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
 
 	function showConfirm() {
 	//MF:maybe use the key in students component to help with the delete function
@@ -41,13 +41,11 @@ const Confirms = () => {
 		});
 	};
 
-return (
-
-	// <Space>
-	<Button danger onClick={showConfirm}>Delete</Button>
-	// </Space>
-
-)
+	return (
+		// <Space>
+		<Button danger onClick={showConfirm}>Delete</Button>
+		// </Space>
+	)
 
 };
 

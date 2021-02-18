@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { /* Tabs, Input, Row, Col,  */Button, /* Modal, */ Table, Dropdown, Menu/* , Checkbox, Form, Popconfirm, Typography, InputNumber */ } from 'antd';
-import { /* PlusOutlined, FolderAddOutlined,  */DownOutlined } from '@ant-design/icons';
+import { Tabs, Input, Row, Col, Button, Modal, Table, Dropdown, Menu, Checkbox, Form, Popconfirm, Typography, InputNumber } from 'antd';
+import { PlusOutlined, FolderAddOutlined, DownOutlined } from '@ant-design/icons';
 import Confirm from "./Confirm";
 import Move from "./Move";
 import Edit from "./Edit";
-// import StyledDiv from './styles'
+import StyledDiv from './styles'
 import UserContext from "../contexts/UserContext";
 
 //table headings

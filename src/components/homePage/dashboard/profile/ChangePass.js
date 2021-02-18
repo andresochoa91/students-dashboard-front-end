@@ -1,9 +1,9 @@
-import React, { useEffect/* , useState, useContext */ } from 'react';
-// import Airtable from 'airtable';
+import React, { useEffect, useState, useContext } from 'react';
+import Airtable from 'airtable';
 import { Card, Row, /* Col, */ Typography, Button, Form, Input,  message } from 'antd';
 import { StyledDivSummary } from "../../assignments/styles";
 import { StyledPass } from './styles';
-// import UserContext from '../../../contexts/UserContext';
+import UserContext from '../../../contexts/UserContext';
 
 const layout = {
 	labelCol: {
@@ -14,19 +14,19 @@ const layout = {
 	},
 };
 
-// const tailLayout = {
-// 	wrapperCol: {
-// 		offset: 8,
-// 		span: 16,
-// 	},
-// };
+const tailLayout = {
+	wrapperCol: {
+		offset: 8,
+		span: 16,
+	},
+};
 
   //MF:should there be a delay to check and then a condition if successful then the message displays?
 const success = () => {
 	message.success('Your password has been changed');
 };
 
-// const base = new Airtable({apiKey: process.env.REACT_APP_USER_INFO_API_KEY}).base('appm5NPkqO7P8ePUK');
+const base = new Airtable({apiKey: process.env.REACT_APP_USER_INFO_API_KEY}).base('appm5NPkqO7P8ePUK');
 //MF: fetch call only handled in context?
   // const [password, SetPassword]=useState();
 
@@ -46,28 +46,29 @@ const success = () => {
 const ChangePass = () => {
   // const checkOldPass =()=>{
 	// const [userInfo, dispatchUser] = useContext(UserContext);
-	// const [userInfo, setUserInfo] = useContext(UserContext);
-	// const updateUser = (values) => {
-	// 	const { id, ...rest } = values;
-	// 	base('User_Info_Table').update([
-	// 		{
-	// 			"id": id,
-	// 			"fields": {
-	// 			...rest
-	// 			}
-	// 		}
-	// 	], function(err, records) {
-	// 		if (err) {
-	// 			console.error(err);
-	// 			return;
-	// 		}
-	// 		records.forEach(function(record) {
-	// 			console.log(record.get('Password'));
-	// 		});
-	// 	});
-	// // dispatchUser({type: "all", payload: { field: "all", value: values}});
-	// };
-  // };
+	const [userInfo, setUserInfo] = useContext(UserContext);
+	const updateUser = (values) => {
+		const { id, ...rest } = values;
+		base('User_Info_Table').update([
+			{
+				"id": id,
+				"fields": {
+					...rest
+				}
+			}
+		], function(err, records) {
+			if (err) {
+				console.error(err);
+				return;
+			}
+			records.forEach(function(record) {
+				console.log(record.get('Password'));
+			});
+		});
+	// dispatchUser({type: "all", payload: { field: "all", value: values}});
+	};
+//   };
+
 	const onFinish = (values) => {
 		console.log('Success:', values);
 	};

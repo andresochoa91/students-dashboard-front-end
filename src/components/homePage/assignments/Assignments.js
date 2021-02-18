@@ -11,10 +11,10 @@ import {
     Spin,
     Row,
     Col,
-    // Form,
+    Form,
     Steps,
     Space,
-    // message,
+    message,
 } from "antd";
 import _ from "lodash";
 import {
@@ -99,7 +99,7 @@ const Assignments = ({ match, history }) => {
         reducerProgress,
         INITIAL_STATE
     );
-    const [/* authToken, setAuthToken,  */userInfo/* , setUserInfo */] = useContext(UserContext);
+    const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
 
     console.log(userInfo);
 

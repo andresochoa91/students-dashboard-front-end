@@ -5,16 +5,16 @@ import {
 	Table,
 	Input,
 	Button,
-	// Menu,
-	// Dropdown,
+	Menu,
+	Dropdown,
 	Row,
 	Col,
-	// Modal,
-	// Checkbox,
+	Modal,
+	Checkbox,
 	Spin,
 	Typography,
 } from "antd";
-// import { DownOutlined } from "@ant-design/icons";
+import { DownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import ModalStudent from "./AddStudentModal";
 import ActionButton from "./ActionButton";

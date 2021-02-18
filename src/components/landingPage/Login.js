@@ -2,7 +2,7 @@
 
 import React, { useState, useContext } from "react";
 import { Button, Form, Input } from "antd";
-import { UserOutlined, LockOutlined/* , AlignLeftOutlined */ } from "@ant-design/icons";
+import { UserOutlined, LockOutlined, AlignLeftOutlined } from "@ant-design/icons";
 
 import * as ROUTES from "../../constants/routes";
 import ForgotPassword from "./ForgotPassword";

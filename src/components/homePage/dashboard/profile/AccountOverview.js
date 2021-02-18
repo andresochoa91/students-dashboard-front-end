@@ -1,11 +1,11 @@
 import React, { useState/* , useContext */ } from 'react';
-// import Airtable from 'airtable';
-import { /* Button,  */Input, Form, Card, /* Row, Col, Typography, Descriptions,  */List, /* Avatar, Space */ } from 'antd';
-// import _ from 'lodash';
-// import { UploadOutlined, MailOutlined, MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
+import Airtable from 'airtable';
+import { Button, Input, Form, Card, Row, Col, Typography, Descriptions, List, Avatar, Space } from 'antd';
+import _ from 'lodash';
+import { UploadOutlined, MailOutlined, MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import LoadPic from './LoadPic';
-// import { StyledDivSummary } from '../../assignments/styles';
-// import UserContext from '../../../contexts/UserContext';
+import { StyledDivSummary } from '../../assignments/styles';
+import UserContext from '../../../contexts/UserContext';
 
 
 //MF: thinking can be static data but called from the backend
@@ -42,14 +42,14 @@ const AccountOverview = () => {
   //   });
   // };
 
-	// function IconText({ icon, text }) {
-	// 	return (
-	// 	<Space>
-	// 		{React.createElement(icon)}
-	// 		{text}
-	// 	</Space>
-	// 	);
-	// }
+	function IconText({ icon, text }) {
+		return (
+			<Space>
+				{React.createElement(icon)}
+				{text}
+			</Space>
+		);
+	}
 
   // const [userInfo, dispatchUser] = useContext(UserContext);
   // console.log(userInfo)

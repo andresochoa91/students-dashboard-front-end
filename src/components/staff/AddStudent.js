@@ -90,13 +90,13 @@ const AddStudent = ({courses, setStudentAdded}) => {
         setCheckedItem(checkedItemInitial);
     };
 
-    // const onFinish = (fieldsValue/* : any */) => {
-    //     // Should format date value before submit.
-    //     const values = {
-    //         ...fieldsValue,
-    //     };
-    //     console.log('Received values of form: ', values);
-    // };
+    const onFinish = (fieldsValue/* : any */) => {
+        // Should format date value before submit.
+        const values = {
+            ...fieldsValue,
+        };
+        console.log('Received values of form: ', values);
+    };
 
     console.log(courses)
     //Choose course

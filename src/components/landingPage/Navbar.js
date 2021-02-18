@@ -3,6 +3,7 @@ import logo from './graphics/logo.png';
 
 const Navbar = () => {
 	const [open, setOpen] = useState(false);
+
 	return (
 		<>
 			<div className='nav'>
@@ -38,7 +39,7 @@ const Navbar = () => {
 					<i onClick={() => setOpen(!open)}className="fas fa-bars burger"><span>MENU</span></i>
 				</nav>
 			</div>
-	</>
+		</>
 	);
 }
 export default Navbar;

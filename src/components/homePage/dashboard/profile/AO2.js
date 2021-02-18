@@ -3,21 +3,21 @@ import { Card, Row, Col, Space, Descriptions, Typography, Button, Input, Form, T
 // import { MailOutlined } from '@ant-design/icons';
 import LoadPic from './LoadPic';
 import UserContext from "../../../contexts/UserContext";
-// import { Preview } from 'styled-icons/material-twotone';
+import { Preview } from 'styled-icons/material-twotone';
 
-const { Text/* , Paragraph */ } = Typography;
+const { Text, Paragraph } = Typography;
 
 const AO2 = () => {
-// const [editableStr, setEditableStr] = useState();                                     
+	const [editableStr, setEditableStr] = useState();                                     
 	const [size, setSize]= useState("large");
 	const [isInEditMode, setIsInEditMode] = useState(false); 
-	const [ /* authToken, setAuthToken, */ userInfo/* , setUserInfo */] = useContext(UserContext);
+	const [ authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
 	const [inputValue, setInputValue] = useState({firstname: userInfo.student.first_name, lastname: userInfo.student.last_name}); {/* need current state to show in input. needs to work for both inputs*/}
 	const textInput = useRef(); //MF:how to use to update the updatefield component
 
 
 	//Mf: maybe have the inputValue a variable to equal the userinfo
-	// const color = "volcano"; {/*tooltip color*/}
+	const color = "volcano"; {/*tooltip color*/}
 
 	// one way to edit using edit button needs functionality
 	const editButton = () => {
@@ -34,7 +34,7 @@ const AO2 = () => {
 	// MF:This is not working why? update the state here
 	const updateField = (e) => {
 		e.preventDefault();
-		// const text = textInput.current.value;
+		const text = textInput.current.value;
 	//    setUserInfo();
 		// setInputValue(textInput.inputValue);
 		//inputValue(textInput.current); MF: fix this logic. says is not a function 

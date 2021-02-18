@@ -6,29 +6,25 @@ import {
 	Row,
 	Col,
 	Space,
-	// Descriptions,
+	Descriptions,
 	Typography,
 	Button,
 	Input,
 	Form,
 	Tooltip,
-  // Checkbox,
+	Checkbox,
 } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import LoadPic from "./LoadPic";
 import UserContext from "../../../contexts/UserContext";
 import { StyledDivSummary } from "../../assignments/styles";
 
-const { Text/* , Paragraph */ } = Typography;
-// const color = "volcano"; {/*tooltip color*/ }
-
-
-
-
+const { Text, Paragraph } = Typography;
+const color = "volcano"; {/*tooltip color*/ }
 
 const AO2 = () => {
-	// const [isInEditMode, setIsInEditMode] = useState(false);
-	const [authToken, /* setAuthToken,  */userInfo, setUserInfo] = useContext(UserContext);
+	const [isInEditMode, setIsInEditMode] = useState(false);
+	const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
 	const [size, setSize] = useState("large");
 	const color = "volcano"; {/*tooltip color*/ }
 

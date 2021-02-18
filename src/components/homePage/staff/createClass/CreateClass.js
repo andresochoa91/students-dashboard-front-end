@@ -1,8 +1,8 @@
-import React/* , { useState } */ from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import _ from "lodash";
 import {
-	// Card,
+	Card,
 	Tabs,
 	Row,
 	Col,
@@ -17,17 +17,17 @@ const { TabPane } = Tabs;
 
 const CreateClass = ({ match, history }) => {
 
-	// const [state, setState] = useState({
-	// 	key: 'tab1',
-	// 	noTitleKey: 'app',
-	// })
+	const [state, setState] = useState({
+		key: 'tab1',
+		noTitleKey: 'app',
+	})
 
-	// const { key, noTitleKey } = state;
+	const { key, noTitleKey } = state;
 
-	// const onTabChange = (key, type) => {
-	// 	console.log(key, type);
-	// 	setState({ [type]: key });
-	// };
+	const onTabChange = (key, type) => {
+		console.log(key, type);
+		setState({ [type]: key });
+	};
 
 	return (
 		<div className="container-fluid">

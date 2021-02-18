@@ -3,7 +3,7 @@ import { Tabs, Input, Row, Col, Button, Modal, /* Table, */ Dropdown, Menu, Chec
 import { PlusOutlined, FolderAddOutlined, DownOutlined } from '@ant-design/icons';
 import StudentTable from './StudentTable';
 import UserContext from "../contexts/UserContext";
-// import AddStudent from "./AddStudent";
+import AddStudent from "./AddStudent";
 
   //for dropdown in add student modal
 const menuB = (
@@ -47,12 +47,12 @@ const layout = {
 
 const Students = (props) => {
     //datasource from userContext
-    const [ /* authToken, setAuthToken,  */userInfo/* , setUserInfo */] = useContext(UserContext);
+    const [ authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
     
     //state from Add Student component
-    // const [students, setStudents] = useState([]);
-    // const [courses, setCourses] = useState([]);
-    // const [studentAdded, setStudentAdded] = useState(false);
+    const [students, setStudents] = useState([]);
+    const [courses, setCourses] = useState([]);
+    const [studentAdded, setStudentAdded] = useState(false);
 
     //datasource from backend
     const data = [];

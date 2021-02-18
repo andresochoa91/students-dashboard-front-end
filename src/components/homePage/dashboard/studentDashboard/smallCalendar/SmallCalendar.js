@@ -1,19 +1,19 @@
 /** @format */
 
-import React, { /* useState,  */useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
     Calendar,
-    // Badge,
+    Badge,
     Space,
     Select,
-    // Radio,
+    Radio,
     Col,
     Row,
     Typography,
     Card,
 } from "antd";
-// import CalLegends from "../../calLegends/CalLegends";
-import { StyledDiv/* , StyledEvents */ } from "./styles";
+import CalLegends from "../../calLegends/CalLegends";
+import { StyledDiv, StyledEvents } from "./styles";
 import "../../../HomePage.css";
 import CalendarContext from "../../../../contexts/CalendarContext";
 import * as ROUTES from "../../../../../constants/routes";
@@ -24,25 +24,26 @@ function onPanelChange(value, mode) {
 
 const SmallCalendar = ({ history }) => {
     const [selectedDate, setSelectedDate] = useContext(CalendarContext);
-    // function getListData(value) {
-    //     let listData;
-    //     switch (value.date()) {
-    //     }
-    //     return listData || [];
-    // }
 
-    // function dateCellRender(value) {
-    //     const listData = getListData(value);
-    //     return (
-    //         <StyledEvents>
-    //             {listData.map((item, index) => (
-    //                 <div key={index}>
-    //                     <Badge status={item.type} text={item.content} />
-    //                 </div>
-    //             ))}
-    //         </StyledEvents>
-    //     );
-    // }
+    function getListData(value) {
+        let listData;
+        switch (value.date()) {
+        }
+        return listData || [];
+    }
+
+    function dateCellRender(value) {
+        const listData = getListData(value);
+        return (
+            <StyledEvents>
+                {listData.map((item, index) => (
+                    <div key={index}>
+                        <Badge status={item.type} text={item.content} />
+                    </div>
+                ))}
+            </StyledEvents>
+        );
+    }
 
     function getMonthData(value) {
         if (value.month() === 8) {

@@ -3,7 +3,7 @@
 import React from "react";
 import { Button } from "antd";
 import { StyledDiv } from "./styles.js";
-import { /* CalendarOutlined, */ VideoCameraOutlined } from "@ant-design/icons";
+import { CalendarOutlined, VideoCameraOutlined } from "@ant-design/icons";
 
 const meetingButton = () => {
     return (

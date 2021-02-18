@@ -162,14 +162,16 @@ const MentorsTable = () => {
         {
             title: "Actions",
             dataIndex: "operation",
-            render: (_, record) =>
+            render: (_, record) => (
                 mentors.length >= 1 ? (
                     <Popconfirm
                         title="Sure to delete?"
-                        onConfirm={() => handleDelete(record.Key)}>
+                        onConfirm={() => handleDelete(record.Key)}
+                    >
                         <a>Delete</a>
                     </Popconfirm>
-                ) : null,
+                ) : null
+            )
         },
     ];
     const handleAdd = () => {
