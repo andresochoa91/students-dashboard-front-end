@@ -3,12 +3,12 @@ import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import {
 	DashboardOutlined,
-	NotificationOutlined,
+	// NotificationOutlined,
 	BookOutlined,
 	CalendarOutlined,
-	TeamOutlined,
-	UserOutlined,
-	DisconnectOutlined,
+	// TeamOutlined,
+	// UserOutlined,
+	// DisconnectOutlined,
 	FundProjectionScreenOutlined,
 	SlackOutlined,
 	YoutubeOutlined,
@@ -35,9 +35,9 @@ const StudentSiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
 				</Link>
 			</Menu.Item>
 
-			<Menu.Item key={keys['News']} icon={<NotificationOutlined />}>
+			{/* <Menu.Item key={keys['News']} icon={<NotificationOutlined />}>
 				News
-			</Menu.Item>
+			</Menu.Item> */}
 
 			<Menu.Item key={keys['Assignments']} icon={<BookOutlined />}>
 				<Link to={`${match.path}${ROUTES.ASSIGNMENTS}`}>
@@ -49,19 +49,19 @@ const StudentSiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
 				<Link to={`${match.path}${ROUTES.CALENDAR}`}>Calendar</Link>
 			</Menu.Item>
 
-			<Menu.Item key={keys['Mentors']} icon={<UserOutlined />}>
+			{/* <Menu.Item key={keys['Mentors']} icon={<UserOutlined />}>
 				Mentors
-			</Menu.Item>
+			</Menu.Item> */}
 
-			<Menu.Item key={keys['Classmates']} icon={<TeamOutlined />}>
+			{/* <Menu.Item key={keys['Classmates']} icon={<TeamOutlined />}>
 				Classmates
-			</Menu.Item>
+			</Menu.Item> */}
 
-			<Menu.Item key={keys['CTD']} icon={<DisconnectOutlined />}>
+			{/* <Menu.Item key={keys['CTD']} icon={<DisconnectOutlined />}>
 				CTD
-			</Menu.Item>
+			</Menu.Item> */}
 
-			<SubMenu
+			{/* <SubMenu
 				key="sub1"
 				icon={<FundProjectionScreenOutlined />}
 				title="Resources"
@@ -77,7 +77,8 @@ const StudentSiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
 			
 			<Menu.Item key={keys['Projects']} icon={<RocketOutlined />}>
 				Students Projects
-			</Menu.Item>
+			</Menu.Item> */}
+
 		</Menu>
 	)
 }

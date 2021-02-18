@@ -19,7 +19,7 @@ const HomePageHeader = ({match}) => {
 	const [authToken, setAuthToken] = useContext(UserContext);
 
 	const logout = async () => {
-		removeCookie('auth_token')
+		await removeCookie('auth_token');
 		window.location.reload();
 
 		// setAuthToken(null);
