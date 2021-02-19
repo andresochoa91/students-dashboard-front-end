@@ -1,19 +1,19 @@
 /** @format */
 import React, { useEffect, useContext } from "react";
-import SignUpMentor from "./studentDashboard/signUpMentor/signUpMentor";
-import EventsStaffButton from "./staffDashboard/eventsButton/eventsStaffButton";
+// import SignUpMentor from "./studentDashboard/signUpMentor/signUpMentor";
+// import EventsStaffButton from "./staffDashboard/eventsButton/eventsStaffButton";
 import EventsButton from "./studentDashboard/eventsButton/eventsButton";
 import MeetingButton from "./studentDashboard/meetingButton/meetingButton";
 import { Row, Col, Space } from "antd";
 import UserContext from "../../contexts/UserContext";
-import Progress from "./studentDashboard/progress/MainProgress";
+// import Progress from "./studentDashboard/progress/MainProgress";
 import GetHelp from "./studentDashboard/getHelp/GetHelp";
-import TodoList from "./studentDashboard/todoList/TodoList";
+// import TodoList from "./studentDashboard/todoList/TodoList";
 import SmallCalendar from "./studentDashboard/smallCalendar/SmallCalendar";
-import AssignmentSummary from "./studentDashboard/assignmentSummary/AssignmentSummary";
+// import AssignmentSummary from "./studentDashboard/assignmentSummary/AssignmentSummary";
 import StaffTopLinks from "./staffDashboard/staffTopLinks/StaffTopLinks";
 import CurrentCourses from "./staffDashboard/currentCourses/CurrentCourses";
-import Announcements from "./staffDashboard/announcements/Announcements";
+// import Announcements from "./staffDashboard/announcements/Announcements";
 
 const Dashboard = ({ history, menuKey, selectedKey, setSelectedKey, match }) => {
     const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
@@ -27,19 +27,19 @@ const Dashboard = ({ history, menuKey, selectedKey, setSelectedKey, match }) => 
         if (userInfo.role === "student") {
             return (
                 <>
-                    <AssignmentSummary
+                    {/* <AssignmentSummary
                         menuKey={assignmentsKey}
                         selectedKey={selectedKey}
                         setSelectedKey={setSelectedKey}
-                    />
-                    <Progress />
+                    /> */}
+                    {/* <Progress /> */}
                     <Row gutter={[16, 16]}>
-                        <Col span={12}>
+                        <Col span={24}>
                             <GetHelp />
                         </Col>
-                        <Col span={12}>
+                        {/* <Col span={12}>
                             <SignUpMentor />
-                        </Col>
+                        </Col> */}
                     </Row>
                 </>
             );
@@ -59,10 +59,10 @@ const Dashboard = ({ history, menuKey, selectedKey, setSelectedKey, match }) => 
         if (userInfo.role === "student") {
             return (
                 <>
-                    <Announcements />
+                    {/* <Announcements /> */}
                     <EventsButton />
                     <MeetingButton />
-                    <TodoList />
+                    {/* <TodoList /> */}
                     <SmallCalendar
                         history={history}
                         menuKey={calendarKey}
@@ -74,8 +74,8 @@ const Dashboard = ({ history, menuKey, selectedKey, setSelectedKey, match }) => 
         } else if (userInfo.role === "staff") {
             return (
                 <>
-                    <Announcements />
-                    <EventsStaffButton />
+                    {/* <Announcements /> */}
+                    {/* <EventsStaffButton /> */}
                     <MeetingButton />
                     <SmallCalendar
                         history={history}
