@@ -511,7 +511,8 @@ const Assignments = ({ match, history }) => {
                                             type="card"
                                             onChange={(key) =>
                                                 setClickedLessonKey(key)
-                                            }>
+                                            }
+                                        >
                                             {tabPanes(clickedUnitKey)}
                                         </Tabs>
                                     </div>
@@ -535,10 +536,10 @@ const Assignments = ({ match, history }) => {
                     xxl={6}
                     className="site-layout-right">
                     <Space direction="vertical">
-                        <Announcements />
+                        {/* <Announcements /> */}
                         <EventsButton />
                         <MeetingButton />
-                        <TodoList />
+                        {/* <TodoList /> */}
                         <SmallCalendar history={history} />
                     </Space>
                 </Col>

@@ -13,8 +13,8 @@ export const UserStore = ({ children }) => {
 
 	useEffect(() => {
 		if (authToken && _.isEmpty(cookies)) {
-		setCookie('auth_token', authToken.token);
-		setUserInfo(authToken.info);
+			setCookie('auth_token', authToken.token);
+			setUserInfo(authToken.info);
 		}
 	}, [authToken])
 
