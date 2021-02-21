@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { Layout, Row, Col, Dropdown, Menu } from "antd";
 import { UserCircle } from "@styled-icons/boxicons-solid/UserCircle";
 import { SettingOutlined, BellOutlined } from "@ant-design/icons";
@@ -14,20 +14,19 @@ import * as ROUTES from '../../../constants/routes';
 
 const { Header } = Layout;
 
-const HomePageHeader = ({match}) => {
-	const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
-	const [authToken, setAuthToken] = useContext(UserContext);
+const HomePageHeader = ({ match }) => {
+	const [, , removeCookie] = useCookies(['auth_token']);
+	const [, setAuthToken, userInfo] = useContext(UserContext);
 
-	const logout = () => {
+	const logout = async () => {
+		console.log(userInfo)
 		setAuthToken(null);
 		removeCookie('auth_token');
-		// console.log(cookies);
-		console.log(authToken);
 		window.location.reload();
 
-	  // history.push(`${ROUTES.LANDING}`);
+		// history.push(`${ROUTES.LANDING}`);
 	}
-	
+
 	const menu = (
 		<Menu>
 			<Menu.Item>
@@ -41,47 +40,52 @@ const HomePageHeader = ({match}) => {
 				</a>
 			</Menu.Item>
 			<Menu.Item>
-				{/* <Link to="#" onClick={() => logout()}>Logout</Link> */}
-				<div onClick={ logout }>Logout</div>
+<<<<<<< HEAD
+			{/* <Link to="#" onClick={() => logout()}>Logout</Link> */}
+			<div onClick={logout}>Logout</div>
 			</Menu.Item>	
-		</Menu>
+=======
+				<Link to="#" onClick={logout}>Logout</Link>
+			</Menu.Item>
+>>>>>>> worked on authentication
+		</Menu >
 	);
 
-	return (
-		<HeaderPage>
-			<Header
-				className="site-layout-background"
-				style={{
-					padding: "0",
-					backgroundColor: "white",
-					width: "100%",
-				}}
-			>
-				<Row type="flex">
-					<Col span={12}>
-						<Logo>
-							<img
-								src={logo}
-								className="ctd-logo"
-								alt="Code the Dream Logo"
-							></img>
-						</Logo>
-					</Col>
-					<Col span={12} align="right">
-						<TopNav className="top-nav">
-							<BellOutlined />
-							<SettingOutlined />
-							<Dropdown overlay={menu}>
-								<a className="ant-dropdown-link" trigger={['click']} onClick={e => e.preventDefault()}>
-									<UserCircle  style={{ width: "25px" }} />
-								</a>
-							</Dropdown>
-						</TopNav>
-					</Col>
-				</Row>
-			</Header>
-		</HeaderPage>
-	);
+return (
+	<HeaderPage>
+		<Header
+			className="site-layout-background"
+			style={{
+				padding: "0",
+				backgroundColor: "white",
+				width: "100%",
+			}}
+		>
+			<Row type="flex">
+				<Col span={12}>
+					<Logo>
+						<img
+							src={logo}
+							className="ctd-logo"
+							alt="Code the Dream Logo"
+						></img>
+					</Logo>
+				</Col>
+				<Col span={12} align="right">
+					<TopNav className="top-nav">
+						<BellOutlined />
+						<SettingOutlined />
+						<Dropdown overlay={menu}>
+							<a className="ant-dropdown-link" trigger={['click']} onClick={e => e.preventDefault()}>
+								<UserCircle style={{ width: "25px" }} />
+							</a>
+						</Dropdown>
+					</TopNav>
+				</Col>
+			</Row>
+		</Header>
+	</HeaderPage>
+);
 };
 
 export default HomePageHeader;

@@ -1,20 +1,13 @@
-/** @format */
-
 import React, { useState, useEffect } from "react";
 import {
 	Table,
 	Input,
 	Button,
-	Menu,
-	Dropdown,
 	Row,
 	Col,
-	Modal,
-	Checkbox,
 	Spin,
 	Typography,
 } from "antd";
-import { DownOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import ModalStudent from "./AddStudentModal";
 import ActionButton from "./ActionButton";
@@ -66,8 +59,8 @@ const StudentsTable = () => {
 	const [selectedStudents, setSelectedStudents] = useState([]);
 	const [students, setStudents] = useState([]);
 	const [courses, setCourses] = useState([]);
-	const [ temporarySearch, setTemporarySearch ] = useState("");
-	const [ currentStudents, setCurrentStudents ] = useState([]);
+	const [temporarySearch, setTemporarySearch] = useState("");
+	const [currentStudents, setCurrentStudents] = useState([]);
 	// const [student, setStudent] = useState({});
 
 	//true when new student added
@@ -77,11 +70,11 @@ const StudentsTable = () => {
 
 	console.log(studentAdded);
 
-	const onSearch = (event) => {		
+	const onSearch = (event) => {
 		const name = event.toLowerCase();
 		console.log(name);
 		setTemporarySearch(event);
-		setCurrentStudents(students.filter((student) =>  {
+		setCurrentStudents(students.filter((student) => {
 			const firstName = student.first_name.toLowerCase();
 			const lastName = student.last_name.toLowerCase();
 			const fullName = `${firstName} ${lastName}`;
@@ -101,15 +94,15 @@ const StudentsTable = () => {
 			credentials: 'include',
 			headers: { 'Content-Type': 'application/json' }
 		})
-		.then(response => response.json())
-		.then(data => {
-			console.log(data);
-			setStudents(data);
-			setCurrentStudents(data);
-			setStudentAdded(false);
-			setChangedStudentInfo(false);
-		})
-		.catch(err => console.error(err));
+			.then(response => response.json())
+			.then(data => {
+				console.log(data);
+				setStudents(data);
+				setCurrentStudents(data);
+				setStudentAdded(false);
+				setChangedStudentInfo(false);
+			})
+			.catch(err => console.error(err));
 	}
 
 	const getCourses = () => {
@@ -119,12 +112,12 @@ const StudentsTable = () => {
 			credentials: 'include',
 			headers: { 'Content-Type': 'application/json' }
 		})
-		.then(response => response.json())
-		.then(data => {
-			console.log(data);
-			setCourses(data)
-		})
-		.catch(err => console.error(err));
+			.then(response => response.json())
+			.then(data => {
+				console.log(data);
+				setCourses(data)
+			})
+			.catch(err => console.error(err));
 	}
 
 	// Table
@@ -168,7 +161,7 @@ const StudentsTable = () => {
 
 	const data = [];
 
-	currentStudents.map( student => (
+	currentStudents.map(student => (
 		data.push({
 			key: student.student_id,
 			id: student.student_id,
@@ -176,25 +169,25 @@ const StudentsTable = () => {
 			email: student.user.email,
 			course: student.student_course.course.course_name,
 		})
-	// students.map( student => (
-	//   data.push({
-	//     key: student.student_id,
-	//     id: student.student_id,
-	//     name: student.first_name + ' ' + student.last_name,
-	//     email: student.user.email,
-	//     course: student.student_course.course.course_name,
-	//   })
+		// students.map( student => (
+		//   data.push({
+		//     key: student.student_id,
+		//     id: student.student_id,
+		//     name: student.first_name + ' ' + student.last_name,
+		//     email: student.user.email,
+		//     course: student.student_course.course.course_name,
+		//   })
 	))
-	
+
 	const onSelectChange = selectedRowKey => {
 		console.log('selectedStudents changed: ', selectedRowKey);
 		setSelectedStudents(selectedRowKey);
 		// setStudent(students.)
-	}; 
+	};
 
 	const rowSelection = {
 		selectedStudents,
-		onChange: onSelectChange, 
+		onChange: onSelectChange,
 	};
 
 	return (
@@ -203,7 +196,7 @@ const StudentsTable = () => {
 				students.length ? (
 					<TabsContent>
 						<Row>
-							<Col 
+							<Col
 								xs={24}
 								sm={12}
 								md={12}
@@ -224,26 +217,26 @@ const StudentsTable = () => {
 									{
 										temporarySearch && (
 											<div>
-												<br/>
+												<br />
 												<p>
-													{ temporarySearch }&nbsp;
-													<Button 
-														type="danger" 
+													{temporarySearch}&nbsp;
+													<Button
+														type="danger"
 														shape="circle"
-														onClick={ () => {
-															setTemporarySearch("") 
+														onClick={() => {
+															setTemporarySearch("")
 															setCurrentStudents(students);
 														}}
 													>
 														x
 													</Button>
-												</p>         
+												</p>
 											</div>
 										)
 									}
-								</HeaderStyle>		
+								</HeaderStyle>
 							</Col>
-							<Col 
+							<Col
 								xs={24}
 								sm={12}
 								md={12}
@@ -251,17 +244,17 @@ const StudentsTable = () => {
 							>
 								<AddStudentStyle>
 									<p>Add Student</p>
-									<ModalStudent 
-										courses={courses} 
+									<ModalStudent
+										courses={courses}
 										setStudentAdded={setStudentAdded}
 									/>
 								</AddStudentStyle>
 
 								<DropDownStyle>
-									<ActionButton 
-										students={students} 
-										selectedStudents={selectedStudents} 
-										courses={courses} 
+									<ActionButton
+										students={students}
+										selectedStudents={selectedStudents}
+										courses={courses}
 										setChangedStudentInfo={setChangedStudentInfo}
 									/>
 								</DropDownStyle>
@@ -270,26 +263,26 @@ const StudentsTable = () => {
 
 						<Row>
 							<Col span={24}>
-								<Table 
-									pagination={{ pageSize: 10 }} 
-									style={{margin: '20px 10px'}} 
-									rowSelection={rowSelection} 
-									columns={columns} 
-									dataSource={data} 
+								<Table
+									pagination={{ pageSize: 10 }}
+									style={{ margin: '20px 10px' }}
+									rowSelection={rowSelection}
+									columns={columns}
+									dataSource={data}
 									// scroll={{ x: 1000 }}
-									scroll={{ y: 1000, x: 800}}
-									// scroll={{ y: 1000}}
-								/>							
+									scroll={{ y: 1000, x: 800 }}
+								// scroll={{ y: 1000}}
+								/>
 							</Col>
 						</Row>
 					</TabsContent>
 				) : (
-					<Row>
-						<Col span={12} offset={12}>
-							<Spin size="large" />
-						</Col>
-					</Row>
-				)
+						<Row>
+							<Col span={12} offset={12}>
+								<Spin size="large" />
+							</Col>
+						</Row>
+					)
 			}
 		</>
 	);

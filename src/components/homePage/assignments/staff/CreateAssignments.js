@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import { Select, DatePicker, Steps, Button } from 'antd';
-import { Link, Switch } from "react-router-dom";
+import { Select, DatePicker, Steps, Button, Input, Row, Col, Spin, Typography, Table } from 'antd';
+import styled from "styled-components";
 import 'react-quill/dist/quill.snow.css';
 import _ from "lodash";
 import {
@@ -57,6 +57,45 @@ const reducerAssignmentsInfo = (state, action) => {
 			throw new Error();
 	}
 };
+
+const TabsContent = styled.div`
+	margin: "0 20px";
+`;
+
+const HeaderStyle = styled.div`
+	padding: 20px;
+`;
+
+const AddStudentStyle = styled.div`
+	display: flex; 
+	justify-content: flex-end; 
+	align-items: center;
+	padding: 0 10px;
+	p{
+		margin: 10px; 
+		padding: 10px;
+	}
+
+	@media (max-width: 576px) {
+		justify-content: flex-start; 
+		${'' /* justify-content: center;  */}
+	}
+`;
+
+const DropDownStyle = styled.div`
+	display: flex;
+	justify-content: flex-end;
+	padding: 10px; 
+
+	@media (max-width: 576px) {
+		justify-content: flex-start; 
+		${'' /* justify-content: center;  */}
+		margin-left: 20px;
+	}
+`;
+
+// Search
+const { Search } = Input;
 
 const CreateAssignments = ({ match, history }) => {
 	const [stepStatus, setStepStatus] = useState({});
@@ -155,108 +194,273 @@ const CreateAssignments = ({ match, history }) => {
 		})
 	};
 
+	// return (
+	// 	<>
+	// 		<h4><strong>Assignments</strong></h4>
+	// 		<Select defaultValue="Choose Course" style={{ width: 120 }} onChange={handleCourseChange} loading={info ? false : true}>
+	// 			{
+	// 				info ? info.map((course, index) => {
+	// 					return (
+	// 					<Option key={course.course_name} value={index}>{course.course_name}</Option>
+	// 					)
+	// 				})
+	// 					: null
+	// 			}
+	// 		</Select>
+	// 		<Select defaultValue="Choose Unit" style={{ width: 120 }} onChange={handleUnitChange} disabled={units ? false : true}>
+	// 			{
+	// 				units ? units.map((unit, index) => {
+	// 					return (
+	// 						<Option key={unit.unit_name} value={index}>{unit.unit_name}</Option>
+	// 					)
+	// 				}) : null
+	// 			}
+	// 		</Select>
+	// 		<Select defaultValue="Choose Week" style={{ width: 120 }} onChange={handleLessonChange} disabled={lessons ? false : true}>
+	// 			{
+	// 				lessons ? lessons.map((week, index) => {
+	// 					return (
+	// 						<Option key={`${index}.${week.lesson.lesson_name}`} value={index}>{week.lesson.lesson_name}</Option>
+	// 					)
+	// 				}) : null
+	// 			}
+	// 		</Select>
+	// 		<RangePicker onChange={onDateChange} disabled={dueDate ? false : true} />
+	// 		<Steps current={current}>
+	// 			{
+	// 				steps.map((item, index) => (
+	// 				index === 3 ?
+	// 					<Step
+	// 						id={index}
+	// 						key={item.title}
+	// 						status={stepStatus[index] === 2 ? 'finish' : null}
+	// 						title={stepStatus[index] === 2 ?
+	// 							<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link> :
+	// 							item.title
+	// 						}
+	// 						icon={index !== 3 ? null : <SmileOutlined />}
+	// 					/> :
+	// 					<Step
+	// 						id={index}
+	// 						key={item.title}
+	// 						status={stepStatus[index] === 2 ? 'finish' : null}
+	// 						title={<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link>}
+	// 						icon={index !== 3 ? null : <SmileOutlined />}
+	// 					/>
+	// 				))
+	// 			}
+	// 			{/* {!_.isEmpty(stepStatus) ? steps.map((item, index) => (
+	// 			index === 3 ?
+	// 				<Step
+	// 				id={index}
+	// 				key={item.title}
+	// 				status={stepStatus[2] === 2 ? 'finish' : null}
+	// 				title={stepStatus[2] === 2 ?
+	// 					<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link> :
+	// 					item.title
+	// 				}
+	// 				icon={index !== 3 ? null : <SmileOutlined />}
+	// 				/> :
+	// 				<Step
+	// 				id={index}
+	// 				key={item.title}
+	// 				status={stepStatus[index] === 2 ? 'finish' : null}
+	// 				title={<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link>}
+	// 				icon={index !== 3 ? null : <SmileOutlined />}
+	// 				/>
+	// 			)) : null} */}
+	// 		</Steps>
+	// 		<div className="card-container">
+	// 			<CreateInstructions dispatch={dispatchAssignments} step={step} />
+	// 			{/* <Switch>
+	// 			<PrivateRoute
+	// 				exact
+	// 				path={`${match.path}${ROUTES.ASSIGNMENTS}${ROUTES.INSTRUCTIONS}`}
+	// 				component={CreateInstructions}
+	// 			/>
+	// 			</Switch> */}
+	// 		</div>
+	// 		<StyledDivSummary>
+	// 			<Button
+	// 				style={{ marginRight: "1rem" }}
+	// 				type="primary"
+	// 				htmlType="submit"
+	// 				onClick={handleSubmit}
+	// 			>
+	// 				Save
+	// 			</Button>
+	// 			{
+	// 				step > 0 && (
+	// 					<Link to={ step > 0 ? steps[step - 1].link : match.path }>
+	// 						<Button
+	// 							style={{ margin: "0 8px" }}
+	// 							onClick={() => setStep(step - 1)}
+	// 						>
+	// 							Previous
+	// 						</Button>
+	// 					</Link>
+	// 				)
+	// 			}
+	// 			{
+	// 				step < steps.length - 1 && (
+	// 					<Link to={steps[step + 1].link}>
+	// 					<Button type="primary" onClick={() => setStep(step + 1)}>
+	// 						Next
+	// 					</Button>
+	// 					</Link>
+	// 				)
+	// 			}
+	// 		</StyledDivSummary>
+	// 	</>
+	// )
+
+	const [selectedStudents, setSelectedStudents] = useState([]);
+	const [students, setStudents] = useState([]);
+	const [course, setCourses] = useState([]);
+	const [temporarySearch, setTemporarySearch] = useState("");
+	const [currentStudents, setCurrentStudents] = useState([]);
+	// const [student, setStudent] = useState({});
+
+	//true when new student added
+	const [studentAdded, setStudentAdded] = useState(false);
+	//true when existing student was edit
+	const [changedStudentInfo, setChangedStudentInfo] = useState(false);
+
+	console.log(studentAdded);
+
+	const onSearch = (event) => {
+		const name = event.toLowerCase();
+		console.log(name);
+		setTemporarySearch(event);
+		setCurrentStudents(students.filter((student) => {
+			const firstName = student.first_name.toLowerCase();
+			const lastName = student.last_name.toLowerCase();
+			const fullName = `${firstName} ${lastName}`;
+			return firstName.includes(name) || lastName.includes(name) || fullName.includes(name);
+		}));
+	};
+
+	useEffect(() => {
+		getStudents();
+		getCourses();
+	}, [studentAdded, changedStudentInfo])
+
+	const getStudents = () => {
+		fetch('https://forked-student-dashboard.herokuapp.com/students', {
+			method: 'GET',
+			mode: 'cors',
+			credentials: 'include',
+			headers: { 'Content-Type': 'application/json' }
+		})
+			.then(response => response.json())
+			.then(data => {
+				console.log(data);
+				setStudents(data);
+				setCurrentStudents(data);
+				setStudentAdded(false);
+				setChangedStudentInfo(false);
+			})
+			.catch(err => console.error(err));
+	}
+
+	const getCourses = () => {
+		fetch('https://forked-student-dashboard.herokuapp.com/courses', {
+			method: 'GET',
+			mode: 'cors',
+			credentials: 'include',
+			headers: { 'Content-Type': 'application/json' }
+		})
+			.then(response => response.json())
+			.then(data => {
+				console.log(data);
+				setCourses(data)
+			})
+			.catch(err => console.error(err));
+	}
+
+	// Table
+	const columns = [
+		{
+			title: 'Name',
+			dataIndex: 'name',
+		},
+		{
+			title: 'ID',
+			dataIndex: 'id',
+			width: '10%',
+			sorter: {
+				compare: (a, b) => a.id - b.id,
+			},
+		},
+		{
+			title: 'Email',
+			dataIndex: 'email',
+		},
+		{
+			title: 'Course',
+			dataIndex: 'course',
+		},
+	];
+	// Dropdawn menu
+	// const menu = (
+	//   <Menu>
+	//     {courses.map( course => (
+	//         <Menu.Item key={course.id} >
+	//           <Checkbox onChange={onChange}>{course.course_name}</Checkbox>
+	//         </Menu.Item>
+	//     ))
+	//     }
+	//   </Menu>
+	// );
+
+	// function onChange(e) {
+	//   console.log(`checked = ${e.target.checked}`);
+	// }
+
+	const data = [];
+
+	currentStudents.map(student => (
+		data.push({
+			key: student.student_id,
+			id: student.student_id,
+			name: student.first_name + ' ' + student.last_name,
+			email: student.user.email,
+			course: student.student_course.course.course_name,
+		})
+		// students.map( student => (
+		//   data.push({
+		//     key: student.student_id,
+		//     id: student.student_id,
+		//     name: student.first_name + ' ' + student.last_name,
+		//     email: student.user.email,
+		//     course: student.student_course.course.course_name,
+		//   })
+	))
+
+	const onSelectChange = selectedRowKey => {
+		console.log('selectedStudents changed: ', selectedRowKey);
+		setSelectedStudents(selectedRowKey);
+		// setStudent(students.)
+	};
+
+	const rowSelection = {
+		selectedStudents,
+		onChange: onSelectChange,
+	};
+
 	return (
 		<>
-			<h4><strong>Assignments</strong></h4>
-			<Select defaultValue="Choose Course" style={{ width: 120 }} onChange={handleCourseChange} loading={info ? false : true}>
-				{
-					info ? info.map((course, index) => {
-						return (
-						<Option key={course.course_name} value={index}>{course.course_name}</Option>
-						)
-					})
-						: null
-				}
-			</Select>
-			<Select defaultValue="Choose Unit" style={{ width: 120 }} onChange={handleUnitChange} disabled={units ? false : true}>
-				{
-					units ? units.map((unit, index) => {
-						return (
-							<Option key={unit.unit_name} value={index}>{unit.unit_name}</Option>
-						)
-					}) : null
-				}
-			</Select>
-			<Select defaultValue="Choose Week" style={{ width: 120 }} onChange={handleLessonChange} disabled={lessons ? false : true}>
-				{
-					lessons ? lessons.map((week, index) => {
-						return (
-							<Option key={`${index}.${week.lesson.lesson_name}`} value={index}>{week.lesson.lesson_name}</Option>
-						)
-					}) : null
-				}
-			</Select>
-			<RangePicker onChange={onDateChange} disabled={dueDate ? false : true} />
-			<Steps current={current}>
-				{
-					steps.map((item, index) => (
-					index === 3 ?
-						<Step
-							id={index}
-							key={item.title}
-							status={stepStatus[index] === 2 ? 'finish' : null}
-							title={stepStatus[index] === 2 ?
-								<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link> :
-								item.title
-							}
-							icon={index !== 3 ? null : <SmileOutlined />}
-						/> :
-						<Step
-							id={index}
-							key={item.title}
-							status={stepStatus[index] === 2 ? 'finish' : null}
-							title={<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link>}
-							icon={index !== 3 ? null : <SmileOutlined />}
-						/>
-					))
-				}
-				{/* {!_.isEmpty(stepStatus) ? steps.map((item, index) => (
-				index === 3 ?
-					<Step
-					id={index}
-					key={item.title}
-					status={stepStatus[2] === 2 ? 'finish' : null}
-					title={stepStatus[2] === 2 ?
-						<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link> :
-						item.title
-					}
-					icon={index !== 3 ? null : <SmileOutlined />}
-					/> :
-					<Step
-					id={index}
-					key={item.title}
-					status={stepStatus[index] === 2 ? 'finish' : null}
-					title={<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link>}
-					icon={index !== 3 ? null : <SmileOutlined />}
-					/>
-				)) : null} */}
-			</Steps>
-			<div className="card-container">
-				<CreateInstructions dispatch={dispatchAssignments} step={step} />
-				{/* <Switch>
-				<PrivateRoute
-					exact
-					path={`${match.path}${ROUTES.ASSIGNMENTS}${ROUTES.INSTRUCTIONS}`}
-					component={CreateInstructions}
-				/>
-				</Switch> */}
-			</div>
-			<StyledDivSummary>
-				<Button
-					style={{ marginRight: "1rem" }}
-					type="primary"
-					htmlType="submit"
-					onClick={handleSubmit}
-				>
-					Save
-				</Button>
-				{
-					step > 0 && (
-						<Link to={ step > 0 ? steps[step - 1].link : match.path }>
-							<Button
-								style={{ margin: "0 8px" }}
-								onClick={() => setStep(step - 1)}
+			{
+				students.length ? (
+					<TabsContent>
+						<Row>
+							<Col
+								xs={24}
+								sm={12}
+								md={12}
+								lg={12}
 							>
+<<<<<<< HEAD
 								Previous
 							</Button>
 						</Link>
@@ -269,11 +473,92 @@ const CreateAssignments = ({ match, history }) => {
 								Next
 							</Button>
 						</Link>
+=======
+								<HeaderStyle>
+									<Typography.Title level={5}>
+										CTD Students's List
+									</Typography.Title>
+									{/* <h3 style={{fontWeight: 'bold'}}>CTD Students's  List</h3> */}
+									<Search
+										placeholder="Search"
+										allowClear
+										onSearch={onSearch}
+										enterButton
+										style={{ width: 200 }}
+									/>
+									{
+										temporarySearch && (
+											<div>
+												<br />
+												<p>
+													{temporarySearch}&nbsp;
+													<Button
+														type="danger"
+														shape="circle"
+														onClick={() => {
+															setTemporarySearch("")
+															setCurrentStudents(students);
+														}}
+													>
+														x
+													</Button>
+												</p>
+											</div>
+										)
+									}
+								</HeaderStyle>
+							</Col>
+							<Col
+								xs={24}
+								sm={12}
+								md={12}
+								lg={12}
+							>
+								<AddStudentStyle>
+									<p>Add Student</p>
+									{/* <ModalStudent
+										courses={courses}
+										setStudentAdded={setStudentAdded}
+									/> */}
+								</AddStudentStyle>
+
+								<DropDownStyle>
+									{/* <ActionButton
+										students={students}
+										selectedStudents={selectedStudents}
+										courses={courses}
+										setChangedStudentInfo={setChangedStudentInfo}
+									/> */}
+								</DropDownStyle>
+							</Col>
+						</Row>
+
+						<Row>
+							<Col span={24}>
+								<Table
+									pagination={{ pageSize: 10 }}
+									style={{ margin: '20px 10px' }}
+									rowSelection={rowSelection}
+									columns={columns}
+									dataSource={data}
+									// scroll={{ x: 1000 }}
+									scroll={{ y: 1000, x: 800 }}
+								// scroll={{ y: 1000}}
+								/>
+							</Col>
+						</Row>
+					</TabsContent>
+				) : (
+						<Row>
+							<Col span={12} offset={12}>
+								<Spin size="large" />
+							</Col>
+						</Row>
+>>>>>>> worked on authentication
 					)
-				}
-			</StyledDivSummary>
+			}
 		</>
-	)
+	);
 }
 
 export default CreateAssignments;
