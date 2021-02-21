@@ -11,10 +11,10 @@ import {
     Spin,
     Row,
     Col,
-    Form,
+    // Form,
     Steps,
     Space,
-    message,
+    // message,
 } from "antd";
 import _ from "lodash";
 import {
@@ -24,7 +24,7 @@ import {
     GithubOutlined,
     SmileOutlined,
 } from "@ant-design/icons";
-import Announcements from "../dashboard/staffDashboard/announcements/Announcements";
+// import Announcements from "../dashboard/staffDashboard/announcements/Announcements";
 import * as ROUTES from "../../../constants/routes";
 import { StyledSection, StyledDiv, StyledDivSummary } from "./styles";
 import UserContext from "../../contexts/UserContext";
@@ -36,7 +36,7 @@ import GithubLink from "./GithubLink";
 import EventsButton from "../dashboard/studentDashboard/eventsButton/eventsButton";
 import MeetingButton from "../dashboard/studentDashboard/meetingButton/meetingButton";
 import Done from "./Done";
-import TodoList from "../dashboard/studentDashboard/todoList/TodoList";
+// import TodoList from "../dashboard/studentDashboard/todoList/TodoList";
 import SmallCalendar from "../dashboard/studentDashboard/smallCalendar/SmallCalendar";
 const { TabPane } = Tabs;
 const { Step } = Steps;
@@ -119,12 +119,28 @@ const Assignments = ({ match, history }) => {
 
     console.log(progressData);
 
+    // useEffect(() => {
+    //     const getAssignments = async () => {
+    //         const dataUnits = await fetch(
+    //             `${process.env.REACT_APP_GET_COURSES}${userInfo.student.student_course.course.id}`
+    //         );
+    //         const resUnits = await dataUnits.json();
+    //         console.log(resUnits);
+    //         dispatchClass({
+    //             type: "all",
+    //             payload: { field: "all", value: resUnits.course },
+    //         });
+    //     };
+    //     getAssignments();
+    // }, []);
+
     useEffect(() => {
         const getAssignments = async () => {
             const dataUnits = await fetch(
-                `${process.env.REACT_APP_GET_COURSES}${userInfo.student.student_course.course.id}`
+                `${process.env.REACT_APP_GET_COURSES}/${userInfo.student.student_course.course.id}`
             );
             const resUnits = await dataUnits.json();
+            console.log(resUnits);
             dispatchClass({
                 type: "all",
                 payload: { field: "all", value: resUnits.course },
@@ -309,7 +325,7 @@ const Assignments = ({ match, history }) => {
         // });
 
         const res = await fetch(
-            `${process.env.REACT_APP_UPDATE_PROGRESS}/student_weekly_progress/${id}/week_number/${weekNumber}`,
+            `${process.env.REACT_APP_API_ROOT}/student_weekly_progress/${id}/week_number/${weekNumber}`,
             {
                 body: JSON.stringify({
                     [assignment]: "2",
@@ -334,7 +350,8 @@ const Assignments = ({ match, history }) => {
             return (
                 <TabPane
                     tab={<Link to={match.path}>Week {index + 1}</Link>}
-                    key={`${index}`}>
+                    key={`${index}`}
+                >
                     <Steps size="small" current={current}>
                         {
                             !_.isEmpty(stepStatus) ? steps.map((item, index) =>
@@ -349,7 +366,8 @@ const Assignments = ({ match, history }) => {
                                             stepStatus[2] === 2 ? (
                                                 <Link
                                                     to={item.link}
-                                                    style={{ color: "inherit" }}>
+                                                    style={{ color: "inherit" }}
+                                                >
                                                     {item.title}
                                                 </Link>
                                             ) : (
@@ -365,9 +383,7 @@ const Assignments = ({ match, history }) => {
                                         id={index}
                                         key={item.title}
                                         status={
-                                            stepStatus[index] === 2
-                                                ? "finish"
-                                                : null
+                                            stepStatus[index] === 2 ? "finish" : null
                                         }
                                         title={
                                             <Link
@@ -392,9 +408,7 @@ const Assignments = ({ match, history }) => {
                                 lesson={lesson.lesson_name}
                                 weekNumber={index + 1}
                                 unit={
-                                    classInfo
-                                        ? classInfo.units[clickedUnitKey]
-                                        : null
+                                    classInfo ? classInfo.units[clickedUnitKey] : null
                                 }
                                 component={Summary}
                             />
