@@ -18,11 +18,13 @@ const HomePageHeader = ({match}) => {
 	const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
 	const [authToken, setAuthToken] = useContext(UserContext);
 
-	const logout = async () => {
-		await removeCookie('auth_token');
+	const logout = () => {
+		setAuthToken(null);
+		removeCookie('auth_token');
+		// console.log(cookies);
+		console.log(authToken);
 		window.location.reload();
 
-		// setAuthToken(null);
 	  // history.push(`${ROUTES.LANDING}`);
 	}
 	
@@ -39,7 +41,8 @@ const HomePageHeader = ({match}) => {
 				</a>
 			</Menu.Item>
 			<Menu.Item>
-				<Link to="#" onClick={logout}>Logout</Link>
+				{/* <Link to="#" onClick={() => logout()}>Logout</Link> */}
+				<div onClick={ logout }>Logout</div>
 			</Menu.Item>	
 		</Menu>
 	);

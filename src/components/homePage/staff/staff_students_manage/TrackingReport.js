@@ -69,51 +69,51 @@ const TrackingReport = () => {
 
     useEffect(() => {
         fetch("https://forked-student-dashboard.herokuapp.com/students")
-            .then((response) => response.json())
-            .then((data) => {
-                // console.log(data);
+        .then((response) => response.json())
+        .then((data) => {
+            // console.log(data);
 
-                const students = data.map((student) => {
-                    const units = {};
+            const students = data.map((student) => {
+                const units = {};
 
-                    student.student_weekly_progresses.forEach((swp) => {
-                        const obj = {
-                            week: `Week ${swp.week_number}`,
-                            assignmentProgress: swp.assignment_progress,
-                            githubLink: swp.assignment_submission,
-                            status: swp.total_progress,
-                        };
-
-                        if (!units[swp.week.unit.unit_name]) {
-                            units[swp.week.unit.unit_name] = [obj];
-                        } else {
-                            units[swp.week.unit.unit_name].push(obj);
-                        }
-                    });
-
-                    return {
-                        student_id: student.student_id,
-                        first_name: student.first_name,
-                        last_name: student.last_name,
-                        course_name: student.student_course.course.course_name,
-                        student_weekly_progresses: student.student_weekly_progresses,
-                        units,
+                student.student_weekly_progresses.forEach((swp) => {
+                    const obj = {
+                        week: `Week ${swp.week_number}`,
+                        assignmentProgress: swp.assignment_progress,
+                        githubLink: swp.assignment_submission,
+                        status: swp.total_progress,
                     };
+
+                    if (!units[swp.week.unit.unit_name]) {
+                        units[swp.week.unit.unit_name] = [obj];
+                    } else {
+                        units[swp.week.unit.unit_name].push(obj);
+                    }
                 });
 
-                setStudents(students);
+                return {
+                    student_id: student.student_id,
+                    first_name: student.first_name,
+                    last_name: student.last_name,
+                    course_name: student.student_course.course.course_name,
+                    student_weekly_progresses: student.student_weekly_progresses,
+                    units,
+                };
+            });
 
-                setCurrentStudents(students);
-                // const courses = [];
-                // data.forEach((student) => {
-                //   const course = student.student_course.course.course_name
-                //   if (!courses.includes(course)) {
-                //     courses.push(course);
-                //   }
-                // })
-                // setCourses(courses);
-            })
-            .catch(console.error);
+            setStudents(students);
+
+            setCurrentStudents(students);
+            // const courses = [];
+            // data.forEach((student) => {
+            //   const course = student.student_course.course.course_name
+            //   if (!courses.includes(course)) {
+            //     courses.push(course);
+            //   }
+            // })
+            // setCourses(courses);
+        })
+        .catch(console.error);
     }, []);
 
     // console.log(students);
@@ -137,59 +137,48 @@ const TrackingReport = () => {
 
     const setColor = (toProcess, word) => {
         if (word === "weekAssignment") {
-            return toProcess.assignmentProgress === 2
-                ? "#0f0"
-                : toProcess.assignmentProgress === 1
-                ? "#fc0"
-                : "#f00";
+            return (
+                toProcess.assignmentProgress === 2 ? "#0f0" : 
+                toProcess.assignmentProgress === 1 ? "#fc0" : "#f00"
+            );
         }
 
         if (word === "weekStatus") {
-            // console.log(toProcess);
-            return toProcess.status === 6
-                ? "#0f0"
-                : toProcess.status >= 3
-                ? "#fc0"
-                : "#f00";
+            return (
+                toProcess.status === 6 ? "#0f0" : 
+                toProcess.status >= 3 ? "#fc0" : "#f00"
+            );
         }
 
         let studentWeeklyProgress =
             toProcess.reduce((acc, progress) => {
                 return (
-                    acc +
-                    (word === "generalAssignments"
-                        ? progress.assignment_progress
-                        : word === "generalGithubLinks"
-                        ? progress.assignment_submission
-                        : word === "generalStatus"
-                        ? progress.total_progress
-                        : word === "unitAssignments"
-                        ? progress.assignment_progress
-                        : word === "unitGithubLinks"
-                        ? progress.githubLink
-                        : progress.status)
+                    acc + (
+                        word === "generalAssignments" ? progress.assignment_progress : 
+                        word === "generalGithubLinks" ? progress.assignment_submission : 
+                        word === "generalStatus" ? progress.total_progress :
+                        word === "unitAssignments" ? progress.assignment_progress : 
+                        word === "unitGithubLinks" ? progress.githubLink : progress.status
+                    )
                 );
             }, 0) / toProcess.length;
 
         if (word === "generalAssignments" || word === "unitAssignments") {
             studentWeeklyProgress = Math.floor(studentWeeklyProgress);
-            return studentWeeklyProgress === 2
-                ? "#0f0"
-                : studentWeeklyProgress === 1
-                ? "#fc0"
-                : "#f00";
+            return (
+                studentWeeklyProgress === 2 ? "#0f0" : 
+                studentWeeklyProgress === 1 ? "#fc0" : "#f00"
+            );
         } else if (word === "generalStatus" || word === "unitStatus") {
-            return studentWeeklyProgress === 6
-                ? "#0f0"
-                : studentWeeklyProgress >= 3
-                ? "#fc0"
-                : "#f00";
+            return (
+                studentWeeklyProgress === 6 ? "#0f0" : 
+                studentWeeklyProgress >= 3 ? "#fc0" : "#f00"
+            );
         } else {
-            return studentWeeklyProgress >= 2
-                ? "#0f0"
-                : studentWeeklyProgress > 0
-                ? "#fc0"
-                : "#f00";
+            return (
+                studentWeeklyProgress >= 2 ? "#0f0" : 
+                studentWeeklyProgress > 0 ? "#fc0" : "#f00"
+            );
         }
     };
 
@@ -282,7 +271,7 @@ const TrackingReport = () => {
 
     const columns = [
         {
-            title: "Name",
+            title: <strong>Name</strong>,
             dataIndex: "name",
             key: "name",
             // sorter: (a, b) => a.name.localeCompare(b.name),
@@ -290,7 +279,7 @@ const TrackingReport = () => {
             ellipsis: true,
         },
         {
-            title: "Course",
+            title: <strong>Course</strong>,
             dataIndex: "course",
             key: "course",
             ellipsis: true,
@@ -305,19 +294,19 @@ const TrackingReport = () => {
             // })
         },
         {
-            title: "Units",
+            title: <strong>Units</strong>,
             dataIndex: "units",
             key: "units",
             ellipsis: true,
         },
         {
-            title: "Assignments",
+            title: <strong>Assignments</strong>,
             dataIndex: "assignments",
             key: "assignments",
             ellipsis: true,
         },
         {
-            title: "Github Link",
+            title: <strong>Github Link</strong>,
             dataIndex: "githubLink",
             key: "githubLink",
             ellipsis: true,

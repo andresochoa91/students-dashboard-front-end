@@ -10,11 +10,11 @@ import {
 	CalendarOutlined,
 	TeamOutlined,
 	UserOutlined,
-	DisconnectOutlined,
-	FundProjectionScreenOutlined,
-	SlackOutlined,
-	YoutubeOutlined,
-	RocketOutlined,
+	// DisconnectOutlined,
+	// FundProjectionScreenOutlined,
+	// SlackOutlined,
+	// YoutubeOutlined,
+	// RocketOutlined,
 } from "@ant-design/icons";
 
 import * as ROUTES from "../../../../constants/routes";
@@ -53,11 +53,13 @@ const StaffSiderMenu = ({ match, keys, setSelectedKey, selectedKey }) => {
 						</Menu.Item> */}
 
 						<SubMenu key="sub1" icon={<BookOutlined />} title="Classes">
+
 							<Menu.Item key={keys["Courses"]} icon={<UserOutlined />}>
-								<Link to={`${match.path}${ROUTES.CREATE_CLASSES}`}>
+								<Link to={`${match.path}${ROUTES.CREATE_CLASSES}${ROUTES.CREATE_COURSES}`}>
 									Courses
 								</Link>
 							</Menu.Item>
+							
 							<Menu.Item
 								key={keys["Assignments"]}
 								icon={<CalendarOutlined />}
