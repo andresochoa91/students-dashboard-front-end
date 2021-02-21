@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Card, Row, Col, Space, Typography, Modal, Form, Input, Button } from "antd";
 import styled from "styled-components";
 import { PlusCircleTwoTone } from "@ant-design/icons";
 import TextEditor from '../../../textEditor/TextEditor';
-import { useCookies } from "react-cookie";
+import UserContext from '../../../../contexts/UserContext';
+// import { useCookies } from "react-cookie";
 
 
 //Form Constants
@@ -30,12 +31,13 @@ const CurrentCourses = () => {
 	const [ courses, setCourses ] = useState();
 	const [ courseName, setCourseName ] = useState("");
 	const [ courseDescription, setCourseDescription ] = useState("");
-	const [ cookies, setCookie ] = useCookies(['auth_token']);
-	const [ authToken, setAuthToken ] = useState(cookies['auth_token']);
+	// const [ cookies, setCookie ] = useCookies(['auth_token']);
+	// const [ authToken, setAuthToken ] = useState(cookies['auth_token']);
+	const [ authToken ] = useContext(UserContext);
 
 
 	useEffect(() => {
-		fetch(process.env.REACT_APP_GET_STAFF_ASSIGNMENTS)
+		fetch(process.env.REACT_APP_GET_COURSES)
 		.then(response => response.json())
 		.then(setCourses)
 		.catch(console.error)
@@ -57,7 +59,7 @@ const CurrentCourses = () => {
 	//Modal Form
 	const handleOk = (event) => {
 		event.preventDefault();
-		fetch(process.env.REACT_APP_GET_STAFF_ASSIGNMENTS, {
+		fetch(process.env.REACT_APP_GET_COURSES, {
 			method: "POST",
 			mode: "cors",
 			credentials: "include",

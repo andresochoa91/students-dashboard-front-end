@@ -32,7 +32,7 @@ const ACTIONS_ASSIGNMENT_INFO = {
 	SET_DONE: 'done',
 	SET_ALL: 'all',
 };
-
+    
 const reducerAssignmentsInfo = (state, action) => {
 	switch (action.type) {
 		case ACTIONS_ASSIGNMENT_INFO.SET_COURSE:
@@ -93,13 +93,22 @@ const CreateAssignments = ({ match, history }) => {
 	];
 
 	useEffect(() => {
+		let mounted = true;
+
 		const getData = async () => {
-			const res = await fetch(process.env.REACT_APP_GET_STAFF_ASSIGNMENTS);
-			const data = await res.json();
-			setInfo(data);
-		}
+			if (mounted) {
+				try {
+					const res = await fetch(process.env.REACT_APP_GET_COURSES);
+					const data = await res.json();
+					setInfo(data);
+				} catch (err) {
+					console.error(err);
+				}
+			}
+		};
 		getData();
-	}, [])
+		return () => mounted = false;
+	}, []);
 
 	const handleCourseChange = (course) => {
 		setCourse(course);
@@ -108,7 +117,7 @@ const CreateAssignments = ({ match, history }) => {
 			payload: { field: 'course', value: info[course] },
 		})
 		setUnits(info[course].units)
-	}
+	};
 
 	const handleUnitChange = (unit) => {
 		dispatchAssignments({
@@ -116,7 +125,7 @@ const CreateAssignments = ({ match, history }) => {
 			payload: { field: 'unit', value: units[unit] },
 		})
 		setLessons(units[unit].weeks);
-	}
+	};
 
 	const handleLessonChange = (lesson) => {
 		dispatchAssignments({
@@ -124,7 +133,7 @@ const CreateAssignments = ({ match, history }) => {
 			payload: { field: 'lesson', value: lessons[lesson] }
 		})
 		setDueDate(lessons[lesson])
-	}
+	};
 
 	console.log(assignments)
 
@@ -136,7 +145,7 @@ const CreateAssignments = ({ match, history }) => {
 			// Go to the next step component
 			history.push(`${steps[step + 1].link}`);
 		}
-	}
+	};
 
 	const onDateChange = (date, dateString) => {
 		console.log(date, dateString);
@@ -144,7 +153,7 @@ const CreateAssignments = ({ match, history }) => {
 			type: 'date',
 			payload: { field: 'date', value: { date, dateString } }
 		})
-	}
+	};
 
 	return (
 		<>
@@ -256,9 +265,9 @@ const CreateAssignments = ({ match, history }) => {
 				{
 					step < steps.length - 1 && (
 						<Link to={steps[step + 1].link}>
-						<Button type="primary" onClick={() => setStep(step + 1)}>
-							Next
-						</Button>
+							<Button type="primary" onClick={() => setStep(step + 1)}>
+								Next
+							</Button>
 						</Link>
 					)
 				}

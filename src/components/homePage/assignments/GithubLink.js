@@ -33,7 +33,7 @@ const GithubLink = ({
         const weekNumber = progressData[clickedUnitKey][clickedLessonKey].week;
 
         const res = await fetch(
-            `${process.env.REACT_APP_UPDATE_PROGRESS}/student_weekly_progress/${id}/week_number/${weekNumber}`,
+            `${process.env.REACT_APP_API_ROOT}/student_weekly_progress/${id}/week_number/${weekNumber}`,
             {
                 body: JSON.stringify({
                     ...values,

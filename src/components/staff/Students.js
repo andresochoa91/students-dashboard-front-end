@@ -101,11 +101,12 @@ const Students = (props) => {
                             <Col span={8}>
                                 <h3 style={{fontWeight: "bold"}}>Students in this course</h3>
                                 <Search
-                                placeholder="input search text"
-                                allowClear
-                                onSearch={onSearch}
-                                style={{ width: 200, margin: '0' }}
-                            /></Col>
+                                    placeholder="input search text"
+                                    allowClear
+                                    onSearch={onSearch}
+                                    style={{ width: 200, margin: '0' }}
+                                />
+                            </Col>
                             
                             <Col span={16} >
                                 <div style={{display: "flex", justifyContent: "flex-end"}}>
