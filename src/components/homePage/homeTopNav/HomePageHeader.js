@@ -40,52 +40,46 @@ const HomePageHeader = ({ match }) => {
 				</a>
 			</Menu.Item>
 			<Menu.Item>
-<<<<<<< HEAD
-			{/* <Link to="#" onClick={() => logout()}>Logout</Link> */}
-			<div onClick={logout}>Logout</div>
-			</Menu.Item>	
-=======
 				<Link to="#" onClick={logout}>Logout</Link>
 			</Menu.Item>
->>>>>>> worked on authentication
 		</Menu >
 	);
 
-return (
-	<HeaderPage>
-		<Header
-			className="site-layout-background"
-			style={{
-				padding: "0",
-				backgroundColor: "white",
-				width: "100%",
-			}}
-		>
-			<Row type="flex">
-				<Col span={12}>
-					<Logo>
-						<img
-							src={logo}
-							className="ctd-logo"
-							alt="Code the Dream Logo"
-						></img>
-					</Logo>
-				</Col>
-				<Col span={12} align="right">
-					<TopNav className="top-nav">
-						<BellOutlined />
-						<SettingOutlined />
-						<Dropdown overlay={menu}>
-							<a className="ant-dropdown-link" trigger={['click']} onClick={e => e.preventDefault()}>
-								<UserCircle style={{ width: "25px" }} />
-							</a>
-						</Dropdown>
-					</TopNav>
-				</Col>
-			</Row>
-		</Header>
-	</HeaderPage>
-);
+	return (
+		<HeaderPage>
+			<Header
+				className="site-layout-background"
+				style={{
+					padding: "0",
+					backgroundColor: "white",
+					width: "100%",
+				}}
+			>
+				<Row type="flex">
+					<Col span={12}>
+						<Logo>
+							<img
+								src={logo}
+								className="ctd-logo"
+								alt="Code the Dream Logo"
+							></img>
+						</Logo>
+					</Col>
+					<Col span={12} align="right">
+						<TopNav className="top-nav">
+							<BellOutlined />
+							<SettingOutlined />
+							<Dropdown overlay={menu}>
+								<a className="ant-dropdown-link" trigger={['click']} onClick={e => e.preventDefault()}>
+									<UserCircle style={{ width: "25px" }} />
+								</a>
+							</Dropdown>
+						</TopNav>
+					</Col>
+				</Row>
+			</Header>
+		</HeaderPage>
+	);
 };
 
 export default HomePageHeader;
