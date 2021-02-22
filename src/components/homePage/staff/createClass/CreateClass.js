@@ -96,17 +96,17 @@ const CreateClass = ({ match, history }) => {
 									</TabPane> */}
 
 									<TabPane 
-										tab={ <Link /* style={{ padding: "15px 15px" }} */ to={`${match.path}${ROUTES.CREATE_COURSES}`}>Courses</Link> } 
+										tab={ <Link style={{ padding: "15px 15px" }} to={`${match.path}${ROUTES.CREATE_COURSES}`}>Courses</Link> } 
 										key="/home/classes/courses"
 									>
-										{/* <div> */}
+										<div className="card-content">
 											<PrivateRoute
 												exact
 												path={`${match.path}${ROUTES.CREATE_COURSES}`}
 												component={Courses}
 												courses={courses}
 											/>
-										{/* </div> */}
+										</div>
 									</TabPane>
 
 									<TabPane tab={<Link style={{ padding: "15px 15px" }} to={`${match.path}${ROUTES.CREATE_UNITS}`}>Units</Link>} key="/home/classes/units">

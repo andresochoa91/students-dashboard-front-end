@@ -7,6 +7,7 @@ import { CalendarStore } from "./contexts/CalendarContext";
 
 import * as ROUTES from '../constants/routes';
 import PrivateRoute from './routes/PrivateRoute';
+import PublicRoute from './routes/PublicRoute';
 import LandingPage from './landingPage/LandingPage';
 import HomePage from './homePage/HomePage';
 import GlobalStyles from '../styles/Global';
@@ -21,9 +22,9 @@ const App = () => {
 					<CalendarStore>
 						<GlobalStyles />
 						<Switch>
-							{/* <Route path={ROUTES.HOME} exact render={() => <Redirect to={`${ROUTES.HOME}${ROUTES.DASHBOARD}`} />} /> */}
+							<PublicRoute exact path={ROUTES.LANDING} component={LandingPage} />
+							<Route path={ROUTES.HOME} exact render={() => <Redirect to={`${ROUTES.HOME}${ROUTES.DASHBOARD}`} />} />
 							<PrivateRoute path={ROUTES.HOME} component={HomePage} />
-							<Route exact path={ROUTES.LANDING} component={LandingPage} />
 						</Switch>
 					</CalendarStore>
 				</UserStore>

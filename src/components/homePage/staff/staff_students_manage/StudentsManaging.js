@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { Row, Col, Space } from "antd";
 
-import Announcements from "../../dashboard/staffDashboard/announcements/Announcements";
+// import Announcements from "../../dashboard/staffDashboard/announcements/Announcements";
 import SmallCalendar from "../../dashboard/staffDashboard/smallCalendar/SmallCalendar";
 // import HomeButtons from "../dashboard/staffDashboard/homeButtons/HomeButtons"; 
-
-import EventsButton from "../../dashboard/staffDashboard/eventsButton/eventsStaffButton";
+// import EventsButton from "../../dashboard/staffDashboard/eventsButton/eventsStaffButton";
 import MeetingButton from "../../dashboard/staffDashboard/meetingButton/meetingButton";
 
 import Students from './Students'
@@ -15,7 +14,7 @@ const StudentsManaging = ({ history, menuKey, selectedKey, setSelectedKey }) => 
 
     useEffect(() => {
         setSelectedKey(studentsdKey);
-    }, [])
+    }, [ setSelectedKey, studentsdKey ]);
 
     return (
         <div className="container-fluid">
@@ -32,9 +31,9 @@ const StudentsManaging = ({ history, menuKey, selectedKey, setSelectedKey }) => 
                     xxl={6}
                     className="site-layout-right">
                     <Space direction="vertical">
-                        <Announcements />
+                        {/* <Announcements /> */}
                         {/* <HomeButtons /> */}
-                        <EventsButton />
+                        {/* <EventsButton /> */}
                         <MeetingButton />
                         <SmallCalendar
                             history={history}

@@ -1,16 +1,19 @@
-/** @format */
-
 import React, { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 
-import AuthContext from "../contexts/AuthContext";
+import UserContext from "../contexts/UserContext";
 
 const PublicRoute = ({ component: Component, ...rest }) => {
-    // const [authUser, setAuthUser] = useContext(AuthContext);
-    const [state, dispatch] = useContext(AuthContext);
-    const { authUser, username, email, course } = state;
-
-    return <Route {...rest} render={(props) => <Component {...props} />} />;
+    const [authToken, setAuthToken] = useContext(UserContext);
+    console.log(authToken)
+    return (
+        <Route
+            {...rest}
+            render={(props) => {
+                return authToken ? <Redirect to="/home/dashboard" /> : <Component {...props} {...rest} />
+            }}
+        />
+    );
 };
 
 export default PublicRoute;
