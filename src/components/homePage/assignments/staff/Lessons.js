@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Table, Spin } from "antd";
-import ModalAdd from '../../dashboard/staffDashboard/modalAdd/ModalAdd';
+import MultiPurposeModal from '../../dashboard/staffDashboard/multiPurposeModal/MultiPurposeModal';
 import { Input } from "antd";
 import UserContext from '../../../contexts/UserContext';
 
@@ -57,7 +57,7 @@ const Lessons = ({ lessons }) => {
             {
                 lessons.length ? (
                     <>
-                        <ModalAdd 
+                        <MultiPurposeModal 
                             handleOk={ handleOk }
                             addTitle="Add Lesson"
                         >
@@ -72,7 +72,7 @@ const Lessons = ({ lessons }) => {
                                 }}
                             />
                             <br/><br/>
-                        </ModalAdd>
+                        </MultiPurposeModal>
 
                         <Table
                             columns={columns}
