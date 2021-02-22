@@ -3,7 +3,7 @@ import { Card, Row, Col, Space, Input, Spin } from "antd";
 import styled from "styled-components";
 import TextEditor from '../../../textEditor/TextEditor';
 import UserContext from '../../../../contexts/UserContext';
-import ModalAdd from "../modalAdd/ModalAdd";
+import MultiPurposeModal from "../multiPurposeModal/MultiPurposeModal";
 
 const CurrentCourses = () => {
 
@@ -67,7 +67,7 @@ const CurrentCourses = () => {
 					className="cards-border"
 					style={{ paddingTop: 10 }}
 				>
-					<ModalAdd 
+					<MultiPurposeModal 
 						// title="Current Courses"
 						handleOk={ handleOk }
 						addTitle={ "Add Course" }
@@ -94,7 +94,7 @@ const CurrentCourses = () => {
 							{/* <Button type="primary" htmlType="submit" >
 								Create Course
 							</Button> */}
-					</ModalAdd>
+					</MultiPurposeModal>
 
 					<br></br>
 

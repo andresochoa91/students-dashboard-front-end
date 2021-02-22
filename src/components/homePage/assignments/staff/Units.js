@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Table, Spin } from "antd";
-import ModalAdd from '../../dashboard/staffDashboard/modalAdd/ModalAdd';
+import MultiPurposeModal from '../../dashboard/staffDashboard/multiPurposeModal/MultiPurposeModal';
 import { Input } from "antd";
 import UserContext from '../../../contexts/UserContext';
 import TextEditor from '../../textEditor/TextEditor';
@@ -64,7 +64,7 @@ const Units = ({ units }) => {
             {
                 units.length ? (
                     <>
-                        <ModalAdd 
+                        <MultiPurposeModal 
                             handleOk={ handleOk }
                             addTitle="Add Unit"
                         >
@@ -89,7 +89,7 @@ const Units = ({ units }) => {
                                 {/* <Button type="primary" htmlType="submit" >
                                     Create Course
                                 </Button> */}
-                        </ModalAdd>
+                        </MultiPurposeModal>
                         <Table
                             columns={columns}
                             dataSource={data}
