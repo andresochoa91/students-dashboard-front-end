@@ -460,20 +460,6 @@ const CreateAssignments = ({ match, history }) => {
 								md={12}
 								lg={12}
 							>
-<<<<<<< HEAD
-								Previous
-							</Button>
-						</Link>
-					)
-				}
-				{
-					step < steps.length - 1 && (
-						<Link to={steps[step + 1].link}>
-							<Button type="primary" onClick={() => setStep(step + 1)}>
-								Next
-							</Button>
-						</Link>
-=======
 								<HeaderStyle>
 									<Typography.Title level={5}>
 										CTD Students's List
@@ -549,13 +535,12 @@ const CreateAssignments = ({ match, history }) => {
 						</Row>
 					</TabsContent>
 				) : (
-						<Row>
-							<Col span={12} offset={12}>
-								<Spin size="large" />
-							</Col>
-						</Row>
->>>>>>> worked on authentication
-					)
+					<Row>
+						<Col span={12} offset={12}>
+							<Spin size="large" />
+						</Col>
+					</Row>
+				)
 			}
 		</>
 	);

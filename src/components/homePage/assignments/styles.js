@@ -124,7 +124,7 @@ export const StyledSectionStaff = styled.section`
     }
 
     .card-container > .ant-tabs-card .ant-tabs-content {
-        min-height: 70vh;
+        min-height: 730px;
         margin-top: -16px;
     }
 

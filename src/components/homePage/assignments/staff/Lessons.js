@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Table, Spin } from "antd";
+import ModalAdd from '../../dashboard/staffDashboard/modalAdd/ModalAdd';
+import { Input } from "antd";
+import UserContext from '../../../contexts/UserContext';
+
 
 const Lessons = ({ lessons }) => {
+
+	const [ authToken ] = useContext(UserContext);
+    const [ lessonName, setLessonName ] = useState("");
+	// const [ unitDescription, setUnitDescription ] = useState("");
 
     const columns = [
         {
@@ -20,16 +28,59 @@ const Lessons = ({ lessons }) => {
         }
     });
 
+    const handleOk = (event) => {
+		event.preventDefault();
+		fetch(process.env.REACT_APP_GET_LESSONS, {
+			method: "POST",
+			mode: "cors",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": authToken
+			},
+			body: JSON.stringify({
+				lesson_name: lessonName,
+			})
+		})
+		.then(response => response.json())
+		.then(() => {
+			// console.log(data);
+			window.location.reload();
+		})
+		.catch(console.error);
+	};
+
+    console.log(lessons);
+
     return (
         <>
             {
                 lessons.length ? (
-                    <Table
-                        columns={columns}
-                        dataSource={data}
-                        scroll={{ y: 500 }}
-                        expandIconColumnIndex={2}
-                    />
+                    <>
+                        <ModalAdd 
+                            handleOk={ handleOk }
+                            addTitle="Add Lesson"
+                        >
+                            <label>Lesson Name: </label>
+                            <Input 
+                                type="text"
+                                name="courseName"
+                                value={ lessonName }
+                                onChange={ (event) => {
+                                    event.preventDefault();
+                                    setLessonName(event.target.value); 
+                                }}
+                            />
+                            <br/><br/>
+                        </ModalAdd>
+
+                        <Table
+                            columns={columns}
+                            dataSource={data}
+                            scroll={{ y: 600 }}
+                            expandIconColumnIndex={2}
+                        />
+                    </>
                 ) : (
                     <Spin />
                 )

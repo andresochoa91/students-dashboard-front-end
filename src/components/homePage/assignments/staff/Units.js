@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { Table, Spin } from "antd";
+import ModalAdd from '../../dashboard/staffDashboard/modalAdd/ModalAdd';
+import { Input } from "antd";
+import UserContext from '../../../contexts/UserContext';
+import TextEditor from '../../textEditor/TextEditor';
 
 const Units = ({ units }) => {
+
+    const [ authToken ] = useContext(UserContext);
+	const [ unitName, setUnitName ] = useState("");
+	const [ unitDescription, setUnitDescription ] = useState("");
 
     const columns = [
         {
@@ -28,16 +36,67 @@ const Units = ({ units }) => {
         }
     });
 
+    const handleOk = (event) => {
+		event.preventDefault();
+		fetch(process.env.REACT_APP_GET_UNITS, {
+			method: "POST",
+			mode: "cors",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": authToken
+			},
+			body: JSON.stringify({
+				unit_name: unitName,
+				description: unitDescription
+			})
+		})
+		.then(response => response.json())
+		.then(() => {
+			// console.log(data);
+			window.location.reload();
+		})
+		.catch(console.error);
+	};
+
     return (
         <>
             {
                 units.length ? (
-                    <Table
-                        columns={columns}
-                        dataSource={data}
-                        scroll={{ y: 500 }}
-                        expandIconColumnIndex={2}
-                    />
+                    <>
+                        <ModalAdd 
+                            handleOk={ handleOk }
+                            addTitle="Add Unit"
+                        >
+                                <label>Unit Name: </label>
+                                <Input 
+                                    type="text"
+                                    name="unitName"
+                                    value={ unitName }
+                                    onChange={ (event) => {
+                                        event.preventDefault();
+                                        setUnitName(event.target.value); 
+                                    }}
+                                />
+                                <br/><br/>
+                                <label>Unit Description: </label>
+                                <TextEditor 
+                                    text={ unitDescription }
+                                    setText={ setUnitDescription }
+                                />
+
+                                <br/>
+                                {/* <Button type="primary" htmlType="submit" >
+                                    Create Course
+                                </Button> */}
+                        </ModalAdd>
+                        <Table
+                            columns={columns}
+                            dataSource={data}
+                            scroll={{ y: 600 }}
+                            expandIconColumnIndex={2}
+                        />
+                    </>
                 ) : (
                     <Spin />
                 )

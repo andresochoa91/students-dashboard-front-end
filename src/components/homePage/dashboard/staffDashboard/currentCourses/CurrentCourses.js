@@ -1,21 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Card, Row, Col, Space, Typography, Modal, Form, Input, Button } from "antd";
+import { Card, Row, Col, Space, Input, Spin } from "antd";
 import styled from "styled-components";
-import { PlusCircleTwoTone } from "@ant-design/icons";
 import TextEditor from '../../../textEditor/TextEditor';
 import UserContext from '../../../../contexts/UserContext';
-// import { useCookies } from "react-cookie";
-
-
-//Form Constants
-// const layout = {
-// 	labelCol: { span: 6 },
-// 	wrapperCol: { span: 16 },
-// };
-
-// const validateMessages = {
-// 	required: "${label} is required!",
-// };
+import ModalAdd from "../modalAdd/ModalAdd";
 
 const CurrentCourses = () => {
 
@@ -27,12 +15,9 @@ const CurrentCourses = () => {
 		text-align: center;
 	`;
 
-	const [ isModalVisible, setIsModalVisible ] = useState(false);
 	const [ courses, setCourses ] = useState();
 	const [ courseName, setCourseName ] = useState("");
 	const [ courseDescription, setCourseDescription ] = useState("");
-	// const [ cookies, setCookie ] = useCookies(['auth_token']);
-	// const [ authToken, setAuthToken ] = useState(cookies['auth_token']);
 	const [ authToken ] = useContext(UserContext);
 
 
@@ -42,15 +27,6 @@ const CurrentCourses = () => {
 		.then(setCourses)
 		.catch(console.error)
 	}, []);
-
-	const showModal = () => {
-		setIsModalVisible(true);
-	};
-
-	
-	const handleCancel = () => {
-		setIsModalVisible(false);
-	};
 	
 	// const handleOk = () => {
 	// 	setIsModalVisible(false);
@@ -73,19 +49,14 @@ const CurrentCourses = () => {
 			})
 		})
 		.then(response => response.json())
-		.then(data => {
-			console.log(data);
-			// window.location.reload();
+		.then(() => {
+			// console.log(data);
+			window.location.reload();
 		})
 		.catch(console.error);
-
-		console.log(courseName);
-		console.log(courseDescription);
 	};
 
-	console.log(courseDescription);
-
-
+	// console.log(courseDescription);
 
 	return (
 		<>
@@ -96,70 +67,61 @@ const CurrentCourses = () => {
 					className="cards-border"
 					style={{ paddingTop: 10 }}
 				>
-					<Typography.Title level={4} className="left">
-						Current Courses
-						<PlusCircleTwoTone
-							style={{ paddingLeft: 420 }}
-							onClick={showModal}
-						/>
-						<Modal
-							title="Create Course"
-							visible={isModalVisible}
-							onOk={ handleOk }
-							onCancel={handleCancel}
-							width={ 1000 }
-						>
-							<form /* onSubmit={ handleSubmit } */>
-								<label>Course Name: </label>
-								<Input 
-									type="text"
-									name="courseName"
-									value={ courseName }
-									onChange={ (event) => {
-										event.preventDefault();
-										setCourseName(event.target.value); 
-									}}
-								/>
-								<br/>
-								<br/>
-								<label>Course Description: </label>
-								
-								<TextEditor 
-									text={ courseDescription }
-									setText={ setCourseDescription }
-								/>
+					<ModalAdd 
+						// title="Current Courses"
+						handleOk={ handleOk }
+						addTitle={ "Add Course" }
+					>
+							<label>Course Name: </label>
+							<Input 
+								type="text"
+								name="courseName"
+								value={ courseName }
+								onChange={ (event) => {
+									event.preventDefault();
+									setCourseName(event.target.value); 
+								}}
+							/>
+							<br/><br/>
+							<label>Course Description: </label>
+							
+							<TextEditor 
+								text={ courseDescription }
+								setText={ setCourseDescription }
+							/>
 
-								<br/>
-								{/* <Button type="primary" htmlType="submit" >
-									Create Course
-								</Button> */}
-								{/* <input type="submit" value="Submit Form" /> */}
-							</form>
-						</Modal>
-					</Typography.Title>
+							<br/>
+							{/* <Button type="primary" htmlType="submit" >
+								Create Course
+							</Button> */}
+					</ModalAdd>
+
 					<br></br>
 
 					<Row gutter={[16, 16]}>
 						{
-							courses && courses.map((course) => (
-								<Card
-									type="inner"
-									hoverable
-									className="cards-border"
-									style={{ margin: 3 }}
-									key={ course.id }
-								>
-									<Col span={12}>
-										<TextBox>
-											<h3>
-												<strong>{ course.course_name }</strong>
-											</h3>
-											<div dangerouslySetInnerHTML={{ __html: course.description }} ></div>
-											{/* { course.description } */}
-										</TextBox>
-									</Col>
-								</Card>		
-							))
+							courses ? (
+								courses.map((course) => (
+									<Card
+										type="inner"
+										hoverable
+										className="cards-border"
+										style={{ margin: 3 }}
+										key={ course.id }
+									>
+										<Col span={12}>
+											<TextBox>
+												<h3>
+													<strong>{ course.course_name }</strong>
+												</h3>
+												<div dangerouslySetInnerHTML={{ __html: course.description }} ></div>
+											</TextBox>
+										</Col>
+									</Card>		
+								)
+							)) : (
+								<Spin />
+							)
 						}
 					</Row>
 				</Card>
