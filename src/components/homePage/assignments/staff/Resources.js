@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { Table, Spin } from "antd";
+import MultiPurposeModal from '../../dashboard/staffDashboard/multiPurposeModal/MultiPurposeModal';
+import { Input } from "antd";
+import UserContext from '../../../contexts/UserContext';
 
 const Resources = ({ resources }) => {
+
+    const [ authToken ] = useContext(UserContext);
+	const [ resourceTitle, setResourceTitle ] = useState("");
+	const [ link, setLink ] = useState("");
 
     const columns = [
         {
@@ -28,16 +35,72 @@ const Resources = ({ resources }) => {
         }
     });
 
+    const handleOk = (event) => {
+		event.preventDefault();
+		fetch(process.env.REACT_APP_GET_RESOURCES, {
+			method: "POST",
+			mode: "cors",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": authToken
+			},
+			body: JSON.stringify({
+				source_title: resourceTitle,
+				link: link
+			})
+		})
+		.then(response => response.json())
+		.then(() => {
+			// console.log(data);
+			window.location.reload();
+		})
+		.catch(console.error);
+	};
+
     return (
         <>
             {
                 resources.length ? (
-                    <Table
-                        columns={columns}
-                        dataSource={data}
-                        scroll={{ y: 500 }}
-                        expandIconColumnIndex={2}
-                    />
+                    <>
+                        <MultiPurposeModal 
+                            handleOk={ handleOk }
+                            addTitle="Add Resource"
+                        >
+                                <label>Resource Title: </label>
+                                <Input 
+                                    type="text"
+                                    name="courseName"
+                                    value={ resourceTitle }
+                                    onChange={ (event) => {
+                                        event.preventDefault();
+                                        setResourceTitle(event.target.value); 
+                                    }}
+                                />
+                                <br/><br/>
+
+                                <label>Link: </label>
+                                <Input 
+                                    type="text"
+                                    name="Link"
+                                    value={ link }
+                                    onChange={ (event) => {
+                                        event.preventDefault();
+                                        setLink(event.target.value); 
+                                    }}
+                                />
+                                <br/>
+                                {/* <Button type="primary" htmlType="submit" >
+                                    Create Course
+                                </Button> */}
+                        </MultiPurposeModal>
+                        <Table
+                            columns={columns}
+                            dataSource={data}
+                            scroll={{ y: 600 }}
+                            expandIconColumnIndex={2}
+                        />
+                    </>
                 ) : (
                     <Spin />
                 )

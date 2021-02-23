@@ -11,7 +11,7 @@ import {
 import * as ROUTES from "../../../../constants/routes";
 import { StyledSectionStaff, StyledDiv } from "../../assignments/styles";
 import CreateAssignments from '../../assignments/staff/CreateAssignments';
-import Courses from '../../assignments/staff/Courses';
+import Courses from '../../assignments/staff/courses/Courses';
 import Units from '../../assignments/staff/Units';
 import Lessons from '../../assignments/staff/Lessons';
 import Resources from '../../assignments/staff/Resources';
@@ -96,17 +96,17 @@ const CreateClass = ({ match, history }) => {
 									</TabPane> */}
 
 									<TabPane 
-										tab={ <Link /* style={{ padding: "15px 15px" }} */ to={`${match.path}${ROUTES.CREATE_COURSES}`}>Courses</Link> } 
+										tab={ <Link style={{ padding: "15px 15px" }} to={`${match.path}${ROUTES.CREATE_COURSES}`}>Courses</Link> } 
 										key="/home/classes/courses"
 									>
-										{/* <div> */}
+										<div className="card-content">
 											<PrivateRoute
 												exact
 												path={`${match.path}${ROUTES.CREATE_COURSES}`}
 												component={Courses}
 												courses={courses}
 											/>
-										{/* </div> */}
+										</div>
 									</TabPane>
 
 									<TabPane tab={<Link style={{ padding: "15px 15px" }} to={`${match.path}${ROUTES.CREATE_UNITS}`}>Units</Link>} key="/home/classes/units">

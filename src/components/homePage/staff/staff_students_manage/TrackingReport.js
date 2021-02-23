@@ -1,15 +1,11 @@
-/** @format */
-
 import React, { useEffect, useState } from "react";
 import { Table, Row, Col, Typography, Input, Button, Spin } from "antd";
-import styled from "styled-components";
+import { Square, SquareDescription, DivMargin, ContainerLegend, DivLegend, StyledDate } from './trackingReportStyles';
 
 const { Text } = Typography;
 const { Search } = Input;
 
 const TrackingReport = () => {
-    // const [ sortedInfo, setSortedInfo ] = useState();
-    // const [ filteredInfo, setFilteredInfo ] = useState();
     const [students, setStudents] = useState([]);
     const [currentStudents, setCurrentStudents] = useState([]);
     // const [ courses, setCourses ] = useState([]);
@@ -22,50 +18,6 @@ const TrackingReport = () => {
     //   setSortedInfo(sorter);
     //   setFilteredInfo(filters);
     // };
-
-    const Square = styled.div`
-        height: 20px;
-        width: 20px;
-        background-color: ${(props) => props.squareColor};
-        border-color: #f00;
-    `;
-
-    const SquareDescription = styled.p`
-        margin: 0;
-        padding: 0;
-    `;
-
-    const DivMargin = styled.div`
-        margin: 10px;
-    `;
-
-    const ContainerLegend = styled.div`
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        width: 100%;
-    `;
-    const DivLegend = styled.div`
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        margin: 15px;
-    `;
-    const StyledDate = styled.div`
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        padding: 0 10px;
-        p {
-            margin: 10px;
-            padding: 10px;
-        }
-
-        @media (max-width: 576px) {
-            justify-content: flex-start;
-            ${"" /* justify-content: center;  */}
-        }
-    `;
 
     useEffect(() => {
         fetch("https://forked-student-dashboard.herokuapp.com/students")
