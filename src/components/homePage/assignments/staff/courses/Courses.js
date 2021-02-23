@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { Table, Spin } from "antd";
 import MultiPurposeModal from '../../../dashboard/staffDashboard/multiPurposeModal/MultiPurposeModal';
-import { Input, Button } from "antd";
+import { Input } from "antd";
 import UserContext from '../../../../contexts/UserContext';
 import TextEditor from '../../../textEditor/TextEditor';
 import EditCourse from './EditCourse';
 import DeleteCourse from './DeleteCourse';
+import UnitsCourse from './UnitsCourse';
 
 const Courses = ({ courses }) => {
 
@@ -56,7 +57,7 @@ const Courses = ({ courses }) => {
             key: course.id,
             name: course.course_name,
             description: <div dangerouslySetInnerHTML={{ __html: course.description }}/>,
-            units: <Button type="primary">Units</Button>,
+            units: <UnitsCourse course={ course } />,
             editCourse: <EditCourse course={ course } />,
             deleteCourse: <DeleteCourse course={ course } />
         }

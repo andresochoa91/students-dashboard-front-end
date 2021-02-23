@@ -36,9 +36,9 @@ const EditCourse = ({ course }) => {
 
     return (
         <MultiPurposeModal 
-            handleOk={ (event) => handleEdit(event) }
+            handleOk={ handleEdit }
             addTitle="Edit Course"
-            typeModal="edit"
+            typeModal="Edit"
         >
             <label>Course Name: </label>
             <Input 
