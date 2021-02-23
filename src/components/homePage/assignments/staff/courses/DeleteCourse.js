@@ -27,9 +27,9 @@ const DeleteCourse = ({ course }) => {
 
     return (
         <MultiPurposeModal 
-            handleOk={ (event) => handleDelete(event) }
+            handleOk={ handleDelete }
             addTitle="Delete Course"
-            typeModal="delete"
+            typeModal="Delete"
         >
             { `Are you sure you want to delete "${course.course_name}"?` }
         </MultiPurposeModal>
