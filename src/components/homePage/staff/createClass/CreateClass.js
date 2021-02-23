@@ -87,12 +87,6 @@ const CreateClass = ({ match, history }) => {
 		return () => { unmounted = true };
 	}, []);
 
-	useEffect(() => {
-		if (history.location.pathname === '/home/classes/assignments/create') {
-			history.push(`${match.path}${ROUTES.ASSIGNMENTS}`)
-		}
-	}, [])
-
 	return (
 		<div className="container-fluid">
 			<Row gutter={[16, 24]}>
@@ -103,7 +97,7 @@ const CreateClass = ({ match, history }) => {
 								<Tabs
 									type="card"
 									style={{ overflow: "auto" }}
-									defaultActiveKey={history.location.pathname === '/home/classes/assignments/create' ? '/home/classes/assignments' : history.location.pathname}
+									defaultActiveKey={history.location.pathname}
 								// onChange={key =>
 								// 	console.log(key)
 								// }

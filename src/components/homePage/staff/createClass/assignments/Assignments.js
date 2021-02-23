@@ -212,13 +212,11 @@ const Assignments = ({ history, assignments }) => {
 							>
 								<AddAssignmentStyle>
 									<p>Create Assignment</p>
-									<Link to={`${ROUTES.HOME}/classes/assignments${ROUTES.CREATE}`}>
-										<CreateModal
-											history={history}
-											assignments={assignments}
-											setAssignmentAdded={setAssignmentAdded}
-										/>
-									</Link>
+									<CreateModal
+										history={history}
+										assignments={assignments}
+										setAssignmentAdded={setAssignmentAdded}
+									/>
 								</AddAssignmentStyle>
 
 								<DropDownStyle>
