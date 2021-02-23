@@ -9,12 +9,18 @@ import {
 } from "antd";
 
 import * as ROUTES from "../../../../constants/routes";
-import { StyledSectionStaff, StyledDiv } from "../../assignments/styles";
-import CreateAssignments from '../../assignments/staff/CreateAssignments';
-import Courses from '../../assignments/staff/courses/Courses';
-import Units from '../../assignments/staff/Units';
-import Lessons from '../../assignments/staff/Lessons';
-import Resources from '../../assignments/staff/Resources';
+// import { StyledSectionStaff, StyledDiv } from "../../assignments/styles";
+// import CreateAssignments from '../../assignments/staff/CreateAssignments';
+// import Courses from '../../assignments/staff/courses/Courses';
+// import Units from '../../assignments/staff/Units';
+// import Lessons from '../../assignments/staff/Lessons';
+// import Resources from '../../assignments/staff/Resources';
+import { StyledSectionStaff, StyledDiv } from "../styles";
+import Assignments from './createAssignments/Assignments';
+import Courses from './createCourses/Courses';
+import Units from './createUnits/Units';
+import Lessons from './createLessons/Lessons';
+import Resources from './createResources/Resources';
 import PrivateRoute from '../../../routes/PrivateRoute';
 
 const { TabPane } = Tabs;
@@ -33,41 +39,41 @@ const CreateClass = ({ match, history }) => {
 	// 	setState({ [type]: key });
 	// };
 
-	const [ courses, setCourses ] = useState([]);
-	const [ units, setUnits ] = useState([]);
-	const [ lessons, setLessons ] = useState([]);
-	const [ resources, setResources ] = useState([]);
+	const [courses, setCourses] = useState([]);
+	const [units, setUnits] = useState([]);
+	const [lessons, setLessons] = useState([]);
+	const [resources, setResources] = useState([]);
 
 	useEffect(() => {
-        fetch(process.env.REACT_APP_GET_COURSES)
-        .then(response => response.json())
-        .then(data => {
-            setCourses(data);
-        })
-        .catch(console.error);
+		fetch(process.env.REACT_APP_GET_COURSES)
+			.then(response => response.json())
+			.then(data => {
+				setCourses(data);
+			})
+			.catch(console.error);
 
 		fetch(`${process.env.REACT_APP_API_ROOT}/units`)
-        .then(response => response.json())
-        .then(data => {
-            setUnits(data.units);
-        })
-        .catch(console.error);
+			.then(response => response.json())
+			.then(data => {
+				setUnits(data.units);
+			})
+			.catch(console.error);
 
 		fetch(`${process.env.REACT_APP_API_ROOT}/lessons`)
-        .then(response => response.json())
-        .then(data => {
-            setLessons(data.lessons);
-        })
-        .catch(console.error);
+			.then(response => response.json())
+			.then(data => {
+				setLessons(data.lessons);
+			})
+			.catch(console.error);
 
 		fetch(`${process.env.REACT_APP_API_ROOT}/sources`)
-        .then(response => response.json())
-        .then(data => {
-            setResources(data.sources);
-        })
-        .catch(console.error);
+			.then(response => response.json())
+			.then(data => {
+				setResources(data.sources);
+			})
+			.catch(console.error);
 
-    }, []);
+	}, []);
 
 	return (
 		<div className="container-fluid">
@@ -78,11 +84,12 @@ const CreateClass = ({ match, history }) => {
 							<div className="card-container">
 								<Tabs
 									type="card"
-									// defaultActiveKey={`${history.location.pathname}`}
-									// onChange={key =>
-									// 	console.log(key)
-									// }
-									// tabBarGutter={0}
+									style={{ overflow: "auto" }}
+								// defaultActiveKey={`${history.location.pathname}`}
+								// onChange={key =>
+								// 	console.log(key)
+								// }
+								// tabBarGutter={0}
 								>
 									{/* <TabPane tab={<Link to={`${match.path}${ROUTES.CREATE_ANNOUNCEMENTS}`}>Announcements</Link>} key="/home/classes/announcements">
 										<div className="card-content">
@@ -95,21 +102,38 @@ const CreateClass = ({ match, history }) => {
 										</div>
 									</TabPane> */}
 
-									<TabPane 
-										tab={ <Link style={{ padding: "15px 15px" }} to={`${match.path}${ROUTES.CREATE_COURSES}`}>Courses</Link> } 
+									{/* <TabPane 
+										tab={ <Link style={{ padding: "15px 15px" }} to={`${match.path}${ROUTES.CREATE_COURSES}`}>Courses</Link> }  */}
+									<TabPane
+										tab={<Link /* style={{ padding: "15px 15px" }} */
+											to={`${match.path}${ROUTES.CREATE_COURSES}`}>Courses</Link>}
 										key="/home/classes/courses"
+										style={{ height: "fit-content", width: "fit-content", minWidth: '1000px', minHeight: '1000px' }}
 									>
-										<div className="card-content">
+										{/* <div className="card-content">
 											<PrivateRoute
 												exact
 												path={`${match.path}${ROUTES.CREATE_COURSES}`}
 												component={Courses}
 												courses={courses}
 											/>
-										</div>
+										</div> */}
+										{/* <div> */}
+										<PrivateRoute
+											exact
+											path={`${match.path}${ROUTES.CREATE_COURSES}`}
+											component={Courses}
+											courses={courses}
+										/>
+										{/* </div> */}
 									</TabPane>
 
-									<TabPane tab={<Link style={{ padding: "15px 15px" }} to={`${match.path}${ROUTES.CREATE_UNITS}`}>Units</Link>} key="/home/classes/units">
+									<TabPane
+										tab={<Link style={{ padding: "15px 15px" }}
+											to={`${match.path}${ROUTES.CREATE_UNITS}`}>Units</Link>}
+										key="/home/classes/units"
+										style={{ height: "fit-content", width: "fit-content", minWidth: '1000px', minHeight: '1000px' }}
+									>
 										<div className="card-content">
 											<PrivateRoute
 												exact
@@ -120,7 +144,12 @@ const CreateClass = ({ match, history }) => {
 										</div>
 									</TabPane>
 
-									<TabPane tab={<Link style={{ padding: "15px 15px" }} to={`${match.path}${ROUTES.CREATE_LESSONS}`}>Lessons</Link>} key="/home/classes/lessons">
+									<TabPane
+										tab={<Link style={{ padding: "15px 15px" }}
+											to={`${match.path}${ROUTES.CREATE_LESSONS}`}>Lessons</Link>}
+										key="/home/classes/lessons"
+										style={{ height: "fit-content", width: "fit-content", minWidth: '1000px', minHeight: '1000px' }}
+									>
 										<div className="card-content">
 											<PrivateRoute
 												exact
@@ -131,7 +160,12 @@ const CreateClass = ({ match, history }) => {
 										</div>
 									</TabPane>
 
-									<TabPane tab={<Link style={{ padding: "15px 15px" }} to={`${match.path}${ROUTES.CREATE_RESOURCES}`}>Resources</Link>} key="/home/classes/resources">
+									<TabPane
+										tab={<Link style={{ padding: "15px 15px" }}
+											to={`${match.path}${ROUTES.CREATE_RESOURCES}`}>Resources</Link>}
+										key="/home/classes/resources"
+										style={{ height: "fit-content", width: "fit-content", minWidth: '1000px', minHeight: '1000px' }}
+									>
 										<div className="card-content">
 											<PrivateRoute
 												exact
@@ -142,22 +176,24 @@ const CreateClass = ({ match, history }) => {
 										</div>
 									</TabPane>
 
-									<TabPane 
+									<TabPane
 										tab={
-											<Link 
-												style={{ padding: "15px 15px" }} 
-												to={`${match.path}${ROUTES.ASSIGNMENTS}${ROUTES.INSTRUCTIONS}`}
+											<Link
+												style={{ padding: "15px 15px" }}
+												to={`${match.path}${ROUTES.ASSIGNMENTS}`}
 											>
 												Assignments
 											</Link>
-										} 
-										key="/home/classes/assignments/instructions"
+										}
+										key="/home/classes/assignments"
+										style={{ height: "fit-content", width: "fit-content", minWidth: '1000px', minHeight: '1000px' }}
 									>
 										<div className="card-content">
 											<PrivateRoute
 												path={`${match.path}${ROUTES.ASSIGNMENTS}`}
 												match={match}
-												component={CreateAssignments}
+												history={history}
+												component={Assignments}
 											/>
 										</div>
 									</TabPane>
@@ -187,8 +223,8 @@ const CreateClass = ({ match, history }) => {
 						</StyledSectionStaff>
 					</StyledDiv>
 				</Col>
-			</Row>
-		</div>
+			</Row >
+		</div >
 	)
 }
 
