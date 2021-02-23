@@ -16,11 +16,11 @@ import * as ROUTES from "../../../../constants/routes";
 // import Lessons from '../../assignments/staff/Lessons';
 // import Resources from '../../assignments/staff/Resources';
 import { StyledSectionStaff, StyledDiv } from "../styles";
-import Assignments from './createAssignments/Assignments';
-import Courses from './createCourses/Courses';
-import Units from './createUnits/Units';
-import Lessons from './createLessons/Lessons';
-import Resources from './createResources/Resources';
+import Assignments from './assignments/Assignments';
+import Courses from './courses/Courses';
+import Units from './units/Units';
+import Lessons from './lessons/Lessons';
+import Resources from './resources/Resources';
 import PrivateRoute from '../../../routes/PrivateRoute';
 
 const { TabPane } = Tabs;
@@ -43,37 +43,55 @@ const CreateClass = ({ match, history }) => {
 	const [units, setUnits] = useState([]);
 	const [lessons, setLessons] = useState([]);
 	const [resources, setResources] = useState([]);
+	const [assignments, setAssignments] = useState([]);
 
 	useEffect(() => {
+		let unmounted = false;
+
 		fetch(process.env.REACT_APP_GET_COURSES)
 			.then(response => response.json())
 			.then(data => {
-				setCourses(data);
+				if (!unmounted) {
+					setCourses(data);
+
+					const weeks = data.reduce((acc, curr) => {
+						return [...acc, ...curr.weeks];
+					}, [])
+
+					setAssignments(weeks)
+				}
 			})
 			.catch(console.error);
 
 		fetch(`${process.env.REACT_APP_API_ROOT}/units`)
 			.then(response => response.json())
 			.then(data => {
-				setUnits(data.units);
+				if (!unmounted) setUnits(data.units);
 			})
 			.catch(console.error);
 
 		fetch(`${process.env.REACT_APP_API_ROOT}/lessons`)
 			.then(response => response.json())
 			.then(data => {
-				setLessons(data.lessons);
+				if (!unmounted) setLessons(data.lessons);
 			})
 			.catch(console.error);
 
 		fetch(`${process.env.REACT_APP_API_ROOT}/sources`)
 			.then(response => response.json())
 			.then(data => {
-				setResources(data.sources);
+				if (!unmounted) setResources(data.sources);
 			})
 			.catch(console.error);
 
+		return () => { unmounted = true };
 	}, []);
+
+	useEffect(() => {
+		if (history.location.pathname === '/home/classes/assignments/create') {
+			history.push(`${match.path}${ROUTES.ASSIGNMENTS}`)
+		}
+	}, [])
 
 	return (
 		<div className="container-fluid">
@@ -85,7 +103,7 @@ const CreateClass = ({ match, history }) => {
 								<Tabs
 									type="card"
 									style={{ overflow: "auto" }}
-								// defaultActiveKey={`${history.location.pathname}`}
+									defaultActiveKey={history.location.pathname === '/home/classes/assignments/create' ? '/home/classes/assignments' : history.location.pathname}
 								// onChange={key =>
 								// 	console.log(key)
 								// }
@@ -194,6 +212,7 @@ const CreateClass = ({ match, history }) => {
 												match={match}
 												history={history}
 												component={Assignments}
+												assignments={assignments}
 											/>
 										</div>
 									</TabPane>

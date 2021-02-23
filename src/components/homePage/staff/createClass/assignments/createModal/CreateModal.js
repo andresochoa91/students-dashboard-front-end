@@ -35,8 +35,6 @@ const CreateModal = ({ assignments, setAssignmentAdded, history }) => {
     })
   };
 
-  console.log(studentAdd);
-
   const validateMessages = {
     required: '${label} is required!',
     types: {
@@ -93,7 +91,6 @@ const CreateModal = ({ assignments, setAssignmentAdded, history }) => {
     console.log('Received values of form: ', values);
   };
 
-  console.log(assignments)
   //Choose course
   // Dropdawn menu
   const menu = (
@@ -120,8 +117,6 @@ const CreateModal = ({ assignments, setAssignmentAdded, history }) => {
     newArray[id] = e.target.checked;
     setCheckedItem(newArray);
   }
-
-  console.log(selectedMenuItem);
 
   return (
     <>

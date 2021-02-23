@@ -12,7 +12,7 @@ import {
 
 import * as ROUTES from "../../../../../constants/routes";
 import TextEditor from "../../../textEditor/TextEditor";
-import { StyledDivSummary, StyledSection } from "../../styles";
+import { StyledDivSummary, StyledSection } from "../styles";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -106,12 +106,6 @@ const CreateAssignments = ({ match, history }) => {
 		getData();
 	}, [])
 
-	useEffect(() => {
-		const page = `${history.location.pathname
-			.split("/")[4]}`;
-		console.log(page)
-		// setStep(item.step);
-	}, [step])
 
 	const handleCourseChange = (course) => {
 		setCourse(course);
@@ -141,13 +135,14 @@ const CreateAssignments = ({ match, history }) => {
 	console.log(stepStatus)
 
 	const handleSubmit = () => {
+		setDescription("");
 		setStepStatus({ ...stepStatus, [step]: 2 })
 
 		if (step < 3) {
 			// Set step to next step
 			setStep(step + 1);
 			// Go to the next step component
-			history.push(`${steps[step + 1].link}`);
+			// history.push(`${steps[step + 1].link}`);
 		}
 	}
 
@@ -161,14 +156,14 @@ const CreateAssignments = ({ match, history }) => {
 
 	console.log(step)
 
-	const changeStepLink = () => {
-		setStepStatus({ ...stepStatus, [step]: 2 })
+	const modalStepAction = (type) => {
+		setDescription("");
 
-		if (step < 3) {
-			// Set step to next step
-			setStep(step + 1);
+		if (type === 'prev') {
+			setStep(step - 1)
+		} else {
+			setStep(step + 1)
 		}
-		return steps[step].link
 	}
 
 	return (
@@ -205,7 +200,38 @@ const CreateAssignments = ({ match, history }) => {
 			<Card>
 				<h2>Preview {steps[step].title}</h2>
 				<StyledSection>
-					<div className="card-container"></div>
+					<div className="cardContent">
+						<div className="previewContainer">
+							<div dangerouslySetInnerHTML={{ __html: description }} />
+							<StyledDivSummary>
+								{step > 0 && (
+									<Button
+										style={{ marginRight: "1rem" }}
+										type="primary"
+										htmlType="submit"
+									>
+										Save
+									</Button>
+								)}
+								{
+									step > 0 && (
+										<Button
+											style={{ margin: "0 8px" }}
+										>
+											Previous
+										</Button>
+									)
+								}
+								{
+									step < steps.length - 1 && (
+										<Button type="primary">
+											Next
+										</Button>
+									)
+								}
+							</StyledDivSummary>
+						</div>
+					</div>
 				</StyledSection>
 			</Card>
 			<Steps current={current}>
@@ -217,48 +243,18 @@ const CreateAssignments = ({ match, history }) => {
 							status={stepStatus[index] === 2 ? 'finish' : null}
 							title={item.title}
 							onClick={() => setStep(index)}
-							// title={<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link>}
 							icon={index !== 3 ? null : <SmileOutlined />}
 						/>
 					))
 				}
-				{/* {!_.isEmpty(stepStatus) ? steps.map((item, index) => (
-				index === 3 ?
-					<Step
-					id={index}
-					key={item.title}
-					status={stepStatus[2] === 2 ? 'finish' : null}
-					title={stepStatus[2] === 2 ?
-						<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link> :
-						item.title
-					}
-					icon={index !== 3 ? null : <SmileOutlined />}
-					/> :
-					<Step
-					id={index}
-					key={item.title}
-					status={stepStatus[index] === 2 ? 'finish' : null}
-					title={<Link to={item.link} style={{ color: "inherit" }}>{item.title}</Link>}
-					icon={index !== 3 ? null : <SmileOutlined />}
-					/>
-				)) : null} */}
 			</Steps>
 			<div className="card-container">
 				<TextEditor
 					text={description}
 					setText={setDescription}
 				/>
-				{/* <CreateInstructions dispatch={dispatchAssignments} step={step} /> */}
-				{/* <Switch>
-				<PrivateRoute
-					exact
-					path={`${match.path}${ROUTES.ASSIGNMENTS}${ROUTES.INSTRUCTIONS}`}
-					component={CreateInstructions}
-				/>
-				</Switch> */}
 			</div>
 			<StyledDivSummary>
-				{/* <Link to={() => changeStepLink()}> */}
 				<Button
 					style={{ marginRight: "1rem" }}
 					type="primary"
@@ -267,26 +263,21 @@ const CreateAssignments = ({ match, history }) => {
 				>
 					Save
 				</Button>
-				{/* </Link> */}
 				{
 					step > 0 && (
-						// <Link to={steps[step - 1].link}>
 						<Button
 							style={{ margin: "0 8px" }}
-							onClick={() => setStep(step - 1)}
+							onClick={() => modalStepAction('prev')}
 						>
 							Previous
 						</Button>
-						// </Link>
 					)
 				}
 				{
 					step < steps.length - 1 && (
-						// <Link to={steps[step + 1].link}>
-						<Button type="primary" onClick={() => setStep(step + 1)}>
+						<Button type="primary" onClick={() => modalStepAction('next')}>
 							Next
 						</Button>
-						// </Link>
 					)
 				}
 			</StyledDivSummary>

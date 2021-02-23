@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
-import MultiPurposeModal from '../../dashboard/staffDashboard/multiPurposeModal/MultiPurposeModal';
+import MultiPurposeModal from '../../multiPurposeModal/MultiPurposeModal';
 import { Input, Table, Button, Menu, Dropdown } from "antd";
 import { DownOutlined } from '@ant-design/icons';
-import UserContext from '../../../contexts/UserContext';
+import UserContext from '../../../../contexts/UserContext';
 // import TextEditor from '../../../textEditor/TextEditor';
 
 

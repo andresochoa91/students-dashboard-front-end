@@ -13,6 +13,11 @@ export const StyledSection = styled.section`
         padding: 20px;
     }
 
+    .previewContainer {
+        background: #fff;
+        padding: 16px;
+    }
+
     .card-container p {
         margin-bottom: 10px;
     }
@@ -122,4 +127,14 @@ padding: 10px;
   ${'' /* justify-content: center;  */}
   margin-left: 20px;
 }
+`;
+
+export const StyledDivSummary = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+
+    button {
+    }
 `;
