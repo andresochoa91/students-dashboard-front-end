@@ -1,72 +1,72 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useContext } from "react";
 import { Table, Spin } from "antd";
 import MultiPurposeModal from "../../../dashboard/staffDashboard/multiPurposeModal/MultiPurposeModal";
 import { Input } from "antd";
 import UserContext from "../../../../contexts/UserContext";
 import TextEditor from "../../../textEditor/TextEditor";
-import EditCourse from "./EditCourse";
-import DeleteCourse from "./DeleteCourse";
-import UnitsCourse from "./UnitsCourse";
+import EditUnit from "./EditUnit";
+import DeleteUnit from "./DeleteUnit";
+import LessonsUnit from "./LessonsUnit";
 
-const Courses = ({ courses }) => {
+const Units = ({ units }) => {
   const [authToken] = useContext(UserContext);
-  const [courseName, setCourseName] = useState("");
-  const [courseDescription, setCourseDescription] = useState("");
+  const [unitName, setUnitName] = useState("");
+  const [unitDescription, setUnitDescription] = useState("");
 
   const columns = [
     {
-      title: <strong>Course Name</strong>,
+      title: <strong>Unit Name</strong>,
       dataIndex: "name",
       key: "name",
       ellipsis: true,
-      width: "20%",
+      width: "25%",
     },
     {
       title: <strong>Description</strong>,
       dataIndex: "description",
       key: "description",
       ellipsis: true,
-      width: "49%",
+      width: "75%",
     },
     {
       title: "",
-      dataIndex: "units",
-      key: "units",
+      dataIndex: "lessons",
+      key: "lessons",
       ellipsis: true,
       width: "11%",
     },
     {
       title: "",
-      dataIndex: "editCourse",
-      key: "editCourse",
+      dataIndex: "editUnit",
+      key: "editUnit",
       ellipsis: true,
       // width: "13%"
     },
     {
       title: "",
-      dataIndex: "deleteCourse",
-      key: "deleteCourse",
+      dataIndex: "deleteUnit",
+      key: "deleteUnit",
       ellipsis: true,
       // width: "13%"
     },
   ];
 
-  const data = courses.map((course) => {
+  const data = units.map((unit) => {
     return {
-      key: course.id,
-      name: course.course_name,
+      key: unit.id,
+      name: unit.unit_name,
       description: (
-        <div dangerouslySetInnerHTML={{ __html: course.description }} />
+        <div dangerouslySetInnerHTML={{ __html: unit.description }} />
       ),
-      units: <UnitsCourse course={course} />,
-      editCourse: <EditCourse course={course} />,
-      deleteCourse: <DeleteCourse course={course} />,
+      lessons: <LessonsUnit unit={unit} />,
+      //editUnit: <EditUnit unit={unit} />,
+      //deleteUnit: <DeleteUnit unit={unit} />,
     };
   });
 
   const handleOk = (event) => {
     event.preventDefault();
-    fetch(process.env.REACT_APP_GET_COURSES, {
+    fetch(process.env.REACT_APP_GET_UNITS, {
       method: "POST",
       mode: "cors",
       credentials: "include",
@@ -75,8 +75,8 @@ const Courses = ({ courses }) => {
         Authorization: authToken,
       },
       body: JSON.stringify({
-        course_name: courseName,
-        description: courseDescription,
+        unit_name: unitName,
+        description: unitDescription,
       }),
     })
       .then((response) => response.json())
@@ -89,31 +89,28 @@ const Courses = ({ courses }) => {
 
   return (
     <>
-      {courses.length ? (
+      {units.length ? (
         <>
-          <MultiPurposeModal handleOk={handleOk} addTitle="Add Course">
-            <label>Course Name: </label>
+          <MultiPurposeModal handleOk={handleOk} addTitle="Add Unit">
+            <label>Unit Name: </label>
             <Input
               type="text"
-              name="courseName"
-              value={courseName}
+              name="unitName"
+              value={unitName}
               onChange={(event) => {
                 event.preventDefault();
-                setCourseName(event.target.value);
+                setUnitName(event.target.value);
               }}
             />
             <br />
             <br />
-            <label>Course Description: </label>
-            <TextEditor
-              text={courseDescription}
-              setText={setCourseDescription}
-            />
+            <label>Unit Description: </label>
+            <TextEditor text={unitDescription} setText={setUnitDescription} />
 
             <br />
             {/* <Button type="primary" htmlType="submit" >
-                                Create Course
-                            </Button> */}
+                                    Create Course
+                                </Button> */}
           </MultiPurposeModal>
           <Table
             columns={columns}
@@ -129,4 +126,4 @@ const Courses = ({ courses }) => {
   );
 };
 
-export default Courses;
+export default Units;
