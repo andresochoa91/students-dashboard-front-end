@@ -13,7 +13,7 @@ import { StyledSectionStaff, StyledDiv } from "../../assignments/styles";
 import CreateAssignments from "../../assignments/staff/CreateAssignments";
 import Courses from "../../assignments/staff/courses/Courses";
 import Units from "../../assignments/staff/units/Units";
-import Lessons from "../../assignments/staff/Lessons";
+import Lessons from "../../assignments/staff/lessons/Lessons";
 import Resources from "../../assignments/staff/Resources";
 import PrivateRoute from "../../../routes/PrivateRoute";
 
@@ -38,17 +38,18 @@ const CreateClass = ({ match, history }) => {
   const [resources, setResources] = useState([]);
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_GET_COURSES)
+    fetch(`${process.env.REACT_APP_API_ROOT}/courses`)
       .then((response) => response.json())
       .then((data) => {
         setCourses(data);
       })
       .catch(console.error);
 
-    fetch(`${process.env.REACT_APP_API_ROOT}/units`)
+    fetch(process.env.REACT_APP_GET_UNITS)
       .then((response) => response.json())
       .then((data) => {
-        setUnits(data.units);
+        console.log(data);
+        setUnits(data);
       })
       .catch(console.error);
 

@@ -4,15 +4,17 @@ import { Input } from "antd";
 import UserContext from "../../../../contexts/UserContext";
 import TextEditor from "../../../textEditor/TextEditor";
 
-const EditUnit = ({ unit }) => {
+const EditLesson = ({ lesson }) => {
   const [authToken] = useContext(UserContext);
-  const [unitName, setUnitName] = useState(unit.unit_name);
-  const [unitDescription, setUnitDescription] = useState(unit.description);
+  const [lessonName, setLessonName] = useState(lesson.lesson_name);
+  const [lessonDescription, setLessonDescription] = useState(
+    lesson.description
+  );
 
   const handleEdit = (event) => {
     event.preventDefault();
 
-    fetch(`${process.env.REACT_APP_GET_UNITS}/${unit.id}`, {
+    fetch(`${process.env.REACT_APP_GET_LESSON}/${lesson.id}`, {
       method: "PUT",
       mode: "cors",
       credentials: "include",
@@ -21,8 +23,8 @@ const EditUnit = ({ unit }) => {
         Authorization: authToken,
       },
       body: JSON.stringify({
-        unit_name: unitName,
-        description: unitDescription,
+        lesson_name: lessonName,
+        description: lessonDescription,
       }),
     })
       .then((response) => response.json())
@@ -35,26 +37,26 @@ const EditUnit = ({ unit }) => {
   return (
     <MultiPurposeModal
       handleOk={handleEdit}
-      addTitle="Edit Unit"
+      addTitle="Edit Lesson"
       typeModal="Edit"
     >
       <label> Unit Name: </label>
       <Input
         type="text"
-        name="unitName"
-        value={unitName}
+        name="lessonName"
+        value={lessonName}
         onChange={(event) => {
           event.preventDefault();
-          setUnitName(event.target.value);
+          setLessonName(event.target.value);
         }}
       />
       <br />
       <br />
-      <label> Unit Description: </label>
-      <TextEditor text={unitDescription} setText={setUnitDescription} />
+      <label> Lesson Description: </label>
+      <TextEditor text={lessonDescription} setText={setLessonDescription} />
       <br />
     </MultiPurposeModal>
   );
 };
 
-export default EditUnit;
+export default EditLesson;

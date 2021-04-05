@@ -17,5 +17,5 @@ export const CREATE_RESOURCES = '/resources';
 export const CREATE_ANNOUNCEMENTS = '/announcements';
 export const STUDENTS = '/students';
 export const ADD_MENTORS = '/mentors';
-
+export const COHORT = '/cohort';
 

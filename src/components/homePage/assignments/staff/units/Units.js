@@ -19,35 +19,35 @@ const Units = ({ units }) => {
       dataIndex: "name",
       key: "name",
       ellipsis: true,
-      width: "25%",
+      width: "20%",
     },
     {
       title: <strong>Description</strong>,
       dataIndex: "description",
       key: "description",
       ellipsis: true,
-      width: "75%",
+      width: "45%",
     },
     {
       title: "",
       dataIndex: "lessons",
       key: "lessons",
       ellipsis: true,
-      width: "11%",
+      width: "15%",
     },
     {
       title: "",
       dataIndex: "editUnit",
       key: "editUnit",
       ellipsis: true,
-      // width: "13%"
+      width: "12%",
     },
     {
       title: "",
       dataIndex: "deleteUnit",
       key: "deleteUnit",
       ellipsis: true,
-      // width: "13%"
+      width: "15%",
     },
   ];
 
@@ -59,8 +59,8 @@ const Units = ({ units }) => {
         <div dangerouslySetInnerHTML={{ __html: unit.description }} />
       ),
       lessons: <LessonsUnit unit={unit} />,
-      //editUnit: <EditUnit unit={unit} />,
-      //deleteUnit: <DeleteUnit unit={unit} />,
+      editUnit: <EditUnit unit={unit} />,
+      deleteUnit: <DeleteUnit unit={unit} />,
     };
   });
 

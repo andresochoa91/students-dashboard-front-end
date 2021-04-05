@@ -1,132 +1,137 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Card, Row, Col, Space, Input, Spin } from "antd";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import TextEditor from '../../../textEditor/TextEditor';
-import UserContext from '../../../../contexts/UserContext';
+import TextEditor from "../../../textEditor/TextEditor";
+import UserContext from "../../../../contexts/UserContext";
 import MultiPurposeModal from "../multiPurposeModal/MultiPurposeModal";
 
+//turn into class component?
 const CurrentCourses = () => {
+  let history = useHistory();
+  const TextBox = styled.div`
+    width: 200px;
+    height: 92.34px;
+    margin: 25px;
+    padding: 25px;
+    text-align: center;
+  `;
 
-	const TextBox = styled.div`
-		width: 200px;
-		height: 92.34px;
-		margin: 25px;
-		padding: 25px;
-		text-align: center;
-	`;
+  const [courses, setCourses] = useState();
+  const [courseName, setCourseName] = useState("");
+  const [courseDescription, setCourseDescription] = useState("");
+  const [authToken] = useContext(UserContext);
 
-	const [ courses, setCourses ] = useState();
-	const [ courseName, setCourseName ] = useState("");
-	const [ courseDescription, setCourseDescription ] = useState("");
-	const [ authToken ] = useContext(UserContext);
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_ROOT}/courses`)
+      .then((response) => response.json())
+      .then(setCourses)
+      .catch(console.error);
+  }, []);
 
+  // const handleOk = () => {
+  // 	setIsModalVisible(false);
+  // };
 
-	useEffect(() => {
-		fetch(process.env.REACT_APP_GET_COURSES)
-		.then(response => response.json())
-		.then(setCourses)
-		.catch(console.error)
-	}, []);
-	
-	// const handleOk = () => {
-	// 	setIsModalVisible(false);
-	// };
+  //Modal Form
+  const handleOk = (event) => {
+    event.preventDefault();
+    fetch(process.env.REACT_APP_GET_COURSES, {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authToken,
+      },
+      body: JSON.stringify({
+        course_name: courseName,
+        description: courseDescription,
+      }),
+    })
+      .then((response) => response.json())
+      .then(() => {
+        // console.log(data);
+        window.location.reload();
+      })
+      .catch(console.error);
+  };
 
-	//Modal Form
-	const handleOk = (event) => {
-		event.preventDefault();
-		fetch(process.env.REACT_APP_GET_COURSES, {
-			method: "POST",
-			mode: "cors",
-			credentials: "include",
-			headers: {
-				"Content-Type": "application/json",
-				"Authorization": authToken
-			},
-			body: JSON.stringify({
-				course_name: courseName,
-				description: courseDescription
-			})
-		})
-		.then(response => response.json())
-		.then(() => {
-			// console.log(data);
-			window.location.reload();
-		})
-		.catch(console.error);
-	};
+  // console.log(courseDescription);
 
-	// console.log(courseDescription);
+  return (
+    <>
+      <Space direction="vertical">
+        <Card
+          type="inner"
+          hoverable
+          className="cards-border"
+          style={{ paddingTop: 10 }}
+        >
+          <MultiPurposeModal
+            // title="Current Courses"
+            handleOk={handleOk}
+            addTitle={"Add Course"}
+          >
+            <label>Course Name: </label>
+            <Input
+              type="text"
+              name="courseName"
+              value={courseName}
+              onChange={(event) => {
+                event.preventDefault();
+                setCourseName(event.target.value);
+              }}
+            />
+            <br />
+            <br />
+            <label>Course Description: </label>
 
-	return (
-		<>
-			<Space direction="vertical">
-				<Card
-					type="inner"
-					hoverable
-					className="cards-border"
-					style={{ paddingTop: 10 }}
-				>
-					<MultiPurposeModal 
-						// title="Current Courses"
-						handleOk={ handleOk }
-						addTitle={ "Add Course" }
-					>
-							<label>Course Name: </label>
-							<Input 
-								type="text"
-								name="courseName"
-								value={ courseName }
-								onChange={ (event) => {
-									event.preventDefault();
-									setCourseName(event.target.value); 
-								}}
-							/>
-							<br/><br/>
-							<label>Course Description: </label>
-							
-							<TextEditor 
-								text={ courseDescription }
-								setText={ setCourseDescription }
-							/>
+            <TextEditor
+              text={courseDescription}
+              setText={setCourseDescription}
+            />
 
-							<br/>
-							{/* <Button type="primary" htmlType="submit" >
+            <br />
+            {/* <Button type="primary" htmlType="submit" >
 								Create Course
 							</Button> */}
-					</MultiPurposeModal>
+          </MultiPurposeModal>
 
-					<br></br>
+          <br></br>
 
-					<Row gutter={[16, 16]}>
-						{
-							courses ? (
-								courses.map((course) => (
-									<Card
-										type="inner"
-										hoverable
-										className="cards-border"
-										style={{ margin: 3 }}
-										key={ course.id }
-									>
-										<Col span={12}>
-											<TextBox>
-												<h3>
-													<strong>{ course.course_name }</strong>
-												</h3>
-												<div dangerouslySetInnerHTML={{ __html: course.description }} ></div>
-											</TextBox>
-										</Col>
-									</Card>		
-								)
-							)) : (
-								<Spin />
-							)
-						}
-					</Row>
-				</Card>
-			</Space>
-		</>
-	);
+          <Row gutter={[16, 16]}>
+            {courses ? (
+              courses.map((course) => (
+                <Card
+                  type="inner"
+                  hoverable
+                  className="cards-border"
+                  style={{ margin: 3 }}
+                  key={course.id}
+                  onClick={() => {
+                    history.push(`/home/cohort/${course.course_name}`);
+                  }}
+                >
+                  <Col span={12}>
+                    <TextBox>
+                      <h3>
+                        <strong>{course.course_name}</strong>
+                      </h3>
+                      <div
+                        dangerouslySetInnerHTML={{ __html: course.description }}
+                      ></div>
+                    </TextBox>
+                  </Col>
+                </Card>
+              ))
+            ) : (
+              <Spin />
+            )}
+          </Row>
+        </Card>
+      </Space>
+    </>
+  );
 };
 export default CurrentCourses;
