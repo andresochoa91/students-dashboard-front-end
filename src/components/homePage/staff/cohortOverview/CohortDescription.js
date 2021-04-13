@@ -1,20 +1,54 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
+import MultiPurposeModal from "../../dashboard/staffDashboard/multiPurposeModal/MultiPurposeModal";
+import { Card, Row, Col, Space, Input, Spin } from "antd";
+import styled from "styled-components";
+import TextEditor from "../../textEditor/TextEditor";
 
-const CohortDescription = () => {
+const CohortDescription = (props) => {
+  const TextField = styled.div`
+    width: auto;
+    height: 95px;
+    padding: 20px 20px 20px 0px;
+    text-align: left;
+  `;
+
   //add MultiPurposeModal to hadle Edit or Delete
   return (
-    <div>
-      <h1>Name</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </p>
-    </div>
+    <>
+      <Row>
+        <Col span={22}>
+          <TextField>
+            <h1>
+              <strong>{props.name} Overview </strong>
+            </h1>
+            <p> {props.description}</p>
+          </TextField>
+        </Col>
+        <Col span={1}>
+          <MultiPurposeModal>
+            <label>Cohort Name: </label>
+            <Input
+              type="text"
+              name="unitName"
+              value={props.name}
+              // onChange={(event) => {
+              //   event.preventDefault();
+              //   setUnitName(event.target.value);
+              // }}
+            />
+            <br />
+            <br />
+            <label>Cohort Description: </label>
+            <TextEditor />
+
+            <br />
+            {/* <Button type="primary" htmlType="submit" >
+                                    Create Course
+                                </Button> */}
+          </MultiPurposeModal>
+        </Col>
+      </Row>
+    </>
   );
 };
 
