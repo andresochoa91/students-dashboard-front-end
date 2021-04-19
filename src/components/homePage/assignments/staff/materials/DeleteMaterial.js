@@ -2,13 +2,13 @@ import React, { useContext } from "react";
 import MultiPurposeModal from "../../../dashboard/staffDashboard/multiPurposeModal/MultiPurposeModal";
 import UserContext from "../../../../contexts/UserContext";
 
-const DeleteCourse = ({ course }) => {
+const DeleteMaterial = ({ material }) => {
   const [authToken] = useContext(UserContext);
 
   const handleDelete = (event) => {
     event.preventDefault();
 
-    fetch(`${process.env.REACT_APP_GET_COURSES}/${course.id}`, {
+    fetch(`${process.env.REACT_APP_GET_RESOURCES}/${material.id}`, {
       method: "DELETE",
       mode: "cors",
       credentials: "include",
@@ -23,16 +23,15 @@ const DeleteCourse = ({ course }) => {
       })
       .catch(console.error);
   };
-
   return (
     <MultiPurposeModal
       handleOk={handleDelete}
-      addTitle="Delete Course"
+      addTitle="Delete material"
       typeModal="Delete"
     >
-      {`Are you sure you want to delete "${course.course_name}"?`}
+      {`Are you sure you want to delete "${material.source_title}"?`}
     </MultiPurposeModal>
   );
 };
 
-export default DeleteCourse;
+export default DeleteMaterial;

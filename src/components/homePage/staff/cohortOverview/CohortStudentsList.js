@@ -244,8 +244,8 @@ const CohortStudList = () => {
             columns={columns}
             dataSource={data}
             // onChange={handleChange}
-            scroll={{ y: 500 }}
-            expandIconColumnIndex={2}
+            scroll={{ y: 400 }}
+            expandIconColumnIndex={1}
             // pagination={{ pageSize: 5 }}
             // expandable={{
             //   expandedRowRender: () => <p style={{ margin: 0 }}>Hello</p>,

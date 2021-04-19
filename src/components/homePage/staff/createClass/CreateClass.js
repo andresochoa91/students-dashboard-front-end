@@ -14,7 +14,7 @@ import CreateAssignments from "../../assignments/staff/CreateAssignments";
 import Courses from "../../assignments/staff/courses/Courses";
 import Units from "../../assignments/staff/units/Units";
 import Lessons from "../../assignments/staff/lessons/Lessons";
-import Resources from "../../assignments/staff/Resources";
+import Resources from "../../assignments/staff/materials/Resources";
 import PrivateRoute from "../../../routes/PrivateRoute";
 
 const { TabPane } = Tabs;
