@@ -1,3 +1,4 @@
+
 import React, { useState, useContext } from "react";
 import MultiPurposeModal from "../../../dashboard/staffDashboard/multiPurposeModal/MultiPurposeModal";
 import { Input } from "antd";
@@ -8,13 +9,14 @@ const EditLesson = ({ lesson }) => {
   const [authToken] = useContext(UserContext);
   const [lessonName, setLessonName] = useState(lesson.lesson_name);
   const [lessonDescription, setLessonDescription] = useState(
-    lesson.description
+    "" //Make description property
   );
+  console.log(lesson);
 
   const handleEdit = (event) => {
     event.preventDefault();
 
-    fetch(`${process.env.REACT_APP_GET_LESSON}/${lesson.id}`, {
+    fetch(`${process.env.REACT_APP_API_ROOT}/lessons/${lesson.id}`, {
       method: "PUT",
       mode: "cors",
       credentials: "include",
@@ -40,7 +42,7 @@ const EditLesson = ({ lesson }) => {
       addTitle="Edit Lesson"
       typeModal="Edit"
     >
-      <label> Unit Name: </label>
+      <label> Lesson Name: </label>
       <Input
         type="text"
         name="lessonName"
@@ -52,11 +54,12 @@ const EditLesson = ({ lesson }) => {
       />
       <br />
       <br />
-      <label> Lesson Description: </label>
+      {/* <label> Lesson Description: </label>
       <TextEditor text={lessonDescription} setText={setLessonDescription} />
-      <br />
+      <br /> */}
     </MultiPurposeModal>
   );
 };
 
 export default EditLesson;
+
