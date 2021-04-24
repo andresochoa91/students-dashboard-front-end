@@ -53,14 +53,14 @@ const CreateClass = ({ match, history }) => {
       })
       .catch(console.error);
 
-    fetch(`${process.env.REACT_APP_API_ROOT}/lessons`)
+    fetch(process.env.REACT_APP_GET_LESSONS)
       .then((response) => response.json())
       .then((data) => {
         setLessons(data.lessons);
       })
       .catch(console.error);
 
-    fetch(`${process.env.REACT_APP_API_ROOT}/sources`)
+    fetch(process.env.REACT_APP_GET_RESOURCES)
       .then((response) => response.json())
       .then((data) => {
         setResources(data.sources);
@@ -77,7 +77,7 @@ const CreateClass = ({ match, history }) => {
               <div className="card-container">
                 <Tabs
                   type="card"
-                  // defaultActiveKey={`${history.location.pathname}`}
+                  defaultActiveKey={`${history.location.pathname}`}
                   // onChange={key =>
                   // 	console.log(key)
                   // }

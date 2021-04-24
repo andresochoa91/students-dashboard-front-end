@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import MultiPurposeModal from "../../../dashboard/staffDashboard/multiPurposeModal/MultiPurposeModal";
 import { Input } from "antd";
 import UserContext from "../../../../contexts/UserContext";
-import TextEditor from "../../../textEditor/TextEditor";
 
 const EditMaterial = ({ material }) => {
   const [authToken] = useContext(UserContext);
@@ -11,8 +10,8 @@ const EditMaterial = ({ material }) => {
 
   const handleEdit = (event) => {
     event.preventDefault();
-    console.log(material.id, material.source_title);
-
+    console.log(material, material.id, material.source_title);
+    console.log(materialName, link);
     fetch(`${process.env.REACT_APP_GET_RESOURCES}/${material.id}`, {
       method: "PUT",
       mode: "cors",
@@ -27,9 +26,9 @@ const EditMaterial = ({ material }) => {
       }),
     })
       .then((response) => response.json())
-      // .then(() => {
-      //   window.location.reload();
-      // })
+      .then(() => {
+        window.location.reload();
+      })
       .catch(console.error);
   };
 
@@ -47,12 +46,13 @@ const EditMaterial = ({ material }) => {
         onChange={(event) => {
           event.preventDefault();
           setMaterialName(event.target.value);
+          console.log(event.target.value);
         }}
       />
       <br />
       <br />
       <label> Link: </label>
-      <TextEditor text={link} setText={setLink} />
+      <Input text={link} setText={setLink} />
       <br />
     </MultiPurposeModal>
   );

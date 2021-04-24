@@ -17,6 +17,7 @@ const UnitsCourse = ({ course }) => {
       .then((response) => response.json())
       .then((data) => {
         setUnitsToAdd(data.filter((unit) => !(unit.unit_name in units)));
+        //console.log(unitsToAdd);
       })
       .catch(console.error);
   }, [course]);
@@ -56,26 +57,43 @@ const UnitsCourse = ({ course }) => {
   ];
 
   const data = course.units.map((unit) => {
+    const handleDelete = (e) => {
+      e.preventDefault();
+      // course.units.
+    };
+
     return {
       key: unit.id,
       name: unit.unit_name,
       description: (
         <div dangerouslySetInnerHTML={{ __html: unit.description }} />
       ),
-      deleteUnit: <Button danger>Delete Unit</Button>,
+      deleteUnit: (
+        <MultiPurposeModal
+          handleOk={handleDelete}
+          addTitle="Delete Unit"
+          typeModal="Delete"
+        >
+          {`Are you sure you want to delete "${unit.unit_name}"?`}
+        </MultiPurposeModal>
+      ),
     };
   });
 
-  console.log(course.units);
+  //console.log(course.units);
+
+  // const handleOk = (e) => {
+  //   e.preventDefault();
+  // };
 
   return (
     <MultiPurposeModal
-      // handleOk={ (event) => handleEdit(event) }
+      // handleOk={ handleOk }
       addTitle={`Units of ${course.course_name}`}
       typeModal="Units"
     >
       <Dropdown overlay={menu}>
-        <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+        <a className="ant-dropdown-link">
           Add Unit
           <DownOutlined />
         </a>
