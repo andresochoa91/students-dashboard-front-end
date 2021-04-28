@@ -5,14 +5,14 @@ import { Row, Col } from "antd";
 import { Typography } from "antd";
 import { StyledDivList, StyledDivBadge } from "./styles";
 import Video from "../../../graphics/videos.png";
-const Resources = ({ lessons }) => {
+const Materials = ({ lessons }) => {
     return (
         <StyledDivList>
             <Row>
                 <Col>
-                    <Typography.Title level={5}>Resources</Typography.Title>
+                    <Typography.Title level={5}>Materials</Typography.Title>
                     <p>
-                        You have a list of Videos and Resources to help you complete
+                        You have a list of Videos and Materials to help you complete
                         the assignment.
                     </p>
                 </Col>
@@ -40,4 +40,4 @@ const Resources = ({ lessons }) => {
     );
 };
 
-export default Resources;
+export default Materials;

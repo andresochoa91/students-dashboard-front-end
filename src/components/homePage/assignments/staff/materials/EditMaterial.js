@@ -12,7 +12,7 @@ const EditMaterial = ({ material }) => {
     event.preventDefault();
     console.log(material, material.id, material.source_title);
     console.log(materialName, link);
-    fetch(`${process.env.REACT_APP_GET_RESOURCES}/${material.id}`, {
+    fetch(`${process.env.REACT_APP_GET_MATERIALS}/${material.id}`, {
       method: "PUT",
       mode: "cors",
       credentials: "include",

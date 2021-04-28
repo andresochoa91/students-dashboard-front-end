@@ -14,7 +14,7 @@ import CreateAssignments from "../../assignments/staff/CreateAssignments";
 import Courses from "../../assignments/staff/courses/Courses";
 import Units from "../../assignments/staff/units/Units";
 import Lessons from "../../assignments/staff/lessons/Lessons";
-import Resources from "../../assignments/staff/materials/Resources";
+import Materials from "../../assignments/staff/materials/Materials";
 import PrivateRoute from "../../../routes/PrivateRoute";
 
 const { TabPane } = Tabs;
@@ -35,7 +35,7 @@ const CreateClass = ({ match, history }) => {
   const [courses, setCourses] = useState([]);
   const [units, setUnits] = useState([]);
   const [lessons, setLessons] = useState([]);
-  const [resources, setResources] = useState([]);
+  const [materials, setMaterials] = useState([]);
 
   useEffect(() => {
     // fetch(`${process.env.REACT_APP_API_ROOT}/courses`)
@@ -87,14 +87,14 @@ const CreateClass = ({ match, history }) => {
     // fetch(process.env.REACT_APP_GET_RESOURCES)
     //   .then((response) => response.json())
     //   .then((data) => {
-    //     setResources(data.sources);
+    //     setMaterials(data.sources);
     //   })
     //   .catch(console.error);
 
     fetch(`${process.env.REACT_APP_NEW_API}/materials`)
       .then((response) => response.json())
       .then((data) => {
-        setResources(data);
+        setMaterials(data);
       })
       .catch(console.error);
 
@@ -193,19 +193,19 @@ const CreateClass = ({ match, history }) => {
                     tab={
                       <Link
                         style={{ padding: "15px 15px" }}
-                        to={`${match.path}${ROUTES.CREATE_RESOURCES}`}
+                        to={`${match.path}${ROUTES.CREATE_MATERIALS}`}
                       >
-                        Resources
+                        Materials
                       </Link>
                     }
-                    key="/home/classes/resources"
+                    key="/home/classes/materials"
                   >
                     <div className="card-content">
                       <PrivateRoute
                         exact
-                        path={`${match.path}${ROUTES.CREATE_RESOURCES}`}
-                        component={Resources}
-                        resources={resources}
+                        path={`${match.path}${ROUTES.CREATE_MATERIALS}`}
+                        component={Materials}
+                        materials={materials}
                       />
                     </div>
                   </TabPane>

@@ -27,7 +27,7 @@ const ACTIONS_ASSIGNMENT_INFO = {
 	SET_LESSON: 'lesson',
 	SET_DATE: 'date',
 	SET_INSTRUCTIONS: 'instructions',
-	SET_RESOURCES: 'resources',
+	SET_MATERIALS: 'materials',
 	SET_SUBMISSION: 'submission',
 	SET_DONE: 'done',
 	SET_ALL: 'all',
@@ -45,7 +45,7 @@ const reducerAssignmentsInfo = (state, action) => {
 			return { ...state, [action.payload.field]: action.payload.value };
 		case ACTIONS_ASSIGNMENT_INFO.SET_INSTRUCTIONS:
 			return { ...state, [action.payload.field]: action.payload.value };
-		case ACTIONS_ASSIGNMENT_INFO.SET_RESOURCES:
+		case ACTIONS_ASSIGNMENT_INFO.SET_MATERIALS:
 			return { ...state, [action.payload.field]: action.payload.value };
 		case ACTIONS_ASSIGNMENT_INFO.SET_SUBMISSION:
 			return { ...state, [action.payload.field]: action.payload.value };
@@ -115,7 +115,7 @@ const CreateAssignments = ({ match, history }) => {
 			icon: <FileDoneOutlined />,
 		},
 		{
-			title: "Resources",
+			title: "Materials",
 			link: `${ROUTES.HOME}/classes/assignments${ROUTES.VIDEOS}`,
 			icon: <YoutubeOutlined />,
 		},

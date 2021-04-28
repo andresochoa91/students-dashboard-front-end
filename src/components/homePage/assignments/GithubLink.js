@@ -8,7 +8,7 @@ import UserContext from "../../contexts/UserContext";
 
 const ASSIGNMENTS = [
     "instructions_progress",
-    "resources_progress",
+    "materials_progress",
     "assignment_progress",
 ];
 

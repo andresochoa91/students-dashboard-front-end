@@ -6,9 +6,9 @@ import UserContext from "../../../../contexts/UserContext";
 import EditMaterial from "./EditMaterial";
 import DeleteMaterial from "./DeleteMaterial";
 
-const Resources = ({ resources }) => {
+const Materials = ({ materials }) => {
   const [authToken] = useContext(UserContext);
-  const [resourceTitle, setResourceTitle] = useState("");
+  const [materialTitle, setMaterialTitle] = useState("");
   const [link, setLink] = useState("");
 
   const columns = [
@@ -42,23 +42,23 @@ const Resources = ({ resources }) => {
     },
   ];
 
-  const data = resources.map((resource) => {
+  const data = materials.map((material) => {
     return {
-      key: resource.id,
-      title: resource.title,
+      key: material.id,
+      title: material.title,
       link: (
-        <a href={resource.link} rel="noopener noreferrer" target="_blank">
-          {resource.link}
+        <a href={material.link} rel="noopener noreferrer" target="_blank">
+          {material.link}
         </a>
       ),
-      editMaterial: <EditMaterial material={resource} />,
-      deleteMaterial: <DeleteMaterial material={resource} />,
+      editMaterial: <EditMaterial material={material} />,
+      deleteMaterial: <DeleteMaterial material={material} />,
     };
   });
 
   const handleOk = (event) => {
     event.preventDefault();
-    fetch(process.env.REACT_APP_GET_RESOURCES, {
+    fetch(process.env.REACT_APP_GET_MATERIALS, {
       method: "POST",
       mode: "cors",
       credentials: "include",
@@ -67,7 +67,7 @@ const Resources = ({ resources }) => {
         Authorization: authToken,
       },
       body: JSON.stringify({
-        title: resourceTitle,
+        title: materialTitle,
         link: link,
       }),
     })
@@ -80,17 +80,17 @@ const Resources = ({ resources }) => {
 
   return (
     <>
-      {resources.length ? (
+      {materials.length ? (
         <>
-          <MultiPurposeModal handleOk={handleOk} addTitle="Add Resource">
+          <MultiPurposeModal handleOk={handleOk} addTitle="Add Material">
             <label>Materials Title: </label>
             <Input
               type="text"
               name="courseName"
-              value={resourceTitle}
+              value={materialTitle}
               onChange={(event) => {
                 event.preventDefault();
-                setResourceTitle(event.target.value);
+                setMaterialTitle(event.target.value);
               }}
             />
             <br />
@@ -125,4 +125,4 @@ const Resources = ({ resources }) => {
   );
 };
 
-export default Resources;
+export default Materials;

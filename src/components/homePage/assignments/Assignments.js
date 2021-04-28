@@ -31,7 +31,7 @@ import UserContext from "../../contexts/UserContext";
 import PrivateRoute from "../../routes/PrivateRoute";
 import Instructions from "./Instructions";
 import Summary from "./Summary";
-import Videos from "./Resources";
+import Videos from "./Materials";
 import GithubLink from "./GithubLink";
 import EventsButton from "../dashboard/studentDashboard/eventsButton/eventsButton";
 import MeetingButton from "../dashboard/studentDashboard/meetingButton/meetingButton";
@@ -113,7 +113,7 @@ const Assignments = ({ match, history }) => {
 
     const assignments = [
         "instructions_progress",
-        "resources_progress",
+        "Materials_progress",
         "assignment_progress",
     ];
 
@@ -167,7 +167,7 @@ const Assignments = ({ match, history }) => {
 
         setStepStatus({
             0: progress[clickedUnitKey][clickedLessonKey].instructions_progress,
-            1: progress[clickedUnitKey][clickedLessonKey].resources_progress,
+            1: progress[clickedUnitKey][clickedLessonKey].Materials_progress,
             2: progress[clickedUnitKey][clickedLessonKey].assignment_progress,
         });
 
@@ -273,7 +273,7 @@ const Assignments = ({ match, history }) => {
             icon: <FileDoneOutlined />,
         },
         {
-            title: "Resources",
+            title: "Materials",
             link: `${match.path}${ROUTES.VIDEOS}`,
             icon: <YoutubeOutlined />,
         },
