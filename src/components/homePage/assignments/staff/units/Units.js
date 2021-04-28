@@ -54,7 +54,7 @@ const Units = ({ units }) => {
   const data = units.map((unit) => {
     return {
       key: unit.id,
-      name: unit.unit_name,
+      name: unit.name,
       description: (
         <div dangerouslySetInnerHTML={{ __html: unit.description }} />
       ),
@@ -75,7 +75,7 @@ const Units = ({ units }) => {
         Authorization: authToken,
       },
       body: JSON.stringify({
-        unit_name: unitName,
+        name: unitName,
         description: unitDescription,
       }),
     })

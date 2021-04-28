@@ -45,7 +45,7 @@ const Resources = ({ resources }) => {
   const data = resources.map((resource) => {
     return {
       key: resource.id,
-      title: resource.source_title,
+      title: resource.title,
       link: (
         <a href={resource.link} rel="noopener noreferrer" target="_blank">
           {resource.link}
@@ -67,7 +67,7 @@ const Resources = ({ resources }) => {
         Authorization: authToken,
       },
       body: JSON.stringify({
-        source_title: resourceTitle,
+        title: resourceTitle,
         link: link,
       }),
     })

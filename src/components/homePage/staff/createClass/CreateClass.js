@@ -38,14 +38,31 @@ const CreateClass = ({ match, history }) => {
   const [resources, setResources] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_ROOT}/courses`)
+    // fetch(`${process.env.REACT_APP_API_ROOT}/courses`)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     setCourses(data);
+    //   })
+    //   .catch(console.error);
+
+    fetch(`${process.env.REACT_APP_NEW_API}/courses`)
       .then((response) => response.json())
       .then((data) => {
+        // console.log(data);
         setCourses(data);
       })
       .catch(console.error);
 
-    fetch(process.env.REACT_APP_GET_UNITS)
+    // fetch(process.env.REACT_APP_API_UNITS)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     setUnits(data);
+    //   })
+    //   .catch(console.error);
+
+    fetch(`${process.env.REACT_APP_NEW_API}/units`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -53,19 +70,34 @@ const CreateClass = ({ match, history }) => {
       })
       .catch(console.error);
 
-    fetch(process.env.REACT_APP_GET_LESSONS)
+    // fetch(process.env.REACT_APP_GET_LESSONS)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setLessons(data.lessons);
+    //   })
+    //   .catch(console.error);
+
+    fetch(`${process.env.REACT_APP_NEW_API}/lessons`)
       .then((response) => response.json())
       .then((data) => {
-        setLessons(data.lessons);
+        setLessons(data);
       })
       .catch(console.error);
 
-    fetch(process.env.REACT_APP_GET_RESOURCES)
+    // fetch(process.env.REACT_APP_GET_RESOURCES)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setResources(data.sources);
+    //   })
+    //   .catch(console.error);
+
+    fetch(`${process.env.REACT_APP_NEW_API}/materials`)
       .then((response) => response.json())
       .then((data) => {
-        setResources(data.sources);
+        setResources(data);
       })
       .catch(console.error);
+
   }, []);
 
   return (

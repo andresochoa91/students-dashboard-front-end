@@ -54,7 +54,7 @@ const Courses = ({ courses }) => {
   const data = courses.map((course) => {
     return {
       key: course.id,
-      name: course.course_name,
+      name: course.name,
       description: (
         <div dangerouslySetInnerHTML={{ __html: course.description }} />
       ),
@@ -75,7 +75,7 @@ const Courses = ({ courses }) => {
         Authorization: authToken,
       },
       body: JSON.stringify({
-        course_name: courseName,
+        name: courseName,
         description: courseDescription,
       }),
     })

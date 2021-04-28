@@ -11,12 +11,12 @@ const UnitsCourse = ({ course }) => {
 
   useEffect(() => {
     const units = {};
-    course.units.forEach((unit) => (units[unit.unit_name] = true));
+    course.units.forEach((unit) => (units[unit.name] = true));
 
     fetch(process.env.REACT_APP_GET_UNITS)
       .then((response) => response.json())
       .then((data) => {
-        setUnitsToAdd(data.filter((unit) => !(unit.unit_name in units)));
+        setUnitsToAdd(data.filter((unit) => !(unit.name in units)));
         //console.log(unitsToAdd);
       })
       .catch(console.error);
@@ -26,7 +26,7 @@ const UnitsCourse = ({ course }) => {
     <Menu>
       {unitsToAdd.map((unit) => (
         <Menu.Item key={unit.id}>
-          <p>{unit.unit_name}</p>
+          <p>{unit.name}</p>
         </Menu.Item>
       ))}
     </Menu>
@@ -64,7 +64,7 @@ const UnitsCourse = ({ course }) => {
 
     return {
       key: unit.id,
-      name: unit.unit_name,
+      name: unit.name,
       description: (
         <div dangerouslySetInnerHTML={{ __html: unit.description }} />
       ),
@@ -74,7 +74,7 @@ const UnitsCourse = ({ course }) => {
           addTitle="Delete Unit"
           typeModal="Delete"
         >
-          {`Are you sure you want to delete "${unit.unit_name}"?`}
+          {`Are you sure you want to delete "${unit.name}"?`}
         </MultiPurposeModal>
       ),
     };

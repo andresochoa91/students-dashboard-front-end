@@ -45,7 +45,7 @@ const Lessons = ({ lessons }) => {
   const data = lessons.map((lesson) => {
     return {
       key: lesson.id,
-      name: lesson.lesson_name,
+      name: lesson.name,
       editLesson: <EditLesson lesson={lesson} />,
       deleteLesson: <DeleteLesson lesson={lesson} />,
     };
@@ -62,7 +62,7 @@ const Lessons = ({ lessons }) => {
         Authorization: authToken,
       },
       body: JSON.stringify({
-        lesson_name: lessonName,
+        name: lessonName,
       }),
     })
       .then((response) => response.json())

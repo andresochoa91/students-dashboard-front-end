@@ -11,13 +11,13 @@ const LessonsUnit = ({ unit }) => {
 
   useEffect(() => {
     const lessons = {};
-    unit.lessons.forEach((lesson) => (lessons[lesson.lesson_name] = true));
+    unit.lessons.forEach((lesson) => (lessons[lesson.name] = true));
 
     fetch(process.env.REACT_APP_GET_LESSONS)
       .then((response) => response.json())
       .then((data) => {
         setLessonsToAdd(
-          data.lessons.filter((lesson) => !(lesson.lesson_name in lessons))
+          data.lessons.filter((lesson) => !(lesson.name in lessons))
         );
       })
       .catch(console.error);
@@ -34,14 +34,14 @@ const LessonsUnit = ({ unit }) => {
         <Menu.Item key={lesson.id}>
           <Row>
             <Col span={44}>
-            <p>{lesson.lesson_name}</p>
+            <p>{lesson.name}</p>
             </Col>
          <Col span={1}>
          <MultiPurposeModal
             //handleOk={}
             typeModal="Add"
           >
-            {`Are you sure you want to add "${lesson.lesson_name}" to ${unit.unit_name}?`}
+            {`Are you sure you want to add "${lesson.name}" to ${unit.unit_name}?`}
           </MultiPurposeModal>
          </Col>
           </Row>
@@ -74,7 +74,7 @@ const LessonsUnit = ({ unit }) => {
    const data = unit.lessons.map((lesson) => {
     return {
        key: lesson.id,
-       name: lesson.lesson_name,
+       name: lesson.name,
      
       deleteLesson: <Button danger>Delete Lesson</Button>,
     };
