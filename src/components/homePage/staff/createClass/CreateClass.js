@@ -53,14 +53,14 @@ const CreateClass = ({ match, history }) => {
       })
       .catch(console.error);
 
-    fetch(`${process.env.REACT_APP_API_ROOT}/lessons`)
+    fetch(process.env.REACT_APP_GET_LESSONS)
       .then((response) => response.json())
       .then((data) => {
         setLessons(data.lessons);
       })
       .catch(console.error);
 
-    fetch(`${process.env.REACT_APP_API_ROOT}/sources`)
+    fetch(process.env.REACT_APP_GET_RESOURCES)
       .then((response) => response.json())
       .then((data) => {
         setResources(data.sources);
@@ -71,13 +71,13 @@ const CreateClass = ({ match, history }) => {
   return (
     <div className="container-fluid">
       <Row gutter={[16, 24]}>
-        <Col xs={24} sm={24} md={24} lg={14} xl={16} xxl={18}>
+        <Col xs={24} sm={24} md={24} lg={20} xl={20} xxl={22}>
           <StyledDiv>
             <StyledSectionStaff>
               <div className="card-container">
                 <Tabs
                   type="card"
-                  // defaultActiveKey={`${history.location.pathname}`}
+                  defaultActiveKey={`${history.location.pathname}`}
                   // onChange={key =>
                   // 	console.log(key)
                   // }

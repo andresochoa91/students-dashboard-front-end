@@ -4,6 +4,7 @@ import MultiPurposeModal from "../../dashboard/staffDashboard/multiPurposeModal/
 import { Input, Row, Col } from "antd";
 import UserContext from "../../../contexts/UserContext";
 import TextEditor from "../../textEditor/TextEditor";
+import CourseOverview from "../courseOverview/CourseOverview"
 
 const CohortCourseList = () => {
   const [units, setUnits] = useState([]);
@@ -38,17 +39,24 @@ const CohortCourseList = () => {
     },
     {
       title: "",
+      dataIndex: "viewUnit",
+      key: "viewUnit",
+      ellipsis: true,
+      width: "11%",
+    },
+    {
+      title: "",
       dataIndex: "editUnit",
       key: "editUnit",
       ellipsis: true,
-      width: "12%",
+      width: "11%",
     },
     {
       title: "",
       dataIndex: "deleteUnit",
       key: "deleteUnit",
       ellipsis: true,
-      width: "15%",
+      width: "14%",
     },
   ];
 
@@ -59,9 +67,10 @@ const CohortCourseList = () => {
       description: (
         <div dangerouslySetInnerHTML={{ __html: unit.description }} />
       ),
+      viewUnit: <CourseOverview course={unit} />
+      ,
       editUnit: (
         <MultiPurposeModal
-          //handleOk={handleDelete}
           addTitle="Edit"
           typeModal="Edit"
         >

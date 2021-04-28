@@ -11,7 +11,7 @@ const CohortDescription = (props) => {
     padding: 20px 20px 20px 0px;
     text-align: left;
   `;
-
+console.log(props.description)
   //add MultiPurposeModal to hadle Edit or Delete
   return (
     <>
@@ -21,7 +21,7 @@ const CohortDescription = (props) => {
             <h1>
               <strong>{props.name} Overview </strong>
             </h1>
-            <p> {props.description}</p>
+            {props.description}
           </TextField>
         </Col>
         <Col span={1}>
