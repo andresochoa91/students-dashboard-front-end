@@ -9,6 +9,8 @@ import SmallCalendar from "../../dashboard/studentDashboard/smallCalendar/SmallC
 import MeetingButton from "../../dashboard/staffDashboard/eventsButton/eventsStaffButton";
 import CohortStudList from "./CohortStudentsList";
 
+//  StaffHomeContent -> parent component
+
 const CohortOverView = (props) => {
   const [courses, setCourses] = useState([]);
   const [authToken] = useContext(UserContext);
@@ -22,7 +24,7 @@ const CohortOverView = (props) => {
     }
     fetchMyAPI();
   }, []);
-
+console.log(courses)
   const url = props.location.pathname;
   const cohortName = url.slice(13);
 

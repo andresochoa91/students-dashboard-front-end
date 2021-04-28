@@ -71,7 +71,7 @@ const CreateClass = ({ match, history }) => {
   return (
     <div className="container-fluid">
       <Row gutter={[16, 24]}>
-        <Col xs={24} sm={24} md={24} lg={14} xl={16} xxl={18}>
+        <Col xs={24} sm={24} md={24} lg={20} xl={20} xxl={22}>
           <StyledDiv>
             <StyledSectionStaff>
               <div className="card-container">

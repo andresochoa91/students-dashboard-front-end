@@ -4,7 +4,6 @@ import { Input} from "antd";
 import UserContext from '../../../../contexts/UserContext';
 import TextEditor from '../../../textEditor/TextEditor';
 
-
 const EditCourse = ({ course }) => {
 
 	const [ authToken ] = useContext(UserContext);
