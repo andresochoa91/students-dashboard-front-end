@@ -7,13 +7,13 @@ import TextEditor from '../../../textEditor/TextEditor';
 const EditCourse = ({ course }) => {
 
 	const [ authToken ] = useContext(UserContext);
-    const [ courseName, setCourseName ] = useState(course.course_name);
+    const [ courseName, setCourseName ] = useState(course.name);
 	const [ courseDescription, setCourseDescription ] = useState(course.description);
 
     const handleEdit = (event) => {
         event.preventDefault();
 
-        fetch(`${process.env.REACT_APP_GET_COURSES}/${course.id}`, {
+        fetch(`${process.env.REACT_APP_NEW_API}/courses/${course.id}`, {
             method: "PUT",
             mode: "cors",
             credentials: "include",
@@ -22,7 +22,7 @@ const EditCourse = ({ course }) => {
                 "Authorization": authToken
             },
             body: JSON.stringify({
-				course_name: courseName,
+				name: courseName,
 				description: courseDescription
 			})
         })

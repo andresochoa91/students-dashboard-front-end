@@ -66,7 +66,7 @@ const Courses = ({ courses }) => {
 
   const handleOk = (event) => {
     event.preventDefault();
-    fetch(process.env.REACT_APP_GET_COURSES, {
+    fetch(`${process.env.REACT_APP_NEW_API}/courses`, {
       method: "POST",
       mode: "cors",
       credentials: "include",

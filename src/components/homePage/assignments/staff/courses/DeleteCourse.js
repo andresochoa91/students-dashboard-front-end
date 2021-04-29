@@ -8,20 +8,20 @@ const DeleteCourse = ({ course }) => {
   const handleDelete = (event) => {
     event.preventDefault();
 
-    fetch(`${process.env.REACT_APP_GET_COURSES}/${course.id}`, {
+    fetch(`${process.env.REACT_APP_NEW_API}/courses/${course.id}`, {
       method: "DELETE",
       mode: "cors",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
         Authorization: authToken,
-      },
+      }
     })
-      .then((response) => response.json())
-      .then(() => {
-        window.location.reload();
-      })
-      .catch(console.error);
+    .then((response) => response.json())
+    .then(() => {
+      window.location.reload();
+    })
+    .catch(console.error);
   };
 
   return (
@@ -30,7 +30,7 @@ const DeleteCourse = ({ course }) => {
       addTitle="Delete Course"
       typeModal="Delete"
     >
-      {`Are you sure you want to delete "${course.course_name}"?`}
+      {`Are you sure you want to delete yayaya "${course.name}"?`}
     </MultiPurposeModal>
   );
 };
