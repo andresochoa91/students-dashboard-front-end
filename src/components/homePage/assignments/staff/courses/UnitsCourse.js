@@ -26,7 +26,26 @@ const UnitsCourse = ({ course }) => {
     <Menu>
       {unitsToAdd.map((unit) => (
         <Menu.Item key={unit.id}>
-          <p>{unit.name}</p>
+          <p onClick={() => {
+
+            fetch(`${process.env.REACT_APP_NEW_API}/courses/${course.id}/units/${unit.id}`, {
+              method: "POST",
+              mode: "cors",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: authToken
+              }
+            })
+            .then((response) => response.json())
+            .then(() => {
+              window.location.reload();
+            })
+            .catch(console.error);
+            
+          }}>
+            {unit.name}
+          </p>
         </Menu.Item>
       ))}
     </Menu>
@@ -66,14 +85,14 @@ const UnitsCourse = ({ course }) => {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: authToken,
-        },
+          Authorization: authToken
+        }
       })
-        .then((response) => response.json())
-        .then(() => {
-          window.location.reload();
-        })
-        .catch(console.error);
+      .then((response) => response.json())
+      .then(() => {
+        window.location.reload();
+      })
+      .catch(console.error);
     };
 
     return {
