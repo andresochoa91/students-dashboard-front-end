@@ -2,22 +2,22 @@ import React, { useState, useContext, useEffect } from "react";
 import MultiPurposeModal from "../../../dashboard/staffDashboard/multiPurposeModal/MultiPurposeModal";
 import { Input, Table, Menu, Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-// import UserContext from "../../../../contexts/UserContext";
+import UserContext from "../../../../contexts/UserContext";
 // import TextEditor from '../../../textEditor/TextEditor';
 
 const UnitsCourse = ({ course }) => {
   const [unitsToAdd, setUnitsToAdd] = useState([]);
+  const [authToken, setAuthToken, userInfo, setUserInfo] = useContext(UserContext);
   // const [ currentUnits, setCurrentUnits ] = useState({});
 
   useEffect(() => {
     const units = {};
     course.units.forEach((unit) => (units[unit.name] = true));
 
-    fetch(process.env.REACT_APP_GET_UNITS)
+    fetch(`${process.env.REACT_APP_NEW_API}/units`)
       .then((response) => response.json())
       .then((data) => {
         setUnitsToAdd(data.filter((unit) => !(unit.name in units)));
-        //console.log(unitsToAdd);
       })
       .catch(console.error);
   }, [course]);
@@ -59,7 +59,21 @@ const UnitsCourse = ({ course }) => {
   const data = course.units.map((unit) => {
     const handleDelete = (e) => {
       e.preventDefault();
-      // course.units.
+
+      fetch(`${process.env.REACT_APP_NEW_API}/courses/${course.id}/units/${unit.id}`, {
+        method: "DELETE",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+      })
+        .then((response) => response.json())
+        .then(() => {
+          window.location.reload();
+        })
+        .catch(console.error);
     };
 
     return {
@@ -80,7 +94,7 @@ const UnitsCourse = ({ course }) => {
     };
   });
 
-  //console.log(course.units);
+  // console.log(course.id);
 
   // const handleOk = (e) => {
   //   e.preventDefault();
@@ -89,7 +103,7 @@ const UnitsCourse = ({ course }) => {
   return (
     <MultiPurposeModal
       // handleOk={ handleOk }
-      addTitle={`Units of ${course.course_name}`}
+      addTitle={`Units of ${course.name}`}
       typeModal="Units"
     >
       <Dropdown overlay={menu}>

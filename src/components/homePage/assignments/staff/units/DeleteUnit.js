@@ -8,7 +8,7 @@ const DeleteUnit = ({ unit }) => {
   const handleDelete = (event) => {
     event.preventDefault();
 
-    fetch(`${process.env.REACT_APP_GET_UNITS}/${unit.id}`, {
+    fetch(`${process.env.REACT_APP_NEW_API}/units/${unit.id}`, {
       method: "DELETE",
       mode: "cors",
       credentials: "include",
@@ -30,7 +30,7 @@ const DeleteUnit = ({ unit }) => {
       addTitle="Delete Unit"
       typeModal="Delete"
     >
-      {`Are you sure you want to delete "${unit.unit_name}"?`}
+      {`Are you sure you want to delete "${unit.name}"?`}
     </MultiPurposeModal>
   );
 };
